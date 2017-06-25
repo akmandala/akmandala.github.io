@@ -41,69 +41,6 @@ body {
     /* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
     display: none;
 }
-#container {
-  padding: .1em 1.5em 1em 1em;
-}
-#container output {
-  clear: both;
-  width: 100%;
-}
-#container output h3 {
-  margin: 0;
-}
-#container output pre {
-  margin: 0;
-}
-.input-line {
-  display: -webkit-box;
-  -webkit-box-orient: horizontal;
-  -webkit-box-align: stretch;
-  display: -moz-box;
-  -moz-box-orient: horizontal;
-  -moz-box-align: stretch;
-  display: box;
-  box-orient: horizontal;
-  box-align: stretch;
-  clear: both;
-}
-.input-line > div:nth-child(2) {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-}
-.prompt {
-  white-space: nowrap;
-  color: #96b38a;
-  margin-right: 7px;
-  display: -webkit-box;
-  -webkit-box-pack: center;
-  -webkit-box-orient: vertical;
-  display: -moz-box;
-  -moz-box-pack: center;
-  -moz-box-orient: vertical;
-  display: box;
-  box-pack: center;
-  box-orient: vertical;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-.cmdline {
-  outline: none;
-  background-color: transparent;
-  margin: 0;
-  width: 100%;
-  font: inherit;
-  border: none;
-  color: inherit;
-}
-.ls-files {
-  height: 45px;
-  -webkit-column-width: 100px;
-  -moz-column-width: 100px;
-  -o-column-width: 100px;
-  column-width: 100px;
-}
 </style>
   </head>
 
@@ -115,9 +52,28 @@ body {
     <h1><nobr>In-System</nobr> Programmer<a href="http://electricimp.com/"><img
             src="//electricimp.com/public/img/logosmall.png" alt="[logo]"></a></h1>
     <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
+    <p>See the
+    <a href="https://github.com/george-hawkins/electric-imp/tree/master/in-system-programmer" target="_blank">in-system-programmer</a>
+    repository on GitHub for more details.</p>
+    <p><small>Rev. 0.18</small></p>
 </div>
 
-<form id='upload-hex-form' action='action/uploadHex' method='POST' enctype='multipart/form-data'><input type='hidden' name='form-name' value='upload-hex-form' />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Signature</h3>
+    </div>
+    <div class="panel-body">
+        <p>Query the AVR MCU for the signature that distinguishes its type.</p>
+        <p>
+            <a id="signature-query" href="#" class="btn btn-primary wide-button">Query</a>
+            <span id="signature-result"><!-- signature result --></span>
+            <img id="signature-loading" class="jquery-hidden" src="ajax-loader.gif"> <!-- See http://stackoverflow.com/a/15013828/245602 -->
+            <span id="signature-success" class="jquery-hidden label label-success">Query succeeded</span>
+        </p>
+    </div>
+</div>
+
+<form id="upload-hex-form" action="action/uploadHex" method="POST">
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Sketch</h3>
@@ -138,7 +94,7 @@ body {
 </div>
 </form>
 
-<form id='fuses-form' action='action/setFuses' method='GET'><input type='hidden' name='form-name' value='fuses-form' />
+<form id="fuses-form" action="action/setFuses" method="GET">
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Fuses</h3>
@@ -184,7 +140,7 @@ body {
 </div>
 </form>
 
-<form id='lock-bits-form' action='action/setLockBits' method='GET'><input type='hidden' name='form-name' value='lock-bits-form' />
+<form id="lock-bits-form" action="action/setLockBits" method="GET">
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Lock Bits</h3>
@@ -205,28 +161,14 @@ body {
 </div>
 </form>
 
-<form id='terminal-form' action='action/terminal' method='GET'><input type='hidden' name='form-name' value='terminal-form' />
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Debug Terminal</h3>
-    </div>
-    <div class="panel-body">
-		<div id="container">
-		  <output></output>
-		  <div id="input-line" class="input-line">
-			<div class="prompt"></div><div><input class="cmdline" autofocus /></div>
-		  </div>
-		</div>
-    </div>
-</div>
-</form>
-
     </div><!-- /.container -->
 
     <footer class="bs-docs-footer">
         <div class="container">
-		<br>  Electric Imp and the Electric Imp logo are trademarks of
-        <a href="http://electricimp.com/" target="_blank">Electric Imp, Inc</a>.
+            Copyright &copy; 2014 George C. Hawkins, Licensed under the
+                <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License, Version 2.0</a>.<br>
+             Electric Imp and the Electric Imp logo are trademarks of
+                <a href="http://electricimp.com/" target="_blank">Electric Imp, Inc</a>.
         </div>
     </footer>
 
@@ -257,10 +199,7 @@ body {
     <!-- http://stackoverflow.com/a/4545089/245602 http://stackoverflow.com/a/1960245/245602 -->
     <script src="//malsup.github.io/jquery.form.js"></script>
 
-    <script src='http://d33wubrfki0l68.cloudfront.net/bundles/adc83b19e793491b1c6ea0fd8b46cd9f32e592fc.js'></script>
-	
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://s.codepen.io/AndrewBarfield/pen/LEbPJx.js"></script>
+    <script src="sprintf.min.js"></script>
 
     <script>
     (function ($) {
