@@ -117,7 +117,7 @@ body {
     <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
 </div>
 
-<form id='upload-hex-form' action='action/uploadHex' method='POST' enctype='multipart/form-data'><input type='hidden' name='form-name' value='upload-hex-form' /><input type='hidden' name='form-name' value='upload-hex-form' />
+<form id='upload-hex-form' action='action/uploadHex' method='POST' enctype='multipart/form-data'><input type='hidden' name='form-name' value='upload-hex-form' />
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Sketch</h3>
@@ -127,7 +127,7 @@ body {
         <input id="hexFile" name="hexFile" type="file">
         <p></p>
         <a id="upload-hex-submit" href="#" class="btn btn-primary wide-button">Upload</a>
-        <img id="upload-hex-loading" class="jquery-hidden" src="http://d33wubrfki0l68.cloudfront.net/de01015db36a6330d4e0854a69555a5e3f3556c7/6a7b4/ajax-loader.gif">
+        <img id="upload-hex-loading" class="jquery-hidden" src="ajax-loader.gif">
         <span id="upload-hex-success" class="jquery-hidden label label-success">Programming succeeded</span>
 
         <!--
@@ -138,7 +138,7 @@ body {
 </div>
 </form>
 
-<form id='fuses-form' action='action/setFuses' method='GET'><input type='hidden' name='form-name' value='fuses-form' /><input type='hidden' name='form-name' value='fuses-form' />
+<form id='fuses-form' action='action/setFuses' method='GET'><input type='hidden' name='form-name' value='fuses-form' />
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Fuses</h3>
@@ -174,7 +174,7 @@ body {
               </label>
             </div>
 
-            <img id="fuses-loading" class="jquery-hidden" src="http://d33wubrfki0l68.cloudfront.net/de01015db36a6330d4e0854a69555a5e3f3556c7/6a7b4/ajax-loader.gif">
+            <img id="fuses-loading" class="jquery-hidden" src="ajax-loader.gif">
             <span id="fuses-query-success" class="jquery-hidden label label-success raise-8px">Query succeeded</span>
             <span id="fuses-set-success" class="jquery-hidden label label-success raise-8px">Set succeeded</span>
         </div>
@@ -184,7 +184,7 @@ body {
 </div>
 </form>
 
-<form id='lock-bits-form' action='action/setLockBits' method='GET'><input type='hidden' name='form-name' value='lock-bits-form' /><input type='hidden' name='form-name' value='lock-bits-form' />
+<form id='lock-bits-form' action='action/setLockBits' method='GET'><input type='hidden' name='form-name' value='lock-bits-form' />
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Lock Bits</h3>
@@ -197,7 +197,7 @@ body {
             <input id="lockBits" name="lockBits" type="text" class="form-control" size="4" placeholder="0x00">
 
             <a id="lock-bits-set" href="#" class="btn btn-danger wide-button">Set</a>
-            <img id="lock-bits-loading" class="jquery-hidden" src="http://d33wubrfki0l68.cloudfront.net/de01015db36a6330d4e0854a69555a5e3f3556c7/6a7b4/ajax-loader.gif">
+            <img id="lock-bits-loading" class="jquery-hidden" src="ajax-loader.gif">
             <span id="lock-bits-query-success" class="jquery-hidden label label-success">Query succeeded</span>
             <span id="lock-bits-set-success" class="jquery-hidden label label-success">Set succeeded</span>
         </div>
@@ -205,7 +205,7 @@ body {
 </div>
 </form>
 
-<form id='terminal-form' action='action/terminal' method='GET'><input type='hidden' name='form-name' value='terminal-form' /><input type='hidden' name='form-name' value='terminal-form' />
+<form id='terminal-form' action='action/terminal' method='GET'><input type='hidden' name='form-name' value='terminal-form' />
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Debug Terminal</h3>
