@@ -54,21 +54,6 @@ body {
     <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Signature</h3>
-    </div>
-    <div class="panel-body">
-        <p>Query the AVR MCU for the signature that distinguishes its type.</p>
-        <p>
-            <a id="signature-query" href="#" class="btn btn-primary wide-button">Query</a>
-            <span id="signature-result"><!-- signature result --></span>
-            <img id="signature-loading" class="jquery-hidden" src="ajax-loader.gif"> <!-- See http://stackoverflow.com/a/15013828/245602 -->
-            <span id="signature-success" class="jquery-hidden label label-success">Query succeeded</span>
-        </p>
-    </div>
-</div>
-
 <form id="upload-hex-form" action="action/uploadHex" method="POST">
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -199,17 +184,6 @@ body {
 
     <script>
     (function ($) {
-
-        wireUpButton('#signature-query', '#signature-loading', '#signature-success', 'action/getSignature',
-            function (result) {
-                var s = sprintf("%s (0x%02x, 0x%02x, 0x%02x)",
-                    result.description, result.signature[0], result.signature[1], result.signature[2]);
-                $('#signature-result').text(s);
-            },
-            function () {
-                $('#signature-result').text(''); // The clear(...) function used elsewhere only works on input elements.
-            }
-        );
 
         wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
 
