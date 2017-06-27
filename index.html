@@ -268,7 +268,7 @@ This 'div' element uses 'overflow:scroll' to create scrollbars whenever the cont
 		
 		
 		function updateReadout(data) {
-			$('.debugText text').text(data.text);
+			$('.debugText').val(data.text);
 
 			setTimeout(function() {
 				getState(updateReadout);
