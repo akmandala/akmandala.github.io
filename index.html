@@ -266,7 +266,7 @@ body {
 		
 		
 		function updateReadout(data) {
-			$('.debugText').val(data.text);
+			$('#debugText').text(data.text);
 
 			setInterval(function() {
 				getState(updateReadout);
