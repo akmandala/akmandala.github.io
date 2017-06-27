@@ -264,7 +264,30 @@ This 'div' element uses 'overflow:scroll' to create scrollbars whenever the cont
             // If the timeout property is not set the call waits indefinitely. However the agent server seems to
             // close unused connections after 8 minutes - which results in an empty response rather than a timeout.
         }
+		
+		
+		
+		function updateReadout(data) {
+			$('.debugText text').text(data.text);
 
+			setTimeout(function() {
+				getState(updateReadout);
+			},500);
+		}
+
+		function getState(callback) {
+			$.ajax({
+				url : _url + '/getData',
+				type: 'GET',
+				success : function(response) {
+					if (callback) {
+						callback(response);
+					}
+				}
+			});
+		}		
+		
+			
         function createSuccessHandler(loadingId, successId, success) {
             return function (result) {
                 $(loadingId).hide();
