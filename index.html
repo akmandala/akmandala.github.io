@@ -46,10 +46,13 @@ body {
 		<!-- agung -->
         function changeText()
         {
-            var newtext = "";
-            for (var i = 0; i < 1000; i++)
-                newtext += Math.floor((Math.random()*10)+1) % 2 ? "0" : "1";
-            document.getElementById("debugText").innerHTML = newtext;
+            var xmlHttp = null;
+
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( "GET", document.URL + "debug/getSerial", false ); // false for synchronous request
+			xmlHttp.send( null );
+
+            document.getElementById("debugText").innerHTML = xmlHttp.responseText;
         }
 		<!-- agung -->
     </script>
