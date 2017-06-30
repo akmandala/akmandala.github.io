@@ -53,7 +53,7 @@ body {
 			xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
 			xmlHttp.send( null );
 
-            document.getElementById("debugText").innerHTML = document.getElementById("debugText").innerHTML + xmlHttp.responseText + "\n";
+            document.getElementById("debugText").innerHTML =  xmlHttp.responseText + "\n" + document.getElementById("debugText").innerHTML;
         }
 		<!-- agung -->
     </script>
