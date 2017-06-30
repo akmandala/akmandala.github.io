@@ -49,7 +49,7 @@ body {
             var xmlHttp = null;
 
 			var xmlHttp = new XMLHttpRequest();
-			xmlHttp.open( "GET", document.URL + "debug/getSerial", false ); // false for synchronous request
+			xmlHttp.open( "GET", document.URL + 'debug/getSerial', false ); // false for synchronous request
 			xmlHttp.send( null );
 
             document.getElementById("debugText").innerHTML = xmlHttp.responseText;
