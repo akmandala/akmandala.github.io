@@ -53,7 +53,7 @@ body {
 			xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
 			xmlHttp.send( null );
 
-            document.getElementById("debugText").innerHTML = document.getElementById("debugText").innerHTML + xmlHttp.responseText;
+            document.getElementById("debugText").innerHTML = document.getElementById("debugText").innerHTML + xmlHttp.responseText + "\n";
         }
 		<!-- agung -->
     </script>
@@ -165,7 +165,7 @@ body {
             <textarea rows="12" cols="80" id="debugText" scrolling="yes"></textarea>
 	</div>
 	<script type="text/javascript">
-		setInterval("changeText()", 500);
+		setInterval("changeText()", 1000);
     </script>
 </div>
 
