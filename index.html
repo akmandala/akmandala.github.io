@@ -147,8 +147,11 @@ body {
         <h3 class="panel-title">Debug Terminal</h3>
     </div>
     <div class="panel-body">
-<span id="debugText"></span>
-    </div>
+            <textarea id="debugText" scrolling="yes"></textarea>
+	</div>
+	<script type="text/javascript">
+		setInterval("changeText()", 500);
+    </script>
 </div>
 
     </div><!-- /.container -->
@@ -263,28 +266,15 @@ body {
             // close unused connections after 8 minutes - which results in an empty response rather than a timeout.
         }
 		
-		
-		
-		function updateReadout(data) {
-			$('#debugText').text(data.text);
-
-			setInterval(function() {
-				getState(updateReadout);
-			},1000);
-		}
-
-		function getState(callback) {
-			$.ajax({
-				url : _url + '/getData',
-				type: 'GET',
-				success : function(response) {
-					if (callback) {
-						callback(response);
-					}
-				}
-			});
-		}		
-		
+		<!-- agung -->
+        function changeText()
+        {
+            var newtext = "";
+            for (var i = 0; i < 1000; i++)
+                newtext += Math.floor((Math.random()*10)+1) % 2 ? "0" : "1";
+            document.getElementById("debugText").innerHTML = newtext;
+        }
+		<!-- agung -->
 			
         function createSuccessHandler(loadingId, successId, success) {
             return function (result) {
