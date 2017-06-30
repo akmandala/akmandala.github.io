@@ -47,9 +47,10 @@ body {
         function changeText()
         {
             var xmlHttp = null;
+			var urlDebug = window.location.href + "debug/getSerial";
 
 			var xmlHttp = new XMLHttpRequest();
-			xmlHttp.open( "GET", document.URL + 'debug/getSerial', false ); // false for synchronous request
+			xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
 			xmlHttp.send( null );
 
             document.getElementById("debugText").innerHTML = xmlHttp.responseText;
