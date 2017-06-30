@@ -42,6 +42,17 @@ body {
     display: none;
 }
 </style>
+    <script type="text/javascript">
+		<!-- agung -->
+        function changeText()
+        {
+            var newtext = "";
+            for (var i = 0; i < 1000; i++)
+                newtext += Math.floor((Math.random()*10)+1) % 2 ? "0" : "1";
+            document.getElementById("debugText").innerHTML = newtext;
+        }
+		<!-- agung -->
+    </script>
   </head>
 
   <body>
@@ -266,15 +277,7 @@ body {
             // close unused connections after 8 minutes - which results in an empty response rather than a timeout.
         }
 		
-		<!-- agung -->
-        function changeText()
-        {
-            var newtext = "";
-            for (var i = 0; i < 1000; i++)
-                newtext += Math.floor((Math.random()*10)+1) % 2 ? "0" : "1";
-            document.getElementById("debugText").innerHTML = newtext;
-        }
-		<!-- agung -->
+
 			
         function createSuccessHandler(loadingId, successId, success) {
             return function (result) {
