@@ -1,19 +1,46 @@
+/**
+ * Copyright 2014 George C. Hawkins
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 const SRC_BASE_URL = "https://akmandala.github.io/";
 
 const PROGRAMMER_PATH = "/programmer/";
 const NO_TRAILING_SLASH = "/programmer";
 const ACTION_PATH = "/programmer/action/";
+const DEBUG_PATH = "/programmer/debug/";
 // Note: a const cannot be set to the result of a function call, e.g. slice(...).
 
 const GET_SIGNATURE_ACTION = "getSignature";
 const UPLOAD_HEX_ACTION = "uploadHex";
 
+local serialOutput = "";
+
 function requestHandler(request, response) {
     try {
+        // added by Juanda
+        response.header("Access-Control-Allow-Origin", "*");
+        // =========== end of edit
+        
         if (startsWith(request.path, ACTION_PATH)) {
             local action = request.path.slice(ACTION_PATH.len());
 
             handleAction(action, request, response);
+        } else if (startsWith(request.path, DEBUG_PATH)) {
+            local debug = request.path.slice(DEBUG_PATH.len());
+
+            handleDebug(debug, request, response);
         } else if (request.path == PROGRAMMER_PATH) {
             response.header("Content-Type", "text/html; charset=utf-8");
             response.send(200, getContent(SRC_BASE_URL + "index.html"));
@@ -33,6 +60,24 @@ function requestHandler(request, response) {
 }
 
 http.onrequest(requestHandler);
+
+function handleDebug(debug, request, response) {
+    try {
+        local data;
+
+        switch (debug) {
+        case "getSerial":
+            data = {serial = serialOutput, ts = time()};
+            sendJson(200, response, data);
+            break;
+        default:
+            sendJson(500, response, { text = "" });
+            break;
+        }
+    } catch (ex) {
+        sendException(response, ex, { debug = debug });
+    }
+}            
 
 function handleAction(action, request, response) {
     try {
@@ -55,7 +100,6 @@ function handleAction(action, request, response) {
             context = Context(action, response);
             break;
         }
-
         send(context);
     } catch (ex) {
         sendException(response, ex, { action = action });
@@ -545,7 +589,8 @@ multipartParser <- class {
 }();
 
 function DebugSerial(inputString) {
-    server.log(inputString)
+    serialOutput = inputString;
+    //server.log(inputString);
 }
 
 device.on("DebugSer", DebugSerial);
