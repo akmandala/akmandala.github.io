@@ -281,7 +281,7 @@
 
         function wireUpForm(buttonId, loadingId, formId, successId, _success, error) {
             // Lack of pre-IE9 support for Function.prototype.bind() forces use of lambda here.
-            wireUp(buttonId, loadingId, successId, _success, error, function (options) { $(formId).ajaxSubmit(options); });
+            wireUp(buttonId, loadingId, successId, _success, error, function (baseURI + options) { $(formId).ajaxSubmit(baseURI + options); });
         }
 
         function wireUpButton(buttonId, loadingId, successId, _url, _success, error) {
