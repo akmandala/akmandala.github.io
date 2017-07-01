@@ -147,7 +147,7 @@
                 <h3 class="panel-title">Debug Terminal</h3>
             </div>
             <div class="panel-body">
-                    <textarea rows="12" cols="150" id="debugText" scrolling="yes"></textarea>
+                    <textarea rows="12" cols="80" id="debugText" scrolling="yes"></textarea>
             </div>
         </div>
 
@@ -191,11 +191,27 @@
 
     <script>
 
- 
-    (function ($) {
+        // Agung
+        // function changeText()
+        // {
+        //     var xmlHttp = null;
+		// 	var urlDebug = window.location.href + "debug/getSerial";
+        
+		// 	var xmlHttp = new XMLHttpRequest();
+		// 	xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
+		// 	xmlHttp.send( null );
+
+        //     document.getElementById("debugText").innerHTML =  xmlHttp.responseText + "\n" + document.getElementById("debugText").innerHTML;
+        // }
+        //setInterval("changeText()", 1000);
+        //=============== agung
+
+
+        var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/"; //window.location.href
+
+    (function ($, baseURI) {
 
         // Juanda - 20170701 1730
-        var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/"; //window.location.href
         var intervalRetrieveData = 1; //sec
         function getData() {
 
@@ -211,6 +227,10 @@
         }
         setInterval(getData, intervalRetrieveData * 1000);
         //====================== end of Juanda edit
+
+
+
+
 
         wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
 
@@ -229,7 +249,7 @@
 
         wireUpForm('#lock-bits-set', '#lock-bits-loading', '#lock-bits-form', '#lock-bits-set-success');
 
-        wireUpButton('#lock-bits-query', '#lock-bits-loading', '#lock-bits-query-success', 'action/getLockBits',
+        wireUpButton('#lock-bits-query', '#lock-bits-loading', '#lock-bits-query-success', baseURI + 'action/getLockBits',
             function (result) {
                 $('#lockBits').val(hex(result.lockBits));
             },
@@ -328,7 +348,7 @@
             $('#error-modal').modal('show');
         }
 
-    })(jQuery);
+    })(jQuery, baseURI);
     </script>
 
   </body>
