@@ -259,11 +259,6 @@
             return typeof arg !== 'undefined' ? arg : val;
         }
 
-		$.ajaxSetup({
-			url: baseURI,
-			crossDomain : true
-		});
-
         function wireUpForm(buttonId, loadingId, formId, successId, _success, error) {
             // Lack of pre-IE9 support for Function.prototype.bind() forces use of lambda here.
             wireUp(buttonId, loadingId, successId, _success, error, function (options) { $(formId).ajaxSubmit(options); });
