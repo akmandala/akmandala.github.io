@@ -265,7 +265,7 @@
         }
 
         function wireUpButton(buttonId, loadingId, successId, _url, _success, error) {
-            wireUp(buttonId, loadingId, successId, _success, error, $.ajax, { url: baseURI });
+            wireUp(buttonId, loadingId, successId, _success, error, $.ajax, { url: _url });
         }
 
         function wireUp(buttonId, loadingId, successId, _success, _error, ajaxFunction, options) {
