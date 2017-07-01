@@ -12,162 +12,144 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<style>
-/* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-.wide-button {
-    min-width: 80px;
-}
-.vbottom {
-    vertical-align: bottom;
-}
-.inline-group {
-    /* Add to make a .form-group more like a .btn */
-    display: inline-block;
-    margin-bottom: 0;
-}
-.raise-8px {
-    /* Vertically center label relative to button even when vertical-align is bottom. */
-    position: relative;
-    top: -8px;
-}
-.jquery-hidden {
-    /* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
-    display: none;
-}
-</style>
-    <script type="text/javascript">
-		<!-- agung -->
-        function changeText()
-        {
-            var xmlHttp = null;
-			var urlDebug = window.location.href + "debug/getSerial";
-
-			var xmlHttp = new XMLHttpRequest();
-			xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
-			xmlHttp.send( null );
-
-            document.getElementById("debugText").innerHTML =  xmlHttp.responseText + "\n" + document.getElementById("debugText").innerHTML;
+    <style>
+        /* Space out content a bit */
+        body {
+        padding-top: 20px;
+        padding-bottom: 20px;
         }
-		<!-- agung -->
-    </script>
-  </head>
+        .wide-button {
+            min-width: 80px;
+        }
+        .vbottom {
+            vertical-align: bottom;
+        }
+        .inline-group {
+            /* Add to make a .form-group more like a .btn */
+            display: inline-block;
+            margin-bottom: 0;
+        }
+        .raise-8px {
+            /* Vertically center label relative to button even when vertical-align is bottom. */
+            position: relative;
+            top: -8px;
+        }
+        .jquery-hidden {
+            /* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
+            display: none;
+        }
+    </style>
+</head>
 
-  <body>
+<body>
 
     <div class="container">
 
-<div class="jumbotron">
-    <h1><nobr>In-System</nobr> Programmer<a href="http://electricimp.com/"><img
-            src="//electricimp.com/public/img/logosmall.png" alt="[logo]"></a></h1>
-    <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
-</div>
-
-<form id="upload-hex-form" action="action/uploadHex" method="POST">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Sketch</h3>
-    </div>
-    <div class="panel-body">
-        <p>Program the AVR MCU with a HEX <!-- Intel capitalize HEX like this. --> file.</p>
-        <input id="hexFile" name="hexFile" type="file">
-        <p></p>
-        <a id="upload-hex-submit" href="#" class="btn btn-primary wide-button">Upload</a>
-        <img id="upload-hex-loading" class="jquery-hidden" src="ajax-loader.gif">
-        <span id="upload-hex-success" class="jquery-hidden label label-success">Programming succeeded</span>
-
-        <!--
-          For a visually more attractive file upload control see:
-          http://www.abeautifulsite.net/blog/2013/08/whipping-file-inputs-into-shape-with-bootstrap-3/
-        -->
-    </div>
-</div>
-</form>
-
-<form id="fuses-form" action="action/setFuses" method="GET">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Fuses</h3>
-    </div>
-    <div class="panel-body">
-        <div class="alert alert-danger">
-            <b>Warning:</b> incorrectly setting the fuses may brick the MCU, making
-             it unrecoverable with anything other than a high voltage programmer.
-        </div>
-        <p>Query or set the the fuses of the AVR MCU.</p>
-        <div>
-            <a id="fuses-query" href="#" class="btn btn-primary wide-button vbottom">Query</a>
-
-            <!-- low, high, extended is the order used by http://www.engbedded.com/fusecalc -->
-            <div class="form-group vbottom inline-group">
-              <label class="control-label" for="lfuse">Low</label>
-              <input id="lfuse" name="lfuse" type="text" class="form-control" size="4" placeholder="0x00">
-            </div>
-            <div class="form-group vbottom inline-group">
-              <label class="control-label" for="hfuse">High</label>
-              <input id="hfuse" name="hfuse" type="text" class="form-control" size="4" placeholder="0x00">
-            </div>
-            <div class="form-group vbottom inline-group">
-              <label class="control-label" for="efuse">Ext</label>
-              <input id="efuse" name="efuse" type="text" class="form-control" size="4" placeholder="0x00">
-            </div>
-
-            <a id="fuses-set" href="#" class="btn btn-danger wide-button vbottom">Set</a>
-
-            <div class="checkbox vbottom inline-group raise-8px">
-              <label>
-                <input name="unsafe" type="checkbox">Allow unsafe changes
-              </label>
-            </div>
-
-            <img id="fuses-loading" class="jquery-hidden" src="ajax-loader.gif">
-            <span id="fuses-query-success" class="jquery-hidden label label-success raise-8px">Query succeeded</span>
-            <span id="fuses-set-success" class="jquery-hidden label label-success raise-8px">Set succeeded</span>
+        <div class="jumbotron">
+            <h1><nobr>In-System</nobr> Programmer<a href="http://electricimp.com/"><img
+                    src="//electricimp.com/public/img/logosmall.png" alt="[logo]"></a></h1>
+            <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
         </div>
 
-        <p></p>
-    </div>
-</div>
-</form>
+        <form id="upload-hex-form" action="action/uploadHex" method="POST">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sketch</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Program the AVR MCU with a HEX <!-- Intel capitalize HEX like this. --> file.</p>
+                    <input id="hexFile" name="hexFile" type="file">
+                    <p></p>
+                    <a id="upload-hex-submit" href="#" class="btn btn-primary wide-button">Upload</a>
+                    <img id="upload-hex-loading" class="jquery-hidden" src="ajax-loader.gif">
+                    <span id="upload-hex-success" class="jquery-hidden label label-success">Programming succeeded</span>
 
-<form id="lock-bits-form" action="action/setLockBits" method="GET">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Lock Bits</h3>
-    </div>
-    <div class="panel-body">
-        <p>Query or set the lock bits of the AVR MCU.</p>
-        <div class="form-inline">
-            <a id="lock-bits-query" href="#" class="btn btn-primary wide-button">Query</a>
+                    <!--
+                    For a visually more attractive file upload control see:
+                    http://www.abeautifulsite.net/blog/2013/08/whipping-file-inputs-into-shape-with-bootstrap-3/
+                    -->
+                </div>
+            </div>
+        </form>
 
-            <input id="lockBits" name="lockBits" type="text" class="form-control" size="4" placeholder="0x00">
+        <form id="fuses-form" action="action/setFuses" method="GET">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Fuses</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-danger">
+                        <b>Warning:</b> incorrectly setting the fuses may brick the MCU, making
+                        it unrecoverable with anything other than a high voltage programmer.
+                    </div>
+                    <p>Query or set the the fuses of the AVR MCU.</p>
+                    <div>
+                        <a id="fuses-query" href="#" class="btn btn-primary wide-button vbottom">Query</a>
 
-            <a id="lock-bits-set" href="#" class="btn btn-danger wide-button">Set</a>
-            <img id="lock-bits-loading" class="jquery-hidden" src="ajax-loader.gif">
-            <span id="lock-bits-query-success" class="jquery-hidden label label-success">Query succeeded</span>
-            <span id="lock-bits-set-success" class="jquery-hidden label label-success">Set succeeded</span>
+                        <!-- low, high, extended is the order used by http://www.engbedded.com/fusecalc -->
+                        <div class="form-group vbottom inline-group">
+                        <label class="control-label" for="lfuse">Low</label>
+                        <input id="lfuse" name="lfuse" type="text" class="form-control" size="4" placeholder="0x00">
+                        </div>
+                        <div class="form-group vbottom inline-group">
+                        <label class="control-label" for="hfuse">High</label>
+                        <input id="hfuse" name="hfuse" type="text" class="form-control" size="4" placeholder="0x00">
+                        </div>
+                        <div class="form-group vbottom inline-group">
+                        <label class="control-label" for="efuse">Ext</label>
+                        <input id="efuse" name="efuse" type="text" class="form-control" size="4" placeholder="0x00">
+                        </div>
+
+                        <a id="fuses-set" href="#" class="btn btn-danger wide-button vbottom">Set</a>
+
+                        <div class="checkbox vbottom inline-group raise-8px">
+                        <label>
+                            <input name="unsafe" type="checkbox">Allow unsafe changes
+                        </label>
+                        </div>
+
+                        <img id="fuses-loading" class="jquery-hidden" src="ajax-loader.gif">
+                        <span id="fuses-query-success" class="jquery-hidden label label-success raise-8px">Query succeeded</span>
+                        <span id="fuses-set-success" class="jquery-hidden label label-success raise-8px">Set succeeded</span>
+                    </div>
+
+                    <p></p>
+                </div>
+            </div>
+        </form>
+
+        <form id="lock-bits-form" action="action/setLockBits" method="GET">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lock Bits</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Query or set the lock bits of the AVR MCU.</p>
+                    <div class="form-inline">
+                        <a id="lock-bits-query" href="#" class="btn btn-primary wide-button">Query</a>
+
+                        <input id="lockBits" name="lockBits" type="text" class="form-control" size="4" placeholder="0x00">
+
+                        <a id="lock-bits-set" href="#" class="btn btn-danger wide-button">Set</a>
+                        <img id="lock-bits-loading" class="jquery-hidden" src="ajax-loader.gif">
+                        <span id="lock-bits-query-success" class="jquery-hidden label label-success">Query succeeded</span>
+                        <span id="lock-bits-set-success" class="jquery-hidden label label-success">Set succeeded</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Debug Terminal</h3>
+            </div>
+            <div class="panel-body">
+                    <textarea rows="12" cols="80" id="debugText" scrolling="yes"></textarea>
+            </div>
         </div>
-    </div>
-</div>
-</form>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Debug Terminal</h3>
-    </div>
-    <div class="panel-body">
-            <textarea rows="12" cols="80" id="debugText" scrolling="yes"></textarea>
-	</div>
-	<script type="text/javascript">
-		setInterval("changeText()", 1000);
-    </script>
-</div>
 
     </div><!-- /.container -->
 
@@ -208,7 +190,46 @@ body {
     <script src="sprintf.min.js"></script>
 
     <script>
+
+        // Agung
+        // function changeText()
+        // {
+        //     var xmlHttp = null;
+		// 	var urlDebug = window.location.href + "debug/getSerial";
+        
+		// 	var xmlHttp = new XMLHttpRequest();
+		// 	xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
+		// 	xmlHttp.send( null );
+
+        //     document.getElementById("debugText").innerHTML =  xmlHttp.responseText + "\n" + document.getElementById("debugText").innerHTML;
+        // }
+        //setInterval("changeText()", 1000);
+        //=============== agung
+
+
     (function ($) {
+
+        // Juanda - 20170701 1730
+        var intervalRetrieveData = 1; //sec
+        function getData() {
+
+            var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/"; //window.location.href
+            var urlData = baseURI + "debug/getSerial";
+ 
+            $.ajax({
+                url : urlData,
+                crossDomain : true
+            }).done(function(data){
+                var dataString = JSON.stringify(data);
+                document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;
+            });
+        }
+        setInterval(getData, intervalRetrieveData * 1000);
+        //====================== end of Juanda edit
+
+
+
+
 
         wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
 
