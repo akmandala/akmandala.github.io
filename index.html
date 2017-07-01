@@ -54,7 +54,7 @@
             <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
         </div>
 
-        <form id="upload-hex-form" action="action/uploadHex" method="POST">
+        <form id="upload-hex-form" action="https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/uploadHex" method="POST">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Sketch</h3>
@@ -75,7 +75,7 @@
             </div>
         </form>
 
-        <form id="fuses-form" action="action/setFuses" method="GET">
+        <form id="fuses-form" action="https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/setFuses" method="GET">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Fuses</h3>
@@ -121,7 +121,7 @@
             </div>
         </form>
 
-        <form id="lock-bits-form" action="action/setLockBits" method="GET">
+        <form id="lock-bits-form" action="https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/setLockBits" method="GET">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Lock Bits</h3>
@@ -191,23 +191,7 @@
 
     <script>
 
-        // Agung
-        // function changeText()
-        // {
-        //     var xmlHttp = null;
-		// 	var urlDebug = window.location.href + "debug/getSerial";
-        
-		// 	var xmlHttp = new XMLHttpRequest();
-		// 	xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
-		// 	xmlHttp.send( null );
-
-        //     document.getElementById("debugText").innerHTML =  xmlHttp.responseText + "\n" + document.getElementById("debugText").innerHTML;
-        // }
-        //setInterval("changeText()", 1000);
-        //=============== agung
-
-
-        var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/"; //window.location.href
+    var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/"; //window.location.href
 
     (function ($, baseURI) {
 
@@ -281,7 +265,7 @@
 
         function wireUpForm(buttonId, loadingId, formId, successId, _success, error) {
             // Lack of pre-IE9 support for Function.prototype.bind() forces use of lambda here.
-            wireUp(buttonId, loadingId, successId, _success, error, function (options) { baseURI + $(formId).ajaxSubmit(options); });
+            wireUp(buttonId, loadingId, successId, _success, error, function (options) {$(formId).ajaxSubmit(options); });
         }
 
         function wireUpButton(buttonId, loadingId, successId, _url, _success, error) {
