@@ -236,7 +236,7 @@
 
         wireUpForm('#fuses-set', '#fuses-loading', '#fuses-form', '#fuses-set-success');
 
-        wireUpButton('#fuses-query', '#fuses-loading', '#fuses-query-success', 'action/getFuses',
+        wireUpButton('#fuses-query', '#fuses-loading', '#fuses-query-success', baseURI + 'action/getFuses',
             function (result) {
                 $('#lfuse').val(hex(result.lfuse));
                 $('#hfuse').val(hex(result.hfuse));
