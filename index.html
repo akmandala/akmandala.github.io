@@ -272,6 +272,10 @@
             $(buttonId).click(function (e) {
                 e.preventDefault();
                 $(loadingId).show();
+				$.ajaxSetup({
+					url: baseURI,
+					crossDomain : true
+				});
                 ajaxFunction($.extend({
                     dataType: 'json',
                     success: createSuccessHandler(loadingId, successId, _success),
