@@ -191,29 +191,14 @@
 
     <script>
 
-        // Agung
-        // function changeText()
-        // {
-        //     var xmlHttp = null;
-		// 	var urlDebug = window.location.href + "debug/getSerial";
-        
-		// 	var xmlHttp = new XMLHttpRequest();
-		// 	xmlHttp.open( "GET", urlDebug, false ); // false for synchronous request
-		// 	xmlHttp.send( null );
-
-        //     document.getElementById("debugText").innerHTML =  xmlHttp.responseText + "\n" + document.getElementById("debugText").innerHTML;
-        // }
-        //setInterval("changeText()", 1000);
-        //=============== agung
-
-
+ 
     (function ($) {
 
         // Juanda - 20170701 1730
+        var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/"; //window.location.href
         var intervalRetrieveData = 1; //sec
         function getData() {
 
-            var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/"; //window.location.href
             var urlData = baseURI + "debug/getSerial";
  
             $.ajax({
@@ -226,10 +211,6 @@
         }
         setInterval(getData, intervalRetrieveData * 1000);
         //====================== end of Juanda edit
-
-
-
-
 
         wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
 
@@ -284,7 +265,7 @@
         }
 
         function wireUpButton(buttonId, loadingId, successId, _url, _success, error) {
-            wireUp(buttonId, loadingId, successId, _success, error, $.ajax, { url: _url });
+            wireUp(buttonId, loadingId, successId, _success, error, $.ajax, { url: baseURI });
         }
 
         function wireUp(buttonId, loadingId, successId, _success, _error, ajaxFunction, options) {
