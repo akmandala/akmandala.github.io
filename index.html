@@ -217,9 +217,9 @@
                 crossDomain : true
             }).done(function(data){
                 //var dataString = JSON.stringify(data);
-				var dataSer = JSON.parse(data);
-				for (var j=0; j<dataSer.serial.length; j++) {
-					dpSerial[j] = dataSer.serial[j];
+				//var dataSer = JSON.parse(data);
+				for (var j=0; j<data.serial.length; j++) {
+					dpSerial[j] = data.serial[j];
 				}
 				var strSer;
 				for (var j=0; j<10; j++) {
