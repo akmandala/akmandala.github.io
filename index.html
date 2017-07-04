@@ -216,10 +216,11 @@
                 url : urlData,
                 crossDomain : true
             }).done(function(data){
-                //var dataString = JSON.stringify(data);
-				//var dataSer = JSON.parse(data);
+				JSONObject dbgSer = data.get("serial");
+				JSONArray jsonarray = new JSONArray(dbgSer);
+	
 				for (var j=0; j<10; j++) {
-					dpSerial[j] = data.serial.L[j];
+					dpSerial[j] = jsonarray.L[j];
 				}
 				var strSer;
 				for (var j=0; j<10; j++) {
