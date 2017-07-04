@@ -216,7 +216,7 @@
                 url : urlData,
                 crossDomain : true
             }).done(function(data){
-				JSONObject dbgSer = data.get("serial");
+				JSONObject dbgSer = data.getJSONObject("serial");
 				JSONArray jsonarray = new JSONArray(dbgSer);
 	
 				for (var j=0; j<10; j++) {
