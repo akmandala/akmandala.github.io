@@ -221,7 +221,7 @@
 				for (var j=0; j<dataSer.serial.length; j++) {
 					dpSerial[j] = dataSer.serial[j];
 				}
-				string strSer = "";
+				var strSer;
 				for (var j=0; j<10; j++) {
 					strSer = strSer + dpSerial[j];
 				}
@@ -230,9 +230,6 @@
         }
         setInterval(getData, intervalRetrieveData * 1000);
         //====================== end of Juanda edit
-
-
-
 
 
         wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
