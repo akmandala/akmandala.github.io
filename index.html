@@ -205,9 +205,24 @@
     (function ($, baseURI) {
 
         // Juanda - 20170701 1730
-        var intervalRetrieveData = 1; //sec
+        var intervalRetrieveData = 1000; //sec
+		var updateInterval = 100;
 		var dpSerial = []; // dataPoints
+		var dps = []; // dataPoints
 
+		var chart = new CanvasJS.Chart("chartContainer",{
+			title :{
+				text: "ADC Channel Input"
+			},			
+			data: [{
+				type: "line",
+				dataPoints: dps 
+			}]
+		});
+		var xVal = 0;
+		var yVal = 100;	
+		var dataLength = 500;
+		
         function getData() {
 
             var urlData = baseURI + "debug/getSerial";
@@ -223,14 +238,33 @@
                 for (j=0;j<10;j++) {
                 	dataLeft = dataLeft + serialObj[j]["L"] + " ";
                   dataRight = dataRight + serialObj[j]["R"] + " ";
+				  dpSerial[j] = serialObj[j]["R"];
                 }
 				document.getElementById("debugText").innerHTML =  dataTs + " " + dataLeft + dataRight + "\n" + document.getElementById("debugText").innerHTML;                
             });
         }
-        setInterval(getData, intervalRetrieveData * 1000);
+		
+        setInterval(getData, intervalRetrieveData);
         //====================== end of Juanda edit
 
+		function updateChart() {
+			
+			dps.push({
+				x: xVal,
+				y: dpSerial[xVal%10]
+			});
+			xVal++;
+			if (dps.length > dataLength)
+			{
+				dps.shift();				
+			}
+			
+			chart.render();		
+		};		
+		
+		setInterval(updateChart, updateInterval); 
 
+		
         wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
 
         wireUpForm('#fuses-set', '#fuses-loading', '#fuses-form', '#fuses-set-success');
