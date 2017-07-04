@@ -216,17 +216,8 @@
                 url : urlData,
                 crossDomain : true
             }).done(function(data){
-				JSONObject dbgSer = data.getJSONObject("serial");
-				JSONArray jsonarray = new JSONArray(dbgSer);
-	
-				for (var j=0; j<10; j++) {
-					dpSerial[j] = jsonarray.L[j];
-				}
-				var strSer;
-				for (var j=0; j<10; j++) {
-					strSer = strSer + dpSerial[j];
-				}
-                document.getElementById("debugText").innerHTML =  strSer + "\n" + document.getElementById("debugText").innerHTML;
+                const dataString = data["serial"];
+                document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;
             });
         }
         setInterval(getData, intervalRetrieveData * 1000);
