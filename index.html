@@ -156,8 +156,11 @@
                 <h3 class="panel-title">Debug Chart</h3>
             </div>
             <div class="panel-body">
-                    	<div id="chartContainer" style="height: 300px; width:100%;">
+                    	<div id="chartContainer0" style="height: 300px; width:100%;">
             </div>
+            <div class="panel-body">
+                    	<div id="chartContainer1" style="height: 300px; width:100%;">
+            </div>			
         </div>
 
     </div><!-- /.container -->
@@ -207,21 +210,33 @@
         // Juanda - 20170701 1730
         var intervalRetrieveData = 1000; //sec
 		var updateInterval = 100;
-		var dpSerial = []; // dataPoints
-		var dps = []; // dataPoints
+		var dpSerial0 = []; // dataPoints
+		var dps0 = []; // dataPoints
+		var dpSerial1 = []; // dataPoints
+		var dps1 = []; // dataPoints		
 
-		var chart = new CanvasJS.Chart("chartContainer",{
+		var chart0 = new CanvasJS.Chart("chartContainer0",{
 			title :{
-				text: "ADC Channel Input"
+				text: "ADC Input Channel#0"
 			},			
 			data: [{
 				type: "line",
 				dataPoints: dps 
 			}]
 		});
+		var chart1 = new CanvasJS.Chart("chartContainer1",{
+			title :{
+				text: "ADC Input Channel#1"
+			},			
+			data: [{
+				type: "line",
+				dataPoints: dps 
+			}]
+		});
+		
 		var xVal = 0;
-		var yVal = 100;	
-		var dataLength = 500;
+		var yVal = 300;	
+		var dataLength = 250;
 		
         function getData() {
 
@@ -237,8 +252,9 @@
 				var serialObj = JSON.parse(dataString);
                 for (j=0;j<10;j++) {
                 	dataLeft = dataLeft + serialObj[j]["L"] + " ";
-                  dataRight = dataRight + serialObj[j]["R"] + " ";
-				  dpSerial[j] = serialObj[j]["R"];
+					dataRight = dataRight + serialObj[j]["R"] + " ";
+					dpSerial0[j] = serialObj[j]["L"];
+					dpSerial1[j] = serialObj[j]["R"];
                 }
 				document.getElementById("debugText").innerHTML =  dataTs + " " + dataLeft + dataRight + "\n" + document.getElementById("debugText").innerHTML;                
             });
@@ -249,17 +265,26 @@
 
 		function updateChart() {
 			
-			dps.push({
+			dps0.push({
 				x: xVal,
-				y: dpSerial[xVal%10]
+				y: dpSerial0[xVal%10]
 			});
+			dps1.push({
+				x: xVal,
+				y: dpSerial1[xVal%10]
+			});			
 			xVal++;
-			if (dps.length > dataLength)
+			if (dps0.length > dataLength)
 			{
-				dps.shift();				
+				dps0.shift();				
+			}
+			if (dps1.length > dataLength)
+			{
+				dps1.shift();				
 			}
 			
-			chart.render();		
+			chart0.render();		
+			chart1.render();		
 		};		
 		
 		setInterval(updateChart, updateInterval); 
