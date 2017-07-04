@@ -218,11 +218,8 @@
             }).done(function(data){
                 //var dataString = JSON.stringify(data);
 				var dataSer = JSON.parse(data);
-				JSONArray dataSerArr = dataSer.getJSONArray("serial"));
-				for (var j=0; j<10; j++) {
-					JSONObject dataSerChild = dataSerArr.getJSONObject(i);
-					int Lval = dataSerChild.getInt("L");
-					dpSerial[j] = Lval;
+				for (var j=0; j<dataSer.serial.length; j++) {
+					dpSerial[j] = dataSer.serial[j];
 				}
 				string strSer = "";
 				for (var j=0; j<10; j++) {
