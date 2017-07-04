@@ -218,8 +218,8 @@
             }).done(function(data){
                 //var dataString = JSON.stringify(data);
 				//var dataSer = JSON.parse(data);
-				for (var j=0; j<data.serial.length; j++) {
-					dpSerial[j] = data.serial[j];
+				for (var j=0; j<10; j++) {
+					dpSerial[j] = data.serial.L[j];
 				}
 				var strSer;
 				for (var j=0; j<10; j++) {
