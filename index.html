@@ -150,6 +150,15 @@
                     <textarea rows="12" cols="140" id="debugText" scrolling="yes"></textarea>
             </div>
         </div>
+		
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Debug Terminal</h3>
+            </div>
+            <div class="panel-body">
+                    <textarea rows="12" cols="140" id="debugText" scrolling="yes"></textarea>
+            </div>
+        </div>
 
     </div><!-- /.container -->
 
@@ -197,6 +206,8 @@
 
         // Juanda - 20170701 1730
         var intervalRetrieveData = 1; //sec
+		var dpSerial = []; // dataPoints
+
         function getData() {
 
             var urlData = baseURI + "debug/getSerial";
@@ -205,8 +216,19 @@
                 url : urlData,
                 crossDomain : true
             }).done(function(data){
-                var dataString = JSON.stringify(data);
-                document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;
+                //var dataString = JSON.stringify(data);
+				var dataSer = JSON.parse(data);
+				JSONArray dataSerArr = dataSer.getJSONArray("serial"));
+				for (var j=0; j<10; j++) {
+					JSONObject dataSerChild = dataSerArr.getJSONObject(i);
+					int Lval = dataSerChild.getInt("L");
+					dpSerial[j] = Lval;
+				}
+				string strSer = "";
+				for (var j=0; j<10; j++) {
+					strSer = strSer + dpSerial[j];
+				}
+                document.getElementById("debugText").innerHTML =  strSer + "\n" + document.getElementById("debugText").innerHTML;
             });
         }
         setInterval(getData, intervalRetrieveData * 1000);
