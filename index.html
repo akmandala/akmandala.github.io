@@ -246,17 +246,14 @@
                 url : urlData,
                 crossDomain : true
             }).done(function(data){
-                var dataLeft = "Left:", dataRight = "Rigth:";
 				var dataString = data.serial;
 				var dataTs = data.ts;
 				var serialObj = JSON.parse(dataString);
                 for (j=0;j<10;j++) {
-                	dataLeft = dataLeft + serialObj[j]["L"] + " ";
-					dataRight = dataRight + serialObj[j]["R"] + " ";
 					dpSerial0[j] = serialObj[j]["L"];
 					dpSerial1[j] = serialObj[j]["R"];
                 }
-				document.getElementById("debugText").innerHTML =  dataTs + " " + dataLeft + dataRight + "\n" + document.getElementById("debugText").innerHTML;                
+				document.getElementById("debugText").innerHTML =  dataTs + " " + dataString + "\n" + document.getElementById("debugText").innerHTML;                
             });
         }
 		
