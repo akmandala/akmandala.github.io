@@ -208,7 +208,7 @@
     (function ($, baseURI) {
 
         // Juanda - 20170701 1730
-        var intervalRetrieveData = 1000; //sec
+        var intervalRetrieveData = 3000; //sec
 		var updateInterval = 100;
 		var dpSerial0 = []; // dataPoints
 		var dps0 = []; // dataPoints
@@ -236,7 +236,7 @@
 		
 		var xVal = 0;
 		var yVal = 0;	
-		var dataLength = 200;
+		var dataLength = 250;
 		
         function getData() {
 
@@ -249,7 +249,7 @@
 				var dataString = data.serial;
 				var dataTs = data.ts;
 				var serialObj = JSON.parse(dataString);
-                for (j=0;j<10;j++) {
+                for (j=0;j<(intervalRetrieveData/updateInterval);j++) {
 					dpSerial0[j] = serialObj[j]["L"];
 					dpSerial1[j] = serialObj[j]["R"];
                 }
@@ -264,11 +264,11 @@
 			
 			dps0.push({
 				x: xVal,
-				y: dpSerial0[xVal%10]
+				y: dpSerial0[xVal%(intervalRetrieveData/updateInterval)]
 			});
 			dps1.push({
 				x: xVal,
-				y: dpSerial1[xVal%10]
+				y: dpSerial1[xVal%(intervalRetrieveData/updateInterval)]
 			});			
 			xVal++;
 			if (dps0.length > dataLength)
