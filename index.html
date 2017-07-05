@@ -247,13 +247,13 @@
                 crossDomain : true
             }).done(function(data){
 				var dataString = data.serial;
-				var dataTs = data.ts;
+				//var dataTs = data.ts;
 				var serialObj = JSON.parse(dataString);
                 for (j=0;j<(intervalRetrieveData/updateInterval);j++) {
 					dpSerial0[j] = serialObj[j]["L"];
 					dpSerial1[j] = serialObj[j]["R"];
                 }
-				document.getElementById("debugText").innerHTML =  dataTs + " " + dataString + "\n" + document.getElementById("debugText").innerHTML;                
+				//document.getElementById("debugText").innerHTML =  dataTs + " " + dataString + "\n" + document.getElementById("debugText").innerHTML;                
             });
         }
 		
