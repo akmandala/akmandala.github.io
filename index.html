@@ -247,7 +247,7 @@
                 crossDomain : true
             }).done(function(data){
 				var dataString = data.serial;
-				//document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;                
+				document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;                
             });
         }
 		
@@ -262,12 +262,10 @@
                 crossDomain : true
             }).done(function(data){
 				var dataString = data.ad0;
-								document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;                
-
-				//var ad0Obj = JSON.parse(dataString);
-                //for (j=0;j<(intervalRetrieveData/updateInterval);j++) {
-				//	dpAd0[j] = ad0Obj[j]["A0"];
-                //}
+				var ad0Obj = JSON.parse(dataString);
+                for (j=0;j<(intervalRetrieveData/updateInterval);j++) {
+					dpAd0[j] = ad0Obj[j]["A0"];
+                }
             });
         }
 		
