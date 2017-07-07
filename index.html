@@ -210,9 +210,9 @@
         // Juanda - 20170701 1730
         var intervalRetrieveData = 1000; //sec
 		var updateInterval = 100;
-		var dpSerial0 = []; // dataPoints
+		var dpAd0 = []; // dataPoints
 		var dps0 = []; // dataPoints
-		var dpSerial1 = []; // dataPoints
+		var dpAd1 = []; // dataPoints
 		var dps1 = []; // dataPoints		
 
 		var chart0 = new CanvasJS.Chart("chartContainer0",{
@@ -238,7 +238,7 @@
 		var yVal = 0;	
 		var dataLength = 250;
 		
-        function getData() {
+        function getSerial() {
 
             var urlData = baseURI + "debug/getSerial";
  
@@ -247,27 +247,40 @@
                 crossDomain : true
             }).done(function(data){
 				var dataString = data.serial;
-				var serialObj = JSON.parse(dataString);
-                for (j=0;j<(intervalRetrieveData/updateInterval);j++) {
-					dpSerial0[j] = serialObj[j]["L"];
-					dpSerial1[j] = serialObj[j]["R"];
-                }
 				document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;                
             });
         }
 		
-        setInterval(getData, intervalRetrieveData);
-        //====================== end of Juanda edit
+        setInterval(getSerial, intervalRetrieveData);
 
+        function getAd0() {
+
+            var urlData = baseURI + "debug/getAd0";
+ 
+            $.ajax({
+                url : urlData,
+                crossDomain : true
+            }).done(function(data){
+				var dataString = data.ad0;
+				var ad0Obj = JSON.parse(dataString);
+                for (j=0;j<(intervalRetrieveData/updateInterval);j++) {
+					dpAd0[j] = ad0Obj[j]["A0"];
+                }
+            });
+        }
+		
+        setInterval(getAd0, intervalRetrieveData);		
+		
+		
 		function updateChart() {
 			
 			dps0.push({
 				x: xVal,
-				y: dpSerial0[xVal%(intervalRetrieveData/updateInterval)]
+				y: dpAd0[xVal%(intervalRetrieveData/updateInterval)]
 			});
 			dps1.push({
 				x: xVal,
-				y: dpSerial1[xVal%(intervalRetrieveData/updateInterval)]
+				y: dpAd1[xVal%(intervalRetrieveData/updateInterval)]
 			});			
 			xVal++;
 			if (dps0.length > dataLength)
