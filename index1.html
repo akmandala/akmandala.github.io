@@ -21,9 +21,9 @@
 		}, 100);
 
 		function createTimeline() {
-			var chart = new SmoothieChart({maxValue:60000, minValue:0});
-			chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 1 });
-			chart.streamTo(document.getElementById("chart"), 500);
+			var chart = new SmoothieChart({maxValue:65536, minValue:0, millisPerPixel:15, timestampFormatter:SmoothieChart.timeFormatter});
+			chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart.streamTo(document.getElementById("chart"), 0);
 		}
       
 		setInterval(function() {
