@@ -9,7 +9,7 @@
     <script type="text/javascript">
 		var dpAd0 = [];
 		var dataPos = 0;
-		var lastTs;
+		var lastTs = 0;
 		var random = new TimeSeries();
 		
 		setInterval(function() {
@@ -33,6 +33,7 @@
 			}).done(function(data){
 				console.log(data.ts);
 				if (lastTs < data.ts) {
+					console.log(data.ad0);
 					for (j=0;j<20;j++) {
 						dpAd0[j] = data.ad0[j];
 					}
