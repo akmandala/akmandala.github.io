@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+
+  </head>
+  <body onload="createTimeline()" style="background-color:#333333">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
     <script type="text/javascript">
@@ -23,7 +26,7 @@
       
 	  
 		function getAd0() {
-			$.ajax({
+			jQuery.ajax({
 				url : "https://agent.electricimp.com/dkUshR_qyJMr/ad0",
 				crossDomain: true
 			}).done(function(data){
@@ -37,10 +40,8 @@
 		setInterval(getAd0(), 2000);
 	  
     </script>
-  </head>
-  <body onload="createTimeline()" style="background-color:#333333">
-
     <canvas id="chart" width="600" height="400"></canvas>
+	
 
   </body>
 </html>
