@@ -4,37 +4,42 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
     <script type="text/javascript">
-      // Randomly add a data point every 500ms
-      var dpAd0 = [];
-      var dataPos = 0;
-      var random = new TimeSeries();
-      setInterval(function() {
-        random.append(new Date().getTime(), dpAd0[dataPos]);
-        dataPos = dataPos + 1;
-        if (dataPos==20) {
-          dataPos = 0;
-        }
-      }, 100);
+		var dpAd0 = [];
+		var dataPos = 0;
+		var random = new TimeSeries();
+		setInterval(function() {
+		random.append(new Date().getTime(), dpAd0[dataPos]);
+		dataPos = dataPos + 1;
+		if (dataPos==20) {
+		  dataPos = 0;
+		}
+		}, 100);
+
+		function createTimeline() {
+		var chart = new SmoothieChart();
+		chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 1 });
+		chart.streamTo(document.getElementById("chart"), 500);
+		}
       
-      function createTimeline() {
-        var chart = new SmoothieChart();
-        chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 1 });
-        chart.streamTo(document.getElementById("chart"), 500);
-      }
-      
-      function getAd0() {
-        jQuery.ajax({
-            url : "https://agent.electricimp.com/dkUshR_qyJMr/ad0",
-            crossDomain: true
-        }).done(function(data){
-          console.log(data.ad0);
-          for (j=0;j<20;j++) {
-	          dpAd0[j] = data.ad0[j];
-          }
-        });
-      }
-      
-      setInterval(getAd0(), 2000);
+		var baseURI = "https://agent.electricimp.com/dkUshR_qyJMr";
+
+		(function ($, baseURI) {
+	  
+			function getAd0() {
+				$.ajax({
+					url : baseURI + "/ad0",
+					crossDomain: true
+				}).done(function(data){
+				  console.log(data.ad0);
+				  for (j=0;j<20;j++) {
+					  dpAd0[j] = data.ad0[j];
+				  }
+				});
+			}
+
+			setInterval(getAd0(), 2000);
+	  
+		})(jQuery, baseURI);
     </script>
   </head>
   <body onload="createTimeline()" style="background-color:#333333">
