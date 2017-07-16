@@ -10,27 +10,27 @@
 		var dpAd0 = [];
 		var dataPos = 0;
 		var random = new TimeSeries();
+		
 		setInterval(function() {
-		random.append(new Date().getTime(), dpAd0[dataPos]);
-		dataPos = dataPos + 1;
-		if (dataPos==20) {
-		  dataPos = 0;
-		}
+			random.append(new Date().getTime(), dpAd0[dataPos]);
+			dataPos = dataPos + 1;
+			if (dataPos==20) {
+				dataPos = 0;
+			}
 		}, 100);
 
 		function createTimeline() {
-		var chart = new SmoothieChart();
-		chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 1 });
-		chart.streamTo(document.getElementById("chart"), 500);
+			var chart = new SmoothieChart();
+			chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 1 });
+			chart.streamTo(document.getElementById("chart"), 500);
 		}
       
-	  
 		function getAd0() {
 			jQuery.ajax({
 				url : "https://agent.electricimp.com/dkUshR_qyJMr/ad0",
 				crossDomain: true
 			}).done(function(data){
-			  console.log(data.ad0);
+			  console.log(data.ts);
 			  for (j=0;j<20;j++) {
 				  dpAd0[j] = data.ad0[j];
 			  }
