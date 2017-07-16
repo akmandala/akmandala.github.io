@@ -151,18 +151,6 @@
             </div>
         </div>
 		
-		<div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Debug Chart</h3>
-            </div>
-            <div class="panel-body">
-                    	<div id="chartContainer0" style="height: 300px; width:100%;">
-            </div>
-            <div class="panel-body">
-                    	<div id="chartContainer1" style="height: 300px; width:100%;">
-            </div>			
-        </div>
-
     </div><!-- /.container -->
 
     <footer class="bs-docs-footer">
@@ -209,35 +197,7 @@
 
         // Juanda - 20170701 1730
         var intervalRetrieveData = 1000; //sec
-		var updateInterval = 100;
-		var dpAd0 = []; // dataPoints
-		var dps0 = []; // dataPoints
-		var dpAd1 = []; // dataPoints
-		var dps1 = []; // dataPoints		
 
-		var chart0 = new CanvasJS.Chart("chartContainer0",{
-			title :{
-				text: "ADC Input Channel#0"
-			},			
-			data: [{
-				type: "line",
-				dataPoints: dps0 
-			}]
-		});
-		var chart1 = new CanvasJS.Chart("chartContainer1",{
-			title :{
-				text: "ADC Input Channel#1"
-			},			
-			data: [{
-				type: "line",
-				dataPoints: dps1 
-			}]
-		});
-		
-		var xVal = 0;
-		var yVal = 0;	
-		var dataLength = 250;
-		
         function getSerial() {
 
             var urlData = baseURI + "debug/getSerial";
@@ -253,52 +213,6 @@
 		
         setInterval(getSerial, intervalRetrieveData);
 
-        function getAd0() {
-
-            var urlData = baseURI + "debug/getAd0";
- 
-            $.ajax({
-                url : urlData,
-                crossDomain : true
-            }).done(function(data){
-				var dataString = data.ad0;
-				var ad0Obj = JSON.parse(dataString);
-                for (j=0;j<(intervalRetrieveData/updateInterval);j++) {
-					dpAd0[j] = ad0Obj[j]["A0"];
-                }
-            });
-        }
-		
-        setInterval(getAd0, intervalRetrieveData);		
-		
-		
-		function updateChart() {
-			
-			dps0.push({
-				x: xVal,
-				y: dpAd0[xVal%(intervalRetrieveData/updateInterval)]
-			});
-			dps1.push({
-				x: xVal,
-				y: dpAd1[xVal%(intervalRetrieveData/updateInterval)]
-			});			
-			xVal++;
-			if (dps0.length > dataLength)
-			{
-				dps0.shift();				
-			}
-			if (dps1.length > dataLength)
-			{
-				dps1.shift();				
-			}
-			
-			chart0.render();		
-			chart1.render();		
-		};		
-		
-		setInterval(updateChart, updateInterval); 
-
-		
         wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
 
         wireUpForm('#fuses-set', '#fuses-loading', '#fuses-form', '#fuses-set-success');
