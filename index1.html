@@ -25,8 +25,7 @@
       function getAd0() {
         jQuery.ajax({
             url : "https://agent.electricimp.com/dkUshR_qyJMr/ad0",
-            crossDomain: true,
-            dataType: 'jsonp'
+            crossDomain: true
         }).done(function(data){
           console.log(data.ad0);
           for (j=0;j<20;j++) {
