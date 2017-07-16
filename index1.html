@@ -37,7 +37,7 @@
 				crossDomain: true
 			}).done(function(data){
 				console.log(data.ts);
-				if (lastTs != data.ts) {
+				if (lastTs < data.ts) {
 					for (j=0;j<20;j++) {
 						dpAd0[j] = data.ad0[j];
 					}
