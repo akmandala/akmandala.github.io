@@ -98,7 +98,7 @@
 			}).done(function(data){
 				console.log(data.ts);
 				if (lastTs < data.ts) {
-					//console.log(data.temp);
+					console.log(data.acc);
 					for (j=0;j<20;j++) {
 						dpAd0[j] = data.acc[j];
 					}
