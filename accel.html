@@ -80,7 +80,7 @@
 		setInterval(function() {
 			random.append(new Date().getTime(), dpAd0[dataPos]);
 			dataPos = dataPos + 1;
-			if (dataPos==20) {
+			if (dataPos==10) {
 				dataPos = 0;
 			}
 		}, 100);
@@ -99,7 +99,7 @@
 				//console.log(data.ts);
 				if (lastTs < data.ts) {
 					//console.log(data.acc);
-					for (j=0;j<20;j++) {
+					for (j=0;j<10;j++) {
 						dpAd0[j] = data.acc[j];
 					}
 					dataPos = 0;
@@ -107,7 +107,7 @@
 				}
 
 			});
-		}, 1100);
+		}, 1000);
 		  
     </script>
 	
