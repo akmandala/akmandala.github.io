@@ -54,7 +54,7 @@
 	
 		<div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Analog Scope Temperature</h3>
+                <h3 class="panel-title">Analog Scope ad0</h3>
             </div>
             <div class="panel-body">
 				<canvas id="chart" width="600" height="400"></canvas>
@@ -62,6 +62,13 @@
         </div>	
 	  </div>	
 
+    <footer class="bs-docs-footer">
+        <div class="container">
+             Electric Imp and the Electric Imp logo are trademarks of
+                <a href="http://electricimp.com/" target="_blank">Electric Imp, Inc</a>.
+        </div>
+    </footer>	  
+	  
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
     <script type="text/javascript">
@@ -79,21 +86,21 @@
 		}, 100);
 
 		function createTimeline() {
-			var chart = new SmoothieChart({maxValue:45, minValue:15, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart.addTimeSeries(random, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			var chart = new SmoothieChart({maxValue:65536, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart.streamTo(document.getElementById("chart"), 0);
 		}
       
 		setInterval(function() {
 			jQuery.ajax({
-				url : "https://agent.electricimp.com/jgmuUPV6ssRY/temp",
+				url : "https://agent.electricimp.com/dkUshR_qyJMr/ad0",
 				crossDomain: true
 			}).done(function(data){
 				console.log(data.ts);
 				if (lastTs < data.ts) {
-					//console.log(data.temp);
+					//console.log(data.ad0);
 					for (j=0;j<20;j++) {
-						dpAd0[j] = data.temp[j];
+						dpAd0[j] = data.ad0[j];
 					}
 					dataPos = 0;
 					lastTs = data.ts;
