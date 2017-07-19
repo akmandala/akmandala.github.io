@@ -57,9 +57,19 @@
                 <h3 class="panel-title">Accelerometer</h3>
             </div>
             <div class="panel-body">
-				<canvas id="chart" width="600" height="400"></canvas>
+				<canvas id="chart1" width="600" height="400"></canvas>
             </div>
         </div>	
+		
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Temperature & Humidity</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart2" width="600" height="400"></canvas>
+            </div>
+        </div>	
+		
 	  </div>	
 
     <footer class="bs-docs-footer">
@@ -68,23 +78,32 @@
                 <a href="http://electricimp.com/" target="_blank">Electric Imp, Inc</a>.
         </div>
     </footer>	  
-	  
+	
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
     <script type="text/javascript">
 		var dpAccx = [];
 		var dpAccy = [];
 		var dpAccz = [];
+		var dpTemp = [];
+		var dpHumid = [];
 		var dataPos = 0;
 		var lastTs = 0;
 		var acc_x = new TimeSeries();
 		var acc_y = new TimeSeries();
 		var acc_z = new TimeSeries();
+		var temp = new TimeSeries();
+		var humid = new TimeSeries();
 		
 		setInterval(function() {
-			acc_x.append(new Date().getTime(), dpAccx[dataPos]);
-			acc_y.append(new Date().getTime(), dpAccy[dataPos]);
-			acc_z.append(new Date().getTime(), dpAccz[dataPos]);
+			var timeStmp = new Date().getTime();
+			acc_x.append(timeStmp, dpAccx[dataPos]);
+			acc_y.append(timeStmp, dpAccy[dataPos]);
+			acc_z.append(timeStmp, dpAccz[dataPos]);
+			
+			temp.append(timeStmp, dpTemp[dataPos]);
+			humid.append(timeStmp, dpHumid[dataPos]);
+			
 			dataPos = dataPos + 1;
 			if (dataPos==10) {
 				dataPos = 0;
@@ -92,25 +111,31 @@
 		}, 100);
 
 		function createTimeline() {
-			var chart = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart.streamTo(document.getElementById("chart"), 0);
+			var chart1 = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.streamTo(document.getElementById("chart1"), 0);
+			
+			var chart2 = new SmoothieChart({maxValue:100, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart2.streamTo(document.getElementById("chart2"), 0);			
 		}
       
 		setInterval(function() {
 			jQuery.ajax({
-				url : "https://agent.electricimp.com/Vw9y_EFtXN_A/acc",
+				url : "https://agent.electricimp.com/Vw9y_EFtXN_A/sensor",
 				crossDomain: true
 			}).done(function(data){
-				//console.log(data.ts);
 				if (lastTs < data.ts) {
-					//console.log(data.acc);
 					for (j=0;j<10;j++) {
-						dpAccx[j] = data.acc.accx[j];
-						dpAccy[j] = data.acc.accy[j];
-						dpAccz[j] = data.acc.accz[j];
+						dpAccx[j] = data.sensor.accx[j];
+						dpAccy[j] = data.sensor.accy[j];
+						dpAccz[j] = data.sensor.accz[j];
+						
+						dpTemp[j] = data.sensor.temp[j];
+						dpHumid[j] = data.sensor.humid[j];
 					}
 					dataPos = 0;
 					lastTs = data.ts;
