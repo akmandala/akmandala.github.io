@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Cloud-scope</title>
+    <title>Imp Explorer Kit</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -47,14 +47,14 @@
       <div class="container">
 
         <div class="jumbotron">
-            <h1><nobr>Cloud-scope</nobr> <a href="http://electricimp.com/"><img
+            <h1><nobr>Imp Explorer Kit</nobr> <a href="http://electricimp.com/"><img
                     src="//electricimp.com/public/img/logosmall.png" alt="[logo]"></a></h1>
             <p>An Electric Imp based cloud data acquisition.</p>
         </div>
 	
 		<div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Analog Scope Accelerometer</h3>
+                <h3 class="panel-title">Accelerometer</h3>
             </div>
             <div class="panel-body">
 				<canvas id="chart" width="600" height="400"></canvas>
@@ -72,13 +72,19 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
     <script type="text/javascript">
-		var dpAd0 = [];
+		var dpAccx = [];
+		var dpAccy = [];
+		var dpAccz = [];
 		var dataPos = 0;
 		var lastTs = 0;
-		var random = new TimeSeries();
+		var acc_x = new TimeSeries();
+		var acc_y = new TimeSeries();
+		var acc_z = new TimeSeries();
 		
 		setInterval(function() {
-			random.append(new Date().getTime(), dpAd0[dataPos]);
+			acc_x.append(new Date().getTime(), dpAccx[dataPos]);
+			acc_y.append(new Date().getTime(), dpAccy[dataPos]);
+			acc_z.append(new Date().getTime(), dpAccz[dataPos]);
 			dataPos = dataPos + 1;
 			if (dataPos==10) {
 				dataPos = 0;
@@ -86,21 +92,25 @@
 		}, 100);
 
 		function createTimeline() {
-			var chart = new SmoothieChart({maxValue:2, minValue:-2, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart.addTimeSeries(random, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			var chart = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart.streamTo(document.getElementById("chart"), 0);
 		}
       
 		setInterval(function() {
 			jQuery.ajax({
-				url : "https://agent.electricimp.com/jgmuUPV6ssRY/acc",
+				url : "https://agent.electricimp.com/Vw9y_EFtXN_A/acc",
 				crossDomain: true
 			}).done(function(data){
 				//console.log(data.ts);
 				if (lastTs < data.ts) {
 					//console.log(data.acc);
 					for (j=0;j<10;j++) {
-						dpAd0[j] = data.acc[j];
+						dpAccx[j] = data.acc.accx[j];
+						dpAccy[j] = data.acc.accy[j];
+						dpAccz[j] = data.acc.accz[j];
 					}
 					dataPos = 0;
 					lastTs = data.ts;
