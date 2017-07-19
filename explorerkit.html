@@ -137,6 +137,7 @@
 
 			var chart3 = new SmoothieChart({maxValue:1100, minValue:600, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
 			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
+			chart3.streamTo(document.getElementById("chart3"), 0);						
 		}
       
 		setInterval(function() {
