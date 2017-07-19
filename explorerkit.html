@@ -70,6 +70,15 @@
             </div>
         </div>	
 		
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Air Pressure</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart3" width="600" height="400"></canvas>
+            </div>
+        </div>			
+		
 	  </div>	
 
     <footer class="bs-docs-footer">
@@ -87,6 +96,7 @@
 		var dpAccz = [];
 		var dpTemp = [];
 		var dpHumid = [];
+		var dpPress = [];		
 		var dataPos = 0;
 		var lastTs = 0;
 		var acc_x = new TimeSeries();
@@ -94,6 +104,7 @@
 		var acc_z = new TimeSeries();
 		var temp = new TimeSeries();
 		var humid = new TimeSeries();
+		var press = new TimeSeries();
 		
 		setInterval(function() {
 			var timeStmp = new Date().getTime();
@@ -103,6 +114,8 @@
 			
 			temp.append(timeStmp, dpTemp[dataPos]);
 			humid.append(timeStmp, dpHumid[dataPos]);
+			
+			press.append(timeStmp, dpPress[dataPos]);
 			
 			dataPos = dataPos + 1;
 			if (dataPos==10) {
@@ -121,6 +134,9 @@
 			chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart2.streamTo(document.getElementById("chart2"), 0);			
+
+			var chart3 = new SmoothieChart({maxValue:1100, minValue:600, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 		}
       
 		setInterval(function() {
@@ -136,6 +152,8 @@
 						
 						dpTemp[j] = data.sensor.temp[j];
 						dpHumid[j] = data.sensor.humid[j];
+						
+						dpPress[j] = data.sensor.press[j];
 					}
 					dataPos = 0;
 					lastTs = data.ts;
