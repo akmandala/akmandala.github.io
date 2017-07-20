@@ -118,7 +118,7 @@
 			press.append(timeStmp, dpPress[dataPos]);
 			
 			dataPos = dataPos + 1;
-			if (dataPos==10) {
+			if (dataPos==5) {
 				dataPos = 0;
 			}
 		}, 100);
@@ -145,8 +145,8 @@
 				url : "https://agent.electricimp.com/Vw9y_EFtXN_A/sensor",
 				crossDomain: true
 			}).done(function(data){
-				if (lastTs < data.ts) {
-					for (j=0;j<10;j++) {
+				if (lastTs != data.ts) {
+					for (j=0;j<5;j++) {
 						dpAccx[j] = data.sensor.accx[j];
 						dpAccy[j] = data.sensor.accy[j];
 						dpAccz[j] = data.sensor.accz[j];
@@ -161,7 +161,7 @@
 				}
 
 			});
-		}, 1000);
+		}, 500);
 		  
     </script>
 	
