@@ -88,6 +88,7 @@
         </div>
     </footer>	  
 	
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pubnub/3.7.7/pubnub.min.js"></script>
     <script type="text/javascript">
@@ -118,7 +119,7 @@
 			press.append(timeStmp, dpPress[dataPos]);
 			
 			dataPos = dataPos + 1;
-			if (dataPos==10) {
+			if (dataPos==5) {
 				dataPos = 0;
 			}
 		}, 100);
@@ -143,7 +144,7 @@
 		var channel = 'Vw9y_EFtXN_A';
 		// HANDLE TEXT MESSAGE
 		function chat_receive(text) {
-			for (j=0;j<10;j++) {
+			for (j=0;j<5;j++) {
 				dpAccx[j] = text.accx[j];
 				dpAccy[j] = text.accy[j];
 				dpAccz[j] = text.accz[j];
