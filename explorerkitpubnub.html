@@ -140,29 +140,6 @@
 			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 			chart3.streamTo(document.getElementById("chart3"), 0);						
 		}
-      
-		setInterval(function() {
-			jQuery.ajax({
-				url : "https://agent.electricimp.com/Vw9y_EFtXN_A/sensor",
-				crossDomain: true
-			}).done(function(data){
-				if (lastTs < data.ts) {
-					for (j=0;j<10;j++) {
-						dpAccx[j] = data.sensor.accx[j];
-						dpAccy[j] = data.sensor.accy[j];
-						dpAccz[j] = data.sensor.accz[j];
-						
-						dpTemp[j] = data.sensor.temp[j];
-						dpHumid[j] = data.sensor.humid[j];
-						
-						dpPress[j] = data.sensor.press[j];
-					}
-					dataPos = 0;
-					lastTs = data.ts;
-				}
-
-			});
-		}, 1000);
 		
 		var channel = 'Vw9y_EFtXN_A';
 		// HANDLE TEXT MESSAGE
