@@ -84,7 +84,7 @@
                 <h3 class="panel-title">Acoustic</h3>
             </div>
             <div class="panel-body">
-				<canvas id="chart4" width="800" height="400"></canvas>
+				<div id="chartContainer" style="height: 400px; width: 100%;"></div>
             </div>
         </div>	
 		
@@ -99,6 +99,7 @@
 	
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script type="text/javascript">
 		var dpAccx = [];
 		var dpAccy = [];
@@ -116,7 +117,46 @@
 		var temp = new TimeSeries();
 		var humid = new TimeSeries();
 		var press = new TimeSeries();
-		var acous = new TimeSeries();
+
+		var dps = []; // dataPoints
+
+		var chart = new CanvasJS.Chart("chartContainer",{
+			title :{
+				text: "Acoustic"
+			},
+         axisY:{
+   			minimum: -500,
+           maximum:500
+ 		},
+			data: [{
+				type: "line",
+				dataPoints: dps 
+			}]
+		});		
+
+		var xVal = 0;
+		var yVal = 100;	
+		var updateInterval = 100;
+
+		var updateChart = function (count) {
+			count = count || 1;
+			// count is number of times loop runs to generate random dataPoints.
+			
+			for (var j = 0; j < count; j++) {	
+				yVal = dpAcous[j];
+				dps.push({
+					x: xVal,
+					y: yVal
+				});
+				xVal++;
+			};
+            chart.render();		
+			dps.length = 0;	
+            xVal=0;				
+		};
+
+		// generates first set of dataPoints
+		updateChart(8); 		
 		
 		setInterval(function() {
 			var timeStmp = new Date().getTime();
@@ -149,11 +189,7 @@
 
 			var chart3 = new SmoothieChart({maxValue:1005, minValue:1000, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
 			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
-			chart3.streamTo(document.getElementById("chart3"), 0);		
-
-			var chart4 = new SmoothieChart({maxValue:20000, minValue:0, millisPerPixel:10});
-			chart4.addTimeSeries(acous, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart4.streamTo(document.getElementById("chart4"), 0);					
+			chart3.streamTo(document.getElementById("chart3"), 0);					
 		}
       
 		setInterval(function() {
@@ -173,8 +209,9 @@
 						dpPress[j] = data.sensor.press[j];
 					}
 					for (j=0;j<8;j++) {
-						acous.append(j*1000, data.mic[j]);
+						dpAcous[j] = data.mic[j]);
 					}
+					updateChart(8); 
 					dataPos = 0;
 					lastTs = data.ts;
 				}
