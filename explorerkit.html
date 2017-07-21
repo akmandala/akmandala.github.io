@@ -99,7 +99,7 @@
 	
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
-	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script type="text/javascript">
 		var dpAccx = [];
 		var dpAccy = [];
@@ -117,7 +117,24 @@
 		var temp = new TimeSeries();
 		var humid = new TimeSeries();
 		var press = new TimeSeries();
+		
+		function createTimeline() {
+			var chart1 = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.streamTo(document.getElementById("chart1"), 0);
+			
+			var chart2 = new SmoothieChart({maxValue:100, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart2.streamTo(document.getElementById("chart2"), 0);			
 
+			var chart3 = new SmoothieChart({maxValue:1005, minValue:1000, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
+			chart3.streamTo(document.getElementById("chart3"), 0);					
+		}
+		
 		var dps = []; // dataPoints
 
 		var chart = new CanvasJS.Chart("chartContainer",{
@@ -174,23 +191,6 @@
 				dataPos = 0;
 			}
 		}, 100);
-
-		function createTimeline() {
-			var chart1 = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart1.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart1.streamTo(document.getElementById("chart1"), 0);
-			
-			var chart2 = new SmoothieChart({maxValue:100, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart2.streamTo(document.getElementById("chart2"), 0);			
-
-			var chart3 = new SmoothieChart({maxValue:1005, minValue:1000, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
-			chart3.streamTo(document.getElementById("chart3"), 0);					
-		}
       
 		setInterval(function() {
 			jQuery.ajax({
