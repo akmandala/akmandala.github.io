@@ -134,7 +134,7 @@
 			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 			chart3.streamTo(document.getElementById("chart3"), 0);					
 		}
-		
+		/*
 		var dps = []; // dataPoints
 
 		var chart = new CanvasJS.Chart("chartContainer",{
@@ -172,8 +172,7 @@
             xVal=0;				
 		};
 
-		// generates first set of dataPoints
-		updateChart(8); 		
+		*/
 		
 		setInterval(function() {
 			var timeStmp = new Date().getTime();
@@ -208,9 +207,9 @@
 						
 						dpPress[j] = data.sensor.press[j];
 					}
-					for (j=0;j<8;j++) {
-						dpAcous[j] = data.mic[j]);
-					}
+					//for (j=0;j<8;j++) {
+					//	dpAcous[j] = data.mic[j]);
+					//}
 					updateChart(8); 
 					dataPos = 0;
 					lastTs = data.ts;
