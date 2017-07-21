@@ -151,7 +151,7 @@
 			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 			chart3.streamTo(document.getElementById("chart3"), 0);		
 
-			var chart4 = new SmoothieChart({maxValue:2000, minValue:0, millisPerPixel:10});
+			var chart4 = new SmoothieChart({maxValue:20000, minValue:0, millisPerPixel:10});
 			chart4.addTimeSeries(acous, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart4.streamTo(document.getElementById("chart4"), 0);					
 		}
