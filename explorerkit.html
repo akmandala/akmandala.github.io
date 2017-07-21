@@ -153,12 +153,9 @@
 
 		var xVal = 0;
 		var yVal = 100;	
-		/*
-		var updateChart = function (count) {
-			count = count || 1;
-			// count is number of times loop runs to generate random dataPoints.
-			
-			for (var j = 0; j < count; j++) {	
+
+		var updateChart = function () {
+			for (var j = 0; j < 8; j++) {	
 				yVal = dpAcous[j];
 				dps.push({
 					x: xVal,
@@ -170,8 +167,6 @@
 			dps.length = 0;	
             xVal=0;				
 		};
-
-		*/
 		
 		setInterval(function() {
 			var timeStmp = new Date().getTime();
