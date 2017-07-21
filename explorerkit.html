@@ -152,7 +152,7 @@
 		});		
 
 		var xVal = 0;
-		var yVal = 100;	
+		var yVal = 0;	
 
 		var updateChart = function () {
 			for (var j = 0; j < 8; j++) {	
@@ -161,7 +161,7 @@
 					x: xVal,
 					y: yVal
 				});
-				xVal++;
+				xVal = xVal + 240;
 			};
             chart.render();		
 			dps.length = 0;	
