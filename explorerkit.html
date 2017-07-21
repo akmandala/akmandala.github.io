@@ -201,9 +201,9 @@
 						
 						dpPress[j] = data.sensor.press[j];
 					}
-					//for (j=0;j<8;j++) {
-					//	dpAcous[j] = data.mic[j]);
-					//}
+					for (k=0;k<8;k++) {
+						dpAcous[k] = data.mic[k];
+					}
 					updateChart(8); 
 					dataPos = 0;
 					lastTs = data.ts;
