@@ -196,13 +196,20 @@
 						dpAccy[j] = data.sensor.accy[j];
 						dpAccz[j] = data.sensor.accz[j];
 						
-						dpTemp[j] = data.sensor.temp[j];
-						dpHumid[j] = data.sensor.humid[j];
-						
-						dpPress[j] = data.sensor.press[j];
+						if(data.sensor.hasOwnProperty('temp')){
+							dpTemp[j] = data.sensor.temp[j];
+						}
+						if(data.sensor.hasOwnProperty('humid')){
+							dpHumid[j] = data.sensor.humid[j];
+						}
+						if(data.sensor.hasOwnProperty('press')){
+							dpPress[j] = data.sensor.press[j];
+						}
 					}
-					for (k=0;k<8;k++) {
-						dpAcous[k] = data.mic[k];
+					if(data.hasOwnProperty('mic')){
+						for (k=0;k<8;k++) {
+							dpAcous[k] = data.mic[k];
+						}
 					}
 					updateChart(8); 
 					dataPos = 0;
