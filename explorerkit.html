@@ -205,6 +205,7 @@
 						if(data.sensor.hasOwnProperty('press')){
 							dpPress[j] = data.sensor.press[j];
 						}
+						dataPos = 0;
 					}
 					if(data.hasOwnProperty('mic')){
 						for (k=0;k<8;k++) {
@@ -212,7 +213,6 @@
 						}
 					}
 					updateChart(8); 
-					dataPos = 0;
 					lastTs = data.ts;
 				}
 
