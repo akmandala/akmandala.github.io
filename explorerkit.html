@@ -192,10 +192,15 @@
 			}).done(function(data){
 				if (lastTs != data.ts) {
 					for (j=0;j<5;j++) {
-						dpAccx[j] = data.sensor.accx[j];
-						dpAccy[j] = data.sensor.accy[j];
-						dpAccz[j] = data.sensor.accz[j];
-						
+						if(data.sensor.hasOwnProperty('accx')){
+							dpAccx[j] = data.sensor.accx[j];
+						}
+						if(data.sensor.hasOwnProperty('accy')){
+							dpAccy[j] = data.sensor.accy[j];
+						}
+						if(data.sensor.hasOwnProperty('accz')){
+							dpAccz[j] = data.sensor.accz[j];
+						}
 						if(data.sensor.hasOwnProperty('temp')){
 							dpTemp[j] = data.sensor.temp[j];
 						}
