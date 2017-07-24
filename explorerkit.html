@@ -206,9 +206,9 @@
 							dpPress[j] = data.sensor.press[j];
 						}
 					}
-					if(data.sensor.hasOwnProperty('mic')){
+					if(data.hasOwnProperty('mic')){
 						for (k=0;k<8;k++) {
-							dpAcous[k] = data.sensor.mic[k];
+							dpAcous[k] = data.mic[k];
 						}
 					}
 					updateChart(8); 
