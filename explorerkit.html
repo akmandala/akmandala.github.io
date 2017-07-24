@@ -191,26 +191,28 @@
 				crossDomain: true
 			}).done(function(data){
 				if (lastTs != data.ts) {
-					for (j=0;j<5;j++) {
-						if(data.sensor.hasOwnProperty('accx')){
-							dpAccx[j] = data.sensor.accx[j];
+					if(data.hasOwnProperty('sensor')){
+						for (j=0;j<5;j++) {
+							if(data.sensor.hasOwnProperty('accx')){
+								dpAccx[j] = data.sensor.accx[j];
+							}
+							if(data.sensor.hasOwnProperty('accy')){
+								dpAccy[j] = data.sensor.accy[j];
+							}
+							if(data.sensor.hasOwnProperty('accz')){
+								dpAccz[j] = data.sensor.accz[j];
+							}
+							if(data.sensor.hasOwnProperty('temp')){
+								dpTemp[j] = data.sensor.temp[j];
+							}
+							if(data.sensor.hasOwnProperty('humid')){
+								dpHumid[j] = data.sensor.humid[j];
+							}
+							if(data.sensor.hasOwnProperty('press')){
+								dpPress[j] = data.sensor.press[j];
+							}
+							dataPos = 0;
 						}
-						if(data.sensor.hasOwnProperty('accy')){
-							dpAccy[j] = data.sensor.accy[j];
-						}
-						if(data.sensor.hasOwnProperty('accz')){
-							dpAccz[j] = data.sensor.accz[j];
-						}
-						if(data.sensor.hasOwnProperty('temp')){
-							dpTemp[j] = data.sensor.temp[j];
-						}
-						if(data.sensor.hasOwnProperty('humid')){
-							dpHumid[j] = data.sensor.humid[j];
-						}
-						if(data.sensor.hasOwnProperty('press')){
-							dpPress[j] = data.sensor.press[j];
-						}
-						dataPos = 0;
 					}
 					if(data.hasOwnProperty('mic')){
 						for (k=0;k<8;k++) {
