@@ -130,7 +130,7 @@
 			chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart2.streamTo(document.getElementById("chart2"), 0);			
 
-			var chart3 = new SmoothieChart({maxValue:1005, minValue:1000, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			var chart3 = new SmoothieChart({maxValue:1010, minValue:1000, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
 			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 			chart3.streamTo(document.getElementById("chart3"), 0);					
 		}
