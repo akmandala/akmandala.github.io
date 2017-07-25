@@ -25,8 +25,7 @@
             min-width: 80px;
         }
         .vbottom {
-            vertical-align: center;
-            horizontal-align: center;			
+            vertical-align: bottom;
         }
         .inline-group {
             /* Add to make a .form-group more like a .btn */
@@ -79,9 +78,9 @@
 				<canvas id="chart3" width="600" height="400"></canvas>
             </div>
 			<div class="form-group vbottom inline-group">
-                <label class="control-label" for="lpress">Low</label>
+                <label class="control-label" for="lpress">Low Pressure</label>
                 <input id="lpress" name="lpress" type="text" class="form-control" size="4" placeholder="1000">
-				<label class="control-label" for="hpress">High</label>
+				<label class="control-label" for="hpress">High Pressure</label>
 				<input id="hpress" name="hpress" type="text" class="form-control" size="4" placeholder="1020">
             </div>			
         </div>			
@@ -158,21 +157,21 @@
 			}]
 		});		
 
-		var xVal = 240;
+		var xVal = 167;
 		var yVal = 0;	
 
 		var updateChart = function () {
-			for (var j = 0; j < 8; j++) {	
+			for (var j = 0; j < 12; j++) {	
 				yVal = dpAcous[j];
 				dps.push({
 					x: xVal,
 					y: yVal
 				});
-				xVal = xVal + 240;
+				xVal = xVal + 167;
 			};
             chart.render();		
 			dps.length = 0;	
-            xVal=240;				
+            xVal=167;				
 		};
 		
 		setInterval(function() {
@@ -222,11 +221,11 @@
 						}
 					}
 					if(data.hasOwnProperty('mic')){
-						for (k=0;k<8;k++) {
+						for (k=0;k<12;k++) {
 							dpAcous[k] = data.mic[k];
 						}
 					}
-					updateChart(8); 
+					updateChart(); 
 					lastTs = data.ts;
 				}
 
