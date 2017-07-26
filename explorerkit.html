@@ -160,9 +160,9 @@
 		var xVal = 167;
 		var yVal = 0;	
 
-		var updateChart = function () {
+		var updateChart = function (dpos) {
 			for (var j = 0; j < 12; j++) {	
-				yVal = dpAcous[j];
+				yVal = dpAcous[j+(dpos*12)];
 				dps.push({
 					x: xVal,
 					y: yVal
@@ -184,6 +184,8 @@
 			humid.append(timeStmp, dpHumid[dataPos]);
 			
 			press.append(timeStmp, dpPress[dataPos]);
+
+			updateChart(dataPos); 
 			
 			dataPos = dataPos + 1;
 			if (dataPos==5) {
@@ -221,11 +223,10 @@
 						}
 					}
 					if(data.hasOwnProperty('mic')){
-						for (k=0;k<12;k++) {
+						for (k=0;k<60;k++) {
 							dpAcous[k] = data.mic[k];
 						}
 					}
-					updateChart(); 
 					lastTs = data.ts;
 				}
 
