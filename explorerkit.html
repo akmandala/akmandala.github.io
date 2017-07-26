@@ -157,21 +157,21 @@
 			}]
 		});		
 
-		var xVal = 167;
+		var xVal = 150;
 		var yVal = 0;	
 
 		var updateChart = function (dpos) {
-			for (var j = 0; j < 12; j++) {	
-				yVal = dpAcous[j+(dpos*12)];
+			for (var j = 0; j < 16; j++) {	
+				yVal = dpAcous[j+(dpos*16)];
 				dps.push({
 					x: xVal,
 					y: yVal
 				});
-				xVal = xVal + 167;
+				xVal = xVal + 150;
 			};
             chart.render();		
 			dps.length = 0;	
-            xVal=167;				
+            xVal=150;				
 		};
 		
 		setInterval(function() {
