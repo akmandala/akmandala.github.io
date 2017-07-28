@@ -207,7 +207,7 @@
 	var ad0 = new TimeSeries();
 		
 	function createTimeline() {
-		var chart1 = new SmoothieChart({maxValue:70000, minValue:0, millisPerPixel:5, timestampFormatter:SmoothieChart.timeFormatter});
+		var chart1 = new SmoothieChart({maxValue:70000, minValue:0, millisPerPixel:8, timestampFormatter:SmoothieChart.timeFormatter});
 		chart1.addTimeSeries(ad0, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 2});
 		chart1.streamTo(document.getElementById("chart1"), 0);
 	}																																												
