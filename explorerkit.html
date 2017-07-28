@@ -159,11 +159,11 @@
 
 		var xVal = 1050;
 		var yVal = 0;	
-		var numberOfFreq = 16;
+		var numberOfFreq = 24;
 
 		var updateChart = function (dpos) {
 			for (var j = 0; j < numberOfFreq; j++) {	
-				yVal = dpAcous[j+(dpos*24)];
+				yVal = dpAcous[j+(dpos*numberOfFreq)];
 				dps.push({
 					x: xVal,
 					y: yVal
@@ -224,7 +224,7 @@
 						}
 					}
 					if(data.hasOwnProperty('mic')){
-						for (k=0;k<(5*24);k++) {
+						for (k=0;k<(5*numberOfFreq);k++) {
 							dpAcous[k] = data.mic[k];
 						}
 					}
