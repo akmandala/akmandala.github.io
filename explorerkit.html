@@ -149,7 +149,7 @@
 			},
          axisY:{
    			minimum: 0,
-           maximum: 200000
+           maximum: 300000
  		},
 			data: [{
 				type: "spline",
@@ -157,21 +157,22 @@
 			}]
 		});		
 
-		var xVal = 150;
+		var xVal = 1050;
 		var yVal = 0;	
+		var numberOfFreq = 16;
 
 		var updateChart = function (dpos) {
-			for (var j = 0; j < 16; j++) {	
-				yVal = dpAcous[j+(dpos*16)];
+			for (var j = 0; j < numberOfFreq; j++) {	
+				yVal = dpAcous[j+(dpos*numberOfFreq)];
 				dps.push({
 					x: xVal,
 					y: yVal
 				});
-				xVal = xVal + 150;
+				xVal = xVal + 120;
 			};
             chart.render();		
 			dps.length = 0;	
-            xVal=150;				
+            xVal=1050;				
 		};
 		
 		setInterval(function() {
@@ -223,7 +224,7 @@
 						}
 					}
 					if(data.hasOwnProperty('mic')){
-						for (k=0;k<80;k++) {
+						for (k=0;k<(5*numberOfFreq);k++) {
 							dpAcous[k] = data.mic[k];
 						}
 					}
