@@ -57,6 +57,9 @@
                 <h3 class="panel-title">Accelerometer</h3>
             </div>
             <div class="panel-body">
+				<canvas id="render1" width="600" height="400"></canvas>
+            </div>
+            <div class="panel-body">
 				<canvas id="chart1" width="600" height="400"></canvas>
             </div>
         </div>	
@@ -234,13 +237,13 @@
 
 		});
 	}, 500);
-		  
+	
 	var scene = new THREE.Scene();
-	var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+	var camera = new THREE.PerspectiveCamera(75, 600 / 400, 1, 10000);
 
 	var renderer = new THREE.WebGLRenderer();
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	document.body.appendChild(renderer.domElement);
+	renderer.setSize(600, 400);
+	document.body.appendChild( document.getElementById( 'render1' ) );
 
 	var geometry = new THREE.BoxGeometry(300, 300, 300, 5, 5, 5);
 	var material = new THREE.MeshBasicMaterial({
