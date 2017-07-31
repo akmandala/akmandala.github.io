@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Imp Explorer Kit</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        /* Space out content a bit */
+        body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        }
+        .wide-button {
+            min-width: 80px;
+        }
+        .vbottom {
+            vertical-align: bottom;
+        }
+        .inline-group {
+            /* Add to make a .form-group more like a .btn */
+            display: inline-block;
+            margin-bottom: 0;
+        }
+        .raise-8px {
+            /* Vertically center label relative to button even when vertical-align is bottom. */
+            position: relative;
+            top: -8px;
+        }
+        .jquery-hidden {
+            /* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
+            display: none;
+        }
+    </style>
+  </head>
+  <body onload="createTimeline()">
+      <div class="container">
+
+        <div class="jumbotron">
+            <h1><nobr>Imp Explorer Kit</nobr> <a href="http://electricimp.com/"><img
+                    src="//electricimp.com/public/img/logosmall.png" alt="[logo]"></a></h1>
+            <p>An Electric Imp based cloud data acquisition.</p>
+        </div>
+	
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Accelerometer</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart1" width="600" height="400"></canvas>
+            </div>
+        </div>	
+		
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Temperature & Humidity</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart2" width="600" height="400"></canvas>
+            </div>
+        </div>	
+		
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Air Pressure</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart3" width="600" height="400"></canvas>
+            </div>
+			<div class="form-group vbottom inline-group">
+                <label class="control-label" for="lpress">Low Pressure</label>
+                <input id="lpress" name="lpress" type="text" class="form-control" size="4" placeholder="1000">
+				<label class="control-label" for="hpress">High Pressure</label>
+				<input id="hpress" name="hpress" type="text" class="form-control" size="4" placeholder="1020">
+            </div>			
+        </div>			
+
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Acoustic Noise</h3>
+            </div>
+            <div class="panel-body">
+				<div id="chartContainer" style="height: 400px; width: 100%;"></div>
+            </div>
+        </div>	
+		
+	  </div>	
+
+    <footer class="bs-docs-footer">
+        <div class="container">
+             Electric Imp and the Electric Imp logo are trademarks of
+                <a href="http://electricimp.com/" target="_blank">Electric Imp, Inc</a>.
+        </div>
+    </footer>	  
+	
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<script src="http://threejs.org/build/three.min.js"></script>
+    <script type="text/javascript">
+	var dpAccx = [];
+	var dpAccy = [];
+	var dpAccz = [];
+	var dpTemp = [];
+	var dpHumid = [];
+	var dpPress = [];	
+	var dpAcous = [];		
+	
+	var dataPos = 0;
+	var lastTs = 0;
+	var acc_x = new TimeSeries();
+	var acc_y = new TimeSeries();
+	var acc_z = new TimeSeries();
+	var temp = new TimeSeries();
+	var humid = new TimeSeries();
+	var press = new TimeSeries();
+	
+	function createTimeline() {
+		var chart1 = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+		chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+		chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+		chart1.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+		chart1.streamTo(document.getElementById("chart1"), 0);
+		
+		var chart2 = new SmoothieChart({maxValue:100, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+		chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+		chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+		chart2.streamTo(document.getElementById("chart2"), 0);			
+
+		var chart3 = new SmoothieChart({maxValue:1020, minValue:1000, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+		chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
+		chart3.streamTo(document.getElementById("chart3"), 0);					
+	}
+	
+	var dps = []; // dataPoints
+
+	var chart = new CanvasJS.Chart("chartContainer",{
+		title :{
+			text: "Acoustic"
+		},
+	 axisY:{
+		minimum: 0,
+	   maximum: 300000
+	},
+		data: [{
+			type: "spline",
+			dataPoints: dps 
+		}]
+	});		
+
+	var xVal = 1050;
+	var yVal = 0;	
+	var numberOfFreq = 24;
+
+	var updateChart = function (dpos) {
+		for (var j = 0; j < numberOfFreq; j++) {	
+			yVal = dpAcous[j+(dpos*numberOfFreq)];
+			dps.push({
+				x: xVal,
+				y: yVal
+			});
+			xVal = xVal + 120;
+		};
+		chart.render();		
+		dps.length = 0;	
+		xVal=1050;				
+	};
+	
+	setInterval(function() {
+		var timeStmp = new Date().getTime();
+		acc_x.append(timeStmp, dpAccx[dataPos]);
+		acc_y.append(timeStmp, dpAccy[dataPos]);
+		acc_z.append(timeStmp, dpAccz[dataPos]);
+		
+		temp.append(timeStmp, dpTemp[dataPos]);
+		humid.append(timeStmp, dpHumid[dataPos]);
+		
+		press.append(timeStmp, dpPress[dataPos]);
+
+		updateChart(dataPos); 
+		
+		dataPos = dataPos + 1;
+		if (dataPos==5) {
+			dataPos = 0;
+		}
+	}, 100);
+  
+	setInterval(function() {
+		jQuery.ajax({
+			url : "https://agent.electricimp.com/hiGudCjFkAAe/sensor",
+			crossDomain: true
+		}).done(function(data){
+			if (lastTs != data.ts) {
+				if(data.hasOwnProperty('sensor')){
+					for (j=0;j<5;j++) {
+						if(data.sensor.hasOwnProperty('accx')){
+							dpAccx[j] = data.sensor.accx[j];
+						}
+						if(data.sensor.hasOwnProperty('accy')){
+							dpAccy[j] = data.sensor.accy[j];
+						}
+						if(data.sensor.hasOwnProperty('accz')){
+							dpAccz[j] = data.sensor.accz[j];
+						}
+						if(data.sensor.hasOwnProperty('temp')){
+							dpTemp[j] = data.sensor.temp[j];
+						}
+						if(data.sensor.hasOwnProperty('humid')){
+							dpHumid[j] = data.sensor.humid[j];
+						}
+						if(data.sensor.hasOwnProperty('press')){
+							dpPress[j] = data.sensor.press[j];
+						}
+						dataPos = 0;
+					}
+				}
+				if(data.hasOwnProperty('mic')){
+					for (k=0;k<(5*numberOfFreq);k++) {
+						dpAcous[k] = data.mic[k];
+					}
+				}
+				lastTs = data.ts;
+			}
+
+		});
+	}, 500);
+		  
+	var scene = new THREE.Scene();
+	var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	var geometry = new THREE.BoxGeometry(300, 300, 300, 5, 5, 5);
+	var material = new THREE.MeshBasicMaterial({
+	  color: 0xfffff,
+	  wireframe: true
+	});
+	var cube = new THREE.Mesh(geometry, material);
+	scene.add(cube);
+
+	camera.position.z = 500;
+	camera.position.y = -200;
+	camera.position.x = -200;
+
+	function render() {
+	  requestAnimationFrame(render);
+	  if (camera.position.x < 200) {
+		camera.position.x += 10;
+		camera.position.y += 10;
+	  } else {
+		camera.position.y = -200;
+		camera.position.x = -200;
+	  }
+
+	  renderer.render(scene, camera);
+	};
+
+	render();
+    </script>
+	
+  </body>
+</html>
