@@ -54,7 +54,7 @@
             <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
         </div>
 
-        <form id="upload-hex-form" action="https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/uploadHex" method="POST">
+        <form id="upload-hex-form" action="https://agent.electricimp.com/sW_CWOTFyzzN/programmer/action/uploadHex" method="POST">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Sketch</h3>
@@ -75,7 +75,7 @@
             </div>
         </form>
 
-        <form id="fuses-form" action="https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/setFuses" method="GET">
+        <form id="fuses-form" action="https://agent.electricimp.com/sW_CWOTFyzzN/programmer/action/setFuses" method="GET">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Fuses</h3>
@@ -121,7 +121,7 @@
             </div>
         </form>
 
-        <form id="lock-bits-form" action="https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/setLockBits" method="GET">
+        <form id="lock-bits-form" action="https://agent.electricimp.com/sW_CWOTFyzzN/programmer/action/setLockBits" method="GET">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Lock Bits</h3>
@@ -224,7 +224,7 @@
 
 	function getSerial() {
 
-		var urlData = "https://agent.electricimp.com/dkUshR_qyJMr/programmer/debug/getDebug";
+		var urlData = "https://agent.electricimp.com/sW_CWOTFyzzN/programmer/debug/getDebug";
 
 		jQuery.ajax({
 			url : urlData,
@@ -249,7 +249,7 @@
 
 	wireUpForm('#fuses-set', '#fuses-loading', '#fuses-form', '#fuses-set-success');
 
-	wireUpButton('#fuses-query', '#fuses-loading', '#fuses-query-success', 'https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/getFuses',
+	wireUpButton('#fuses-query', '#fuses-loading', '#fuses-query-success', 'https://agent.electricimp.com/sW_CWOTFyzzN/programmer/action/getFuses',
 		function (result) {
 			$('#lfuse').val(hex(result.lfuse));
 			$('#hfuse').val(hex(result.hfuse));
@@ -262,7 +262,7 @@
 
 	wireUpForm('#lock-bits-set', '#lock-bits-loading', '#lock-bits-form', '#lock-bits-set-success');
 
-	wireUpButton('#lock-bits-query', '#lock-bits-loading', '#lock-bits-query-success', 'https://agent.electricimp.com/dkUshR_qyJMr/programmer/action/getLockBits',
+	wireUpButton('#lock-bits-query', '#lock-bits-loading', '#lock-bits-query-success', 'https://agent.electricimp.com/sW_CWOTFyzzN/programmer/action/getLockBits',
 		function (result) {
 			$('#lockBits').val(hex(result.lockBits));
 		},
