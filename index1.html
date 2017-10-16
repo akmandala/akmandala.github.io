@@ -1,0 +1,69 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Blynk test</title>
+  <meta name="description" content="">
+  <meta name="author" content="Volodymyr Shymanskyy">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body onload="initBlynk()">
+
+  <script src="jquery.min.js"></script>
+  <script src="blynk-browser.min.js"></script>
+  
+  <script type="text/javascript">
+   
+	var newImg1 = new Image();
+	newImg1.src = "01.JPG";
+	
+	var newImg2 = new Image();
+	newImg2.src = "02.JPG";
+	
+    var initBlynk = function() {
+    
+      // var auth = $("#auth").val();
+      var blynk = new Blynk.Blynk('5ed5e3e58b5946acb5d488e27ee130a5');
+
+      /* For custom WsClient connection:
+      var blynk = new Blynk.Blynk(auth, {
+        connector: new Blynk.WsClient({
+          addr: 'localhost', port:8080, path: '/'
+        })
+      });
+      */
+
+      var v1 = new blynk.VirtualPin(1);
+      var v2 = new blynk.VirtualPin(2);
+
+
+      v1.on('write', function(param) {
+        if (param[0] == 1) {
+			$('body').css('background-image', 'url('+ newImg1.src +')');
+		}
+      });
+      
+	  v2.on('write', function(param) {
+        if (param[0] == 1) {
+			$('body').css('background-image', 'url('+ newImg2.src +')');
+		}
+      });
+
+      blynk.on('connect', function() {
+
+      });
+      blynk.on('disconnect', function() {
+
+      });
+    };
+
+
+  </script>
+</body>
+</html>
