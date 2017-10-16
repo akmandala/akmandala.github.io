@@ -26,9 +26,14 @@
 	var newImg2 = new Image();
 	newImg2.src = "02.JPG";
 	
+	var newImg3 = new Image();
+	newImg3.src = "03.JPG";
+
+	var newImg4 = new Image();
+	newImg4.src = "04.JPG";	
+	
     var initBlynk = function() {
     
-      // var auth = $("#auth").val();
       var blynk = new Blynk.Blynk('5ed5e3e58b5946acb5d488e27ee130a5');
 
       /* For custom WsClient connection:
@@ -41,7 +46,9 @@
 
       var v1 = new blynk.VirtualPin(1);
       var v2 = new blynk.VirtualPin(2);
-
+      var v3 = new blynk.VirtualPin(3);
+      var v4 = new blynk.VirtualPin(4);
+	
 
       v1.on('write', function(param) {
         if (param[0] == 1) {
@@ -54,7 +61,19 @@
 			$('body').css('background-image', 'url('+ newImg2.src +')');
 		}
       });
-
+	  
+	  v3.on('write', function(param) {
+        if (param[0] == 1) {
+			$('body').css('background-image', 'url('+ newImg3.src +')');
+		}
+      });
+	  
+	  v4.on('write', function(param) {
+        if (param[0] == 1) {
+			$('body').css('background-image', 'url('+ newImg4.src +')');
+		}
+      });	
+	  
       blynk.on('connect', function() {
 
       });
