@@ -47,9 +47,9 @@
       <div class="container">
 
         <div class="jumbotron">
-            <h1><nobr>Imp Explorer Kit</nobr> <a href="http://electricimp.com/"><img
+            <h1><nobr>Smart Mat Sensors</nobr> <a href="http://electricimp.com/"><img
                     src="//electricimp.com/public/img/logosmall.png" alt="[logo]"></a></h1>
-            <p>An Electric Imp based cloud data acquisition.</p>
+            <p>Smart Mattress cloud data acquisition</p>
         </div>
 	
 		<div class="panel panel-default">
@@ -92,49 +92,47 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script type="text/javascript">
-		var dpAccx = [];
-		var dpAccy = [];
-		var dpAccz = [];
-		var dpTemp = [];
-		var dpHumid = [];
-		var dpPress = [];		
+		var dpAdc0 = [];
+		var dpAdc1 = [];
+		var dpAdc2 = [];
+		var dpAdc3 = [];
+		var dpAdc4 = [];
+		var dpAdc5 = [];		
 		
 		var dataPos = 0;
 		var lastTs = 0;
-		var acc_x = new TimeSeries();
-		var acc_y = new TimeSeries();
-		var acc_z = new TimeSeries();
-		var temp = new TimeSeries();
-		var humid = new TimeSeries();
-		var press = new TimeSeries();
+		var Adc0 = new TimeSeries();
+		var Adc1 = new TimeSeries();
+		var Adc2 = new TimeSeries();
+		var Adc3 = new TimeSeries();
+		var Adc4 = new TimeSeries();
+		var Adc5 = new TimeSeries();
 		
 		function createTimeline() {
 			var chart1 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.addTimeSeries(Adc0, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.addTimeSeries(Adc1, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart1.streamTo(document.getElementById("chart1"), 0);
 			
 			var chart2 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart2.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart2.addTimeSeries(Adc2, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart2.addTimeSeries(Adc3, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart2.streamTo(document.getElementById("chart2"), 0);			
 
 			var chart3 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart3.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart3.addTimeSeries(press, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
+			chart3.addTimeSeries(Adc4, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart3.addTimeSeries(Adc5, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 			chart3.streamTo(document.getElementById("chart3"), 0);					
 		}
 				
 		setInterval(function() {
 			var timeStmp = new Date().getTime();
-			acc_x.append(timeStmp, dpAccx[dataPos]);
-			acc_y.append(timeStmp, dpAccy[dataPos]);
-			acc_z.append(timeStmp, dpAccz[dataPos]);
-			
-			temp.append(timeStmp, dpTemp[dataPos]);
-			humid.append(timeStmp, dpHumid[dataPos]);
-			
-			press.append(timeStmp, dpPress[dataPos]);
+			Adc0.append(timeStmp, dpAdc0[dataPos]);
+			Adc1.append(timeStmp, dpAdc1[dataPos]);
+			Adc2.append(timeStmp, dpAdc2[dataPos]);
+			Adc3.append(timeStmp, dpAdc3[dataPos]);
+			Adc4.append(timeStmp, dpAdc4[dataPos]);
+			Adc5.append(timeStmp, dpAdc5[dataPos]);
 
 			updateChart(dataPos); 
 			
@@ -153,22 +151,22 @@
 					if(data.hasOwnProperty('sensor')){
 						for (j=0;j<10;j++) {
 							if(data.sensor.hasOwnProperty('adc0')){
-								dpAccx[j] = data.sensor.adc0[j];
+								dpAdc0[j] = data.sensor.adc0[j];
 							}
 							if(data.sensor.hasOwnProperty('adc1')){
-								dpAccy[j] = data.sensor.adc1[j];
+								dpAdc1[j] = data.sensor.adc1[j];
 							}
 							if(data.sensor.hasOwnProperty('adc2')){
-								dpAccz[j] = data.sensor.adc2[j];
+								dpAdc2[j] = data.sensor.adc2[j];
 							}
 							if(data.sensor.hasOwnProperty('adc3')){
-								dpTemp[j] = data.sensor.adc3[j];
+								dpAdc3[j] = data.sensor.adc3[j];
 							}
 							if(data.sensor.hasOwnProperty('adc4')){
-								dpHumid[j] = data.sensor.adc4[j];
+								dpAdc4[j] = data.sensor.adc4[j];
 							}
 							if(data.sensor.hasOwnProperty('adc5')){
-								dpPress[j] = data.sensor.adc5[j];
+								dpAdc5[j] = data.sensor.adc5[j];
 							}
 							dataPos = 0;
 						}
