@@ -54,7 +54,7 @@
 	
 		<div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Accelerometer</h3>
+                <h3 class="panel-title">Upper body pressure Left & Right</h3>
             </div>
             <div class="panel-body">
 				<canvas id="chart1" width="600" height="400"></canvas>
@@ -63,7 +63,7 @@
 		
 		<div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Temperature & Humidity</h3>
+                <h3 class="panel-title">Middle body pressure Left & Right</h3>
             </div>
             <div class="panel-body">
 				<canvas id="chart2" width="600" height="400"></canvas>
@@ -72,17 +72,11 @@
 		
 		<div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Air Pressure</h3>
+                <h3 class="panel-title">Lower body pressure Left & Right</h3>
             </div>
             <div class="panel-body">
 				<canvas id="chart3" width="600" height="400"></canvas>
-            </div>
-			<div class="form-group vbottom inline-group">
-                <label class="control-label" for="lpress">Low Pressure</label>
-                <input id="lpress" name="lpress" type="text" class="form-control" size="4" placeholder="1000">
-				<label class="control-label" for="hpress">High Pressure</label>
-				<input id="hpress" name="hpress" type="text" class="form-control" size="4" placeholder="1020">
-            </div>			
+            </div>		
         </div>			
 
 		<div class="panel panel-default">
@@ -125,19 +119,20 @@
 		var press = new TimeSeries();
 		
 		function createTimeline() {
-			var chart1 = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			var chart1 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart1.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			
 			chart1.streamTo(document.getElementById("chart1"), 0);
 			
-			var chart2 = new SmoothieChart({maxValue:100, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			var chart2 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart2.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart2.streamTo(document.getElementById("chart2"), 0);			
 
-			var chart3 = new SmoothieChart({maxValue:1040, minValue:1000, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
-			chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
+			var chart3 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart3.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart3.addTimeSeries(press, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 			chart3.streamTo(document.getElementById("chart3"), 0);					
 		}
 		
@@ -189,42 +184,42 @@
 			updateChart(dataPos); 
 			
 			dataPos = dataPos + 1;
-			if (dataPos==5) {
+			if (dataPos==10) {
 				dataPos = 0;
 			}
 		}, 100);
       
 		setInterval(function() {
 			jQuery.ajax({
-				url : "https://agent.electricimp.com/zjiUD0b1zLk6/sensor",
+				url : "https://agent.electricimp.com/VpwgA1Heczb9/sensor",
 				crossDomain: true
 			}).done(function(data){
 				if (lastTs != data.ts) {
 					if(data.hasOwnProperty('sensor')){
-						for (j=0;j<5;j++) {
-							if(data.sensor.hasOwnProperty('accx')){
+						for (j=0;j<10;j++) {
+							if(data.sensor.hasOwnProperty('adc0')){
 								dpAccx[j] = data.sensor.accx[j];
 							}
-							if(data.sensor.hasOwnProperty('accy')){
+							if(data.sensor.hasOwnProperty('adc1')){
 								dpAccy[j] = data.sensor.accy[j];
 							}
-							if(data.sensor.hasOwnProperty('accz')){
+							if(data.sensor.hasOwnProperty('adc2')){
 								dpAccz[j] = data.sensor.accz[j];
 							}
-							if(data.sensor.hasOwnProperty('temp')){
+							if(data.sensor.hasOwnProperty('adc3')){
 								dpTemp[j] = data.sensor.temp[j];
 							}
-							if(data.sensor.hasOwnProperty('humid')){
+							if(data.sensor.hasOwnProperty('adc4')){
 								dpHumid[j] = data.sensor.humid[j];
 							}
-							if(data.sensor.hasOwnProperty('press')){
+							if(data.sensor.hasOwnProperty('adc5')){
 								dpPress[j] = data.sensor.press[j];
 							}
 							dataPos = 0;
 						}
 					}
 					if(data.hasOwnProperty('mic')){
-						for (k=0;k<(5*numberOfFreq);k++) {
+						for (k=0;k<(10*numberOfFreq);k++) {
 							dpAcous[k] = data.mic[k];
 						}
 					}
@@ -232,7 +227,7 @@
 				}
 
 			});
-		}, 500);
+		}, 1000);
 		  
     </script>
 	
