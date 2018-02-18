@@ -79,15 +79,6 @@
             </div>		
         </div>			
 
-		<div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Acoustic Noise</h3>
-            </div>
-            <div class="panel-body">
-				<div id="chartContainer" style="height: 400px; width: 100%;"></div>
-            </div>
-        </div>	
-		
 	  </div>	
 
     <footer class="bs-docs-footer">
@@ -106,8 +97,7 @@
 		var dpAccz = [];
 		var dpTemp = [];
 		var dpHumid = [];
-		var dpPress = [];	
-		var dpAcous = [];		
+		var dpPress = [];		
 		
 		var dataPos = 0;
 		var lastTs = 0;
@@ -122,7 +112,6 @@
 			var chart1 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
 			chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
 			chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
-			
 			chart1.streamTo(document.getElementById("chart1"), 0);
 			
 			var chart2 = new SmoothieChart({maxValue:4, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
@@ -135,41 +124,7 @@
 			chart3.addTimeSeries(press, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
 			chart3.streamTo(document.getElementById("chart3"), 0);					
 		}
-		
-		var dps = []; // dataPoints
-
-		var chart = new CanvasJS.Chart("chartContainer",{
-			title :{
-				text: "Acoustic"
-			},
-         axisY:{
-   			minimum: 0,
-           maximum: 300000
- 		},
-			data: [{
-				type: "spline",
-				dataPoints: dps 
-			}]
-		});		
-
-		var xVal = 1050;
-		var yVal = 0;	
-		var numberOfFreq = 24;
-
-		var updateChart = function (dpos) {
-			for (var j = 0; j < numberOfFreq; j++) {	
-				yVal = dpAcous[j+(dpos*numberOfFreq)];
-				dps.push({
-					x: xVal,
-					y: yVal
-				});
-				xVal = xVal + 120;
-			};
-            chart.render();		
-			dps.length = 0;	
-            xVal=1050;				
-		};
-		
+				
 		setInterval(function() {
 			var timeStmp = new Date().getTime();
 			acc_x.append(timeStmp, dpAccx[dataPos]);
@@ -216,11 +171,6 @@
 								dpPress[j] = data.sensor.adc5[j];
 							}
 							dataPos = 0;
-						}
-					}
-					if(data.hasOwnProperty('mic')){
-						for (k=0;k<(10*numberOfFreq);k++) {
-							dpAcous[k] = data.mic[k];
 						}
 					}
 					lastTs = data.ts;
