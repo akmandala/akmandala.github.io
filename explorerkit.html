@@ -198,22 +198,22 @@
 					if(data.hasOwnProperty('sensor')){
 						for (j=0;j<10;j++) {
 							if(data.sensor.hasOwnProperty('adc0')){
-								dpAccx[j] = data.sensor.accx[j];
+								dpAccx[j] = data.sensor.adc0[j];
 							}
 							if(data.sensor.hasOwnProperty('adc1')){
-								dpAccy[j] = data.sensor.accy[j];
+								dpAccy[j] = data.sensor.adc1[j];
 							}
 							if(data.sensor.hasOwnProperty('adc2')){
-								dpAccz[j] = data.sensor.accz[j];
+								dpAccz[j] = data.sensor.adc2[j];
 							}
 							if(data.sensor.hasOwnProperty('adc3')){
-								dpTemp[j] = data.sensor.temp[j];
+								dpTemp[j] = data.sensor.adc3[j];
 							}
 							if(data.sensor.hasOwnProperty('adc4')){
-								dpHumid[j] = data.sensor.humid[j];
+								dpHumid[j] = data.sensor.adc4[j];
 							}
 							if(data.sensor.hasOwnProperty('adc5')){
-								dpPress[j] = data.sensor.press[j];
+								dpPress[j] = data.sensor.adc5[j];
 							}
 							dataPos = 0;
 						}
