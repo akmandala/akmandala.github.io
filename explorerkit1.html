@@ -190,12 +190,12 @@
       
 		setInterval(function() {
 			jQuery.ajax({
-				url : "https://agent.electricimp.com/zjiUD0b1zLk6/sensor",
+				url : "https://agent.electricimp.com/VpwgA1Heczb9/sensor",
 				crossDomain: true
 			}).done(function(data){
 				if (lastTs != data.ts) {
 					if(data.hasOwnProperty('sensor')){
-						for (j=0;j<5;j++) {
+						for (j=0;j<32;j++) {
 							if(data.sensor.hasOwnProperty('accx')){
 								dpAccx[j] = data.sensor.accx[j];
 							}
@@ -226,7 +226,7 @@
 				}
 
 			});
-		}, 500);
+		}, 1250);
 		  
     </script>
 	
