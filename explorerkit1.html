@@ -78,15 +78,6 @@
 				<canvas id="chart3" width="600" height="400"></canvas>
             </div>			
         </div>			
-
-		<div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Acoustic Noise</h3>
-            </div>
-            <div class="panel-body">
-				<div id="chartContainer" style="height: 400px; width: 100%;"></div>
-            </div>
-        </div>	
 		
 	  </div>	
 
@@ -99,7 +90,6 @@
 	
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
-	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script type="text/javascript">
 		var dpAccx = [];
 		var dpAccy = [];
@@ -137,38 +127,6 @@
 		
 		var dps = []; // dataPoints
 
-		var chart = new CanvasJS.Chart("chartContainer",{
-			title :{
-				text: "Acoustic"
-			},
-         axisY:{
-   			minimum: 0,
-           maximum: 300000
- 		},
-			data: [{
-				type: "spline",
-				dataPoints: dps 
-			}]
-		});		
-
-		var xVal = 1050;
-		var yVal = 0;	
-		var numberOfFreq = 24;
-
-		var updateChart = function (dpos) {
-			for (var j = 0; j < numberOfFreq; j++) {	
-				yVal = dpAcous[j+(dpos*numberOfFreq)];
-				dps.push({
-					x: xVal,
-					y: yVal
-				});
-				xVal = xVal + 120;
-			};
-            chart.render();		
-			dps.length = 0;	
-            xVal=1050;				
-		};
-		
 		setInterval(function() {
 			var timeStmp = new Date().getTime();
 			acc_x.append(timeStmp, dpAccx[dataPos]);
@@ -180,8 +138,6 @@
 			
 			press.append(timeStmp, dpPress[dataPos]);
 
-			updateChart(dataPos); 
-			
 			dataPos = dataPos + 1;
 			if (dataPos==5) {
 				dataPos = 0;
@@ -190,7 +146,7 @@
       
 		setInterval(function() {
 			jQuery.ajax({
-				url : "https://agent.electricimp.com/HPxodp6EHJFD/sensor",		// HPxodp6EHJFD  VpwgA1Heczb9
+				url : "https://agent.electricimp.com/VpwgA1Heczb9/sensor",		// HPxodp6EHJFD  VpwgA1Heczb9
 				crossDomain: true
 			}).done(function(data){
 				if (lastTs != data.ts) {
@@ -215,11 +171,6 @@
 								dpPress[j] = data.sensor.press[j];
 							}
 							dataPos = 0;
-						}
-					}
-					if(data.hasOwnProperty('mic')){
-						for (k=0;k<(5*numberOfFreq);k++) {
-							dpAcous[k] = data.mic[k];
 						}
 					}
 					lastTs = data.ts;
