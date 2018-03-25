@@ -1,0 +1,296 @@
+#require "rocky.class.nut:2.0.0"
+ExplorerKitViz <- {
+    html = @"
+    <html>
+		<head>
+		    <!-- Bootstrap core CSS -->
+			<link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
+
+			<style>
+				/* Space out content a bit */
+				body {
+				padding-top: 20px;
+				padding-bottom: 20px;
+				}
+				.wide-button {
+					min-width: 80px;
+				}
+				.vbottom {
+					vertical-align: bottom;
+				}
+				.inline-group {
+					/* Add to make a .form-group more like a .btn */
+					display: inline-block;
+					margin-bottom: 0;
+				}
+				.raise-8px {
+					/* Vertically center label relative to button even when vertical-align is bottom. */
+					position: relative;
+					top: -8px;
+				}
+				.jquery-hidden {
+					/* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
+					display: none;
+				}
+			</style>
+		</head>
+		<body onload='createTimeline()'>
+			<div class='container'>
+				<div class='jumbotron'>
+					<h1><nobr>Imp Explorer Kit</nobr> <a href='http://electricimp.com/'><img
+						src='//electricimp.com/email/electricimp.gif' alt='[logo]'></a></h1>
+					<p>An Electric Imp based cloud data acquisition.</p>
+				</div>
+				<div class='panel panel-default'>
+					<div class='panel-heading'>
+						<h3 class='panel-title'>Accelerometer</h3>
+					</div>
+					<div class='panel-body'>
+						<canvas id='chart1' width='600' height='400'></canvas>
+					</div>
+				</div>	
+				<div class='panel panel-default'>
+					<div class='panel-heading'>
+						<h3 class='panel-title'>Temperature & Humidity</h3>
+					</div>
+					<div class='panel-body'>
+						<canvas id='chart2' width='600' height='400'></canvas>
+					</div>
+				</div>	
+				<div class='panel panel-default'>
+					<div class='panel-heading'>
+						<h3 class='panel-title'>Air Pressure</h3>
+					</div>
+					<div class='panel-body'>
+						<canvas id='chart3' width='600' height='400'></canvas>
+					</div>
+				</div>			
+				<div class='panel panel-default'>
+					<div class='panel-heading'>
+						<h3 class='panel-title'>Acoustic Noise</h3>
+					</div>
+					<div class='panel-body'>
+						<div id='chartContainer' style='height: 400px; width: 100%;'></div>
+					</div>
+				</div>	
+			</div>	
+			<footer class='bs-docs-footer'>
+				<div class='container'>
+					 Electric Imp and the Electric Imp logo are trademarks of
+						<a href='http://electricimp.com/' target='_blank'>Electric Imp, Inc</a>.
+				</div>
+			</footer>
+		
+			<script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+			<script src='https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js'></script>
+			<script src='https://canvasjs.com/assets/script/canvasjs.min.js'></script>
+			<script src='https://threejs.org/build/three.min.js'></script>
+			<script type='text/javascript'>
+    			var dpAccx = [];
+    			var dpAccy = [];
+    			var dpAccz = [];
+    			var dpTemp = [];
+    			var dpHumid = [];
+    			var dpPress = [];	
+    			var dpAcous = [];		
+    			
+    			var dataPos = 0;
+    			var lastTs = 0;
+    			var acc_x = new TimeSeries();
+    			var acc_y = new TimeSeries();
+    			var acc_z = new TimeSeries();
+    			var temp = new TimeSeries();
+    			var humid = new TimeSeries();
+    			var press = new TimeSeries();
+    			
+    			function createTimeline() {
+    				var chart1 = new SmoothieChart({maxValue:4, minValue:-4, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+    				chart1.addTimeSeries(acc_x, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+    				chart1.addTimeSeries(acc_y, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+    				chart1.addTimeSeries(acc_z, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+    				chart1.streamTo(document.getElementById('chart1'), 0);
+    				
+    				var chart2 = new SmoothieChart({maxValue:100, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+    				chart2.addTimeSeries(temp, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+    				chart2.addTimeSeries(humid, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+    				chart2.streamTo(document.getElementById('chart2'), 0);			
+    
+    				var chart3 = new SmoothieChart({maxValue:1020, minValue:980, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+    				chart3.addTimeSeries(press, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });			
+    				chart3.streamTo(document.getElementById('chart3'), 0);					
+    			}
+    			var dps = []; // dataPoints
+    			var chart = new CanvasJS.Chart('chartContainer',{
+    				title :{
+    					text: 'Acoustic'
+    				},
+    			 axisY:{
+    				minimum: 0,
+    			   maximum: 300000
+    			},
+    				data: [{
+    					type: 'spline',
+    					dataPoints: dps 
+    				}]
+    			});		
+    			var xVal = 1050;
+    			var yVal = 0;	
+    			var numberOfFreq = 24;
+    			var updateChart = function (dpos) {
+    				for (var j = 0; j < numberOfFreq; j++) {	
+    					yVal = dpAcous[j+(dpos*numberOfFreq)];
+    					dps.push({
+    						x: xVal,
+    						y: yVal
+    					});
+    					xVal = xVal + 120;
+    				};
+    				chart.render();		
+    				dps.length = 0;	
+    				xVal=1050;				
+    			};
+    			
+    			setInterval(function() {
+    				var timeStmp = new Date().getTime();
+    				acc_x.append(timeStmp, dpAccx[dataPos]);
+    				acc_y.append(timeStmp, dpAccy[dataPos]);
+    				acc_z.append(timeStmp, dpAccz[dataPos]);
+    				temp.append(timeStmp, dpTemp[dataPos]);
+    				humid.append(timeStmp, dpHumid[dataPos]);
+    				press.append(timeStmp, dpPress[dataPos]);
+    				updateChart(dataPos); 
+    				
+    				dataPos = dataPos + 1;
+    				if (dataPos==5) {
+    					dataPos = 0;
+    				}
+    			}, 100);
+    			setInterval(function() {
+    				jQuery.ajax({
+    					url: window.location +'/sensor'
+    				}).done(function(data){
+    					if (lastTs != data.ts) {
+    						if(data.hasOwnProperty('sensor')){
+    							for (j=0;j<5;j++) {
+    								if(data.sensor.hasOwnProperty('accx')){
+    									dpAccx[j] = data.sensor.accx[j];
+    								}
+    								if(data.sensor.hasOwnProperty('accy')){
+    									dpAccy[j] = data.sensor.accy[j];
+    								}
+    								if(data.sensor.hasOwnProperty('accz')){
+    									dpAccz[j] = data.sensor.accz[j];
+    								}
+    								if(data.sensor.hasOwnProperty('temp')){
+    									dpTemp[j] = data.sensor.temp[j];
+    								}
+    								if(data.sensor.hasOwnProperty('humid')){
+    									dpHumid[j] = data.sensor.humid[j];
+    								}
+    								if(data.sensor.hasOwnProperty('press')){
+    									dpPress[j] = data.sensor.press[j];
+    								}
+    								dataPos = 0;
+    							}
+    						}
+    						if(data.hasOwnProperty('mic')){
+    							for (k=0;k<(5*numberOfFreq);k++) {
+    								dpAcous[k] = data.mic[k];
+    							}
+    						}
+    						lastTs = data.ts;
+    					}
+    				});
+    			}, 500);
+			</script>
+		</body>
+    </html>"
+};
+
+const NUMBER_OF_FREQ = 24;
+local ad0Output;
+local micfreq = array(NUMBER_OF_FREQ*5);
+local ad0Time = 0;
+
+function customCORSMiddleware(context, next) {
+    context.setHeader("Access-Control-Allow-Origin", "*");
+    context.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Version");
+    context.setHeader("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, OPTIONS");
+
+    next();
+}
+
+app <- Rocky( { "accessControl": false });  // Create the HTTP request handler
+app.use([ customCORSMiddleware ]);          // This is to bypass security feature
+
+// Serve the web app to any request to the root agent URL
+app.get("/", function(context) { context.send(200, ExplorerKitViz.html); });
+
+app.get("/sensor", function(context) {         // if a request with tail end /acc, then serve..
+    context.send({ sensor = ad0Output, mic = micfreq, ts = ad0Time})  // by sending context containing this data
+});
+
+function ReadAcc(inputString) {
+    ad0Output = inputString;
+    ad0Time = ad0Time + 1;
+}
+
+device.on("dbgAcc", ReadAcc);           // When receiving dbgAcc message from device, call ReadAcc func.
+
+// pre-calculated coefficient
+local COEFF_G = array(NUMBER_OF_FREQ);
+COEFF_G[0] = 1.361633506;
+COEFF_G[1] = 1.28843816;
+COEFF_G[2] = 1.207537667;
+COEFF_G[3] = 1.118300436;
+COEFF_G[4] = 1.020096689;
+COEFF_G[5] = 0.9123030538;
+COEFF_G[6] = 0.7943246133;
+COEFF_G[7] = 0.6656687139;
+COEFF_G[8] = 0.5258974076;
+COEFF_G[9] = 0.3747626292;
+COEFF_G[10] = 0.2121914629;
+COEFF_G[11] = 0.03843501997;
+COEFF_G[12] = -0.1459541966;
+COEFF_G[13] = -0.3399271074;
+COEFF_G[14] = -0.541852784;
+COEFF_G[15] = -0.7494041353;
+COEFF_G[16] = -0.959402745;
+COEFF_G[17] = -1.167715891;
+COEFF_G[18] = -1.369048409;
+COEFF_G[19] = -1.556885163;
+COEFF_G[20] = -1.723431917;
+COEFF_G[21] = -1.859552972;
+COEFF_G[22] = -1.954971469;
+COEFF_G[23] = -1.998523353;
+const ADCCENTER = 32768;
+
+function ReadMic(buffer) {
+    local Q0 = array(NUMBER_OF_FREQ);
+    local Q1 = array(NUMBER_OF_FREQ);
+    local Q2 = array(NUMBER_OF_FREQ);
+
+    for (local k=0;k<5;k++) {
+        // initialise filter
+        for (local i=0;i<NUMBER_OF_FREQ;i++) {
+            Q1[i] = 0;
+            Q0[i] = 0;
+        }
+        // run the algorithm for each 16bits data on the buffer
+        for (local j=0;j<800;j++) {
+            local sample = buffer.readn('w');
+            for (local i=0;i<NUMBER_OF_FREQ;i++) {
+                Q2[i] = Q1[i];
+                Q1[i] = Q0[i];
+                Q0[i] = (COEFF_G[i] * Q1[i]) - Q2[i] + (sample - ADCCENTER);
+            }
+        }
+        // calculate magnitude from last filtered data
+        for (local i=0;i<NUMBER_OF_FREQ;i++) {
+            micfreq[i+(NUMBER_OF_FREQ*k)] = math.sqrt((Q0[i]*Q0[i]) + (Q1[i]*Q1[i]) - (COEFF_G[i]*Q0[i]*Q1[i]));
+        }
+    }
+    ad0Time = ad0Time + 1;
+}
+
+device.on("dbgMic", ReadMic);           // When receiving dbgMic message from device, call ReadMic func.
