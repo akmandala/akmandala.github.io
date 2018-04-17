@@ -1,1 +1,0 @@
-# akmandala.github.io

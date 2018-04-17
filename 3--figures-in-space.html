@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+   <title>3 - Figures in Space</title>
+   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,maximum-scale=1">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <script src="bower_components/aframe2/dist/aframe-v0.2.0.min.js"></script>
+</head>
+<body>
+   <!--
+   Credits
+   360 Photo from: https://www.flickr.com/photos/bhalash/4156765224/
+   Yousif: http://www.immediateentourage.com/muslim-man-2/
+   Ann: http://www.immediateentourage.com/girl-in-a-striped-shirt/
+   -->
+
+   <a-scene fog="type: exponential; color: #111; density:.05">
+
+      <a-cube position="0 -1.5 0" scale="200 .5 200"></a-cube>
+      <a-sky color="#111"></a-sky>
+      <a-curvedimage src="assets/img/interviewee-people-b@2x.png" radius="2.2" theta-length="360" height="3" rotation="0 210 0" scale="1 1 1" position="0 1.5 3"></a-curvedimage>
+      <a-curvedimage src="assets/img/interviewee-people-f@2x.png" radius="2" theta-length="360" height="3" rotation="0 210 0" scale="1 1 1" position="0 1.5 3"></a-curvedimage>
+
+      <a-curvedimage src="assets/img/interviewee-panel-question@2x.png" radius="2" theta-length="360" height="3" rotation="0 210 0" scale="1 1 1" position="4 1.5 3"></a-curvedimage>
+
+   </a-scene>
+</body>
+</html>

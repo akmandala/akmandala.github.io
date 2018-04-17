@@ -1,0 +1,585 @@
+<!doctype html>
+<html>
+<head>
+   <title>11 - Environment Traversal</title>
+   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,maximum-scale=1">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <script src="bower_components/aframe2/dist/aframe-v0.2.0.min.js"></script>
+   <script src="bower_components/Keypress/keypress.js"></script>
+   <script src="bower_components/fetch/fetch.js"></script>
+   <script src="js/global-functions.js"></script>
+   <style>
+   *{
+      cursor: none;
+   }
+   </style>
+
+</head>
+<body>
+
+   <a-scene>
+
+      <a-assets>
+
+         <a-asset-item id="mv-obj" src="assets/models/monument-valley.obj"></a-asset-item>
+         <a-asset-item id="mv-mtl" src="assets/models/monument-valley.mtl"></a-asset-item>
+
+         <img id="ms-1" src="assets/spherical/main-squeeze.jpg">
+         <img id="ms-2" src="assets/spherical/main-squeeze-2.jpg">
+         <!-- <img id="ms-half" src="assets/spherical/ms-window-half.jpg"> -->
+
+      </a-assets>
+
+      <!-- Global Settings -->
+      <a-sky color="#64e6ff"></a-sky>
+
+      <!-- World Elements -->
+      <a-entity id="world">
+
+         <!-- Environment model -->
+         <a-entity obj-model="obj: #mv-obj; mtl: #mv-mtl" scale=".3 .3 .3" position="6 -.3 -13"></a-entity>
+
+         <!-- Spherical image test -->
+         <a-entity>
+
+            <!-- Close to window -->
+            <a-entity position=".8 1.7 14">
+               <a-sphere class="ms-spherical" radius="2.1" material="src: #ms-2; side: back; opacity: 1" rotation="0 100 0"></a-sphere>
+               <a-sphere class="ms-exit" position="-.5 -.2 -.9" radius=".1" material="color: #333; opacity: .7"></a-sphere>
+            </a-entity>
+
+            <!-- Middle layer -->
+            <!-- <a-entity position="5 1.7 14">
+               <a-sphere class="ms-spherical" radius="2.1" material="src: #ms-half; side: back; opacity: 1" rotation="0 100 0"></a-sphere>
+            </a-entity> -->
+
+            <!-- Close to counter -->
+            <a-entity position="9.2 1.7 14">
+               <a-sphere class="ms-spherical" radius="2.1" material="src: #ms-1; side: back; opacity: 1" rotation="0 100 0"></a-sphere>
+               <a-sphere class="ms-exit" position="-1.9 .1 -.9" radius=".1" material="color: #333; opacity: .7"></a-sphere>
+            </a-entity>
+
+         </a-entity>
+
+      </a-entity>
+
+      <!-- Human Camera, put down here for a reason, but I can't remember why -->
+      <a-camera id="human-camera" position="0 1.7 0" wasd-controls="fly:true" active="true" near=".05">
+         <a-entity cursor="fuse: true; maxDistance: 50; timeout: 500" position="0 0 -2" geometry="primitive: plane; height: .05; width: .05"  material="color: #fff"></a-entity>
+      </a-camera>
+
+   </a-scene>
+
+
+   <script>
+
+
+      /*
+         Fetch the settings every 1.5sec
+      */
+      var settings = null;
+
+      // Fetches the settings JSON object
+      fetchSettings();
+
+      function fetchSettings(){
+         fetch('assets/11/11-settings.json').then(function(response){
+            response.json().then(function(responseData){
+               settings = responseData;
+            });
+         });
+      }
+
+      // Creates the interval based settings check
+      var intervalID = window.setInterval(checkSettingsCallback, 1500);
+
+
+      /*
+         Setup global variables
+      */
+      var scene = document.querySelector('a-scene');
+      var world = document.querySelector('#world');
+      var camera = document.querySelector('a-camera');
+      var cameraLastPosition = camera.getAttribute('position');
+
+
+      /*
+         Add event listener to run after scene is loaded
+      */
+      scene.addEventListener('loaded', function(){
+
+         // Pull in the dev tools from global.js
+         devTools();
+
+         // Situate the camera based on given position
+         setCamera(camera, settings.cameraPosition);
+
+         // Place all of the transition orbs around the scene
+         placeTransitionOrbs([
+            {x: -5.499636956049418,    y: 6.3,     z: -12.971373578044469},
+            {x: 12.709765049944446,    y: 6.6,     z: -8.388245758668296},
+            {x: 17.54385488277026,     y: 6.3,     z: -12.965917521979673},
+            {x: 19.155885460376894,    y: 0,       z: -26.4025057439792},
+            {x: -2.8239695631562753,   y: 0,       z: -7.139200987208032},
+            {x: 8.900519242752663,     y: 0,       z: -1.9215587285872922},
+            {x: -4.3808164081879015,   y: 0,       z: -17.19795420116629},
+            {x: -4.183515004950278,    y: 0,       z: -24.184966522656342},
+            {x: 4.346838095657409,     y: 0,       z: -14.966443485230126},
+            {x: 16.950260752918833,    y: 17.5,    z: -18.575435892985322},
+            {x: 12.501794418453516,    y: 17.5,    z: -13.6169492206195},
+            {x: 16.54346786694255,     y: 23.7,    z: -23.495441524818382}
+         ], true);
+
+         // Create the spherical image orbs array
+         var sphericalImageTargetOrbPositions = [
+            {x: 7.2, y: 0, z: 14},
+            {x: 2.6, y: 0, z: 14}
+         ];
+
+         // And place them around the scene
+         placeTransitionOrbs(sphericalImageTargetOrbPositions, true, 'sphericalImageTarget')
+
+         // Find all targets
+         var targets = scene.querySelectorAll('.target');
+
+         // And for each of them, add the 'click' event listener. It fires when the user gazes at the orb
+         forEach(targets, function(el){
+            el.addEventListener('click', function () {
+               console.log('I was clicked!');
+               setActiveTransition(el);
+            });
+         });
+
+         // Do the same for the spherical images too
+         var sphericalImageTarget = scene.querySelectorAll('.sphericalImageTarget');
+         var msSpheres = scene.querySelectorAll('.ms-spherical');
+         var msSpheresExit = scene.querySelectorAll('.ms-exit'); //TODO put on door
+
+         sphericalImageTarget[0].addEventListener('click', function () {
+            setActiveTransition(sphericalImageTarget[0], msSpheres[0].parentNode.getAttribute('position'));
+         });
+         sphericalImageTarget[1].addEventListener('click', function () {
+            setActiveTransition(sphericalImageTarget[1], msSpheres[1].parentNode.getAttribute('position'));
+         });
+
+         forEach(msSpheresExit, function(el){
+            el.addEventListener('click', function () {
+               setActiveTransition(el, '0 ' + settings.height + ' 0');
+            });
+         });
+
+      });
+
+      /*
+         Keylistener functions
+      */
+      // Create new listener
+      var keyListener = new window.keypress.Listener();
+
+      // And tie them to keys
+      keyListener.simple_combo('1', function(){
+         // By turning off the .fetch variable, the browser stops looking
+         // to the /assets/11/11-settings.json file. That's nice because
+         // we can instead feed it our new selection without having it be
+         // replaced in 1.5 seconds.
+         settings.fetch = false;
+         settings.transition = "Jump"
+         console.log("Fetch turned off.");
+         console.log("Transition set to: ", settings.transition);
+      });
+      keyListener.simple_combo('2', function(){
+         settings.fetch = false;
+         settings.transition = "Fade Jump"
+         console.log("Fetch turned off.");
+         console.log("Transition set to: ", settings.transition);
+      });
+      keyListener.simple_combo('3', function(){
+         settings.fetch = false;
+         settings.transition = "Micro-Movements"
+         console.log("Fetch turned off.");
+         console.log("Transition set to: ", settings.transition);
+      });
+      keyListener.simple_combo('4', function(){
+         settings.fetch = false;
+         settings.transition = "Animate"
+         console.log("Fetch turned off.");
+         console.log("Transition set to: ", settings.transition);
+      });
+      keyListener.simple_combo('-', function(){
+         var transition = settings.transition;
+         // Since an incoming variable may include 'Short' or 'Long', we
+         // just cut it right on out of there. No errors to see here.
+         var newStr1 = transition.replace(/Short/, ' ');
+         var newStr2 = newStr1.replace(/Long/, ' ');
+         var newStr3 = newStr2.trim();
+         settings.transition = newStr3 + " Short";
+         console.log("Transition set to: ", settings.transition);
+      });
+      keyListener.simple_combo('=', function(){
+         var transition = settings.transition;
+         var newStr1 = transition.replace(/Short/, ' ');
+         var newStr2 = newStr1.replace(/Long/, ' ');
+         var newStr3 = newStr2.trim();
+         settings.transition = newStr3 + " Long";
+         console.log("Transition set to: ", settings.transition);
+      });
+      // Useful for setting up orbs
+      keyListener.simple_combo('c', function(){
+         console.log(camera.getAttribute('position'));
+      });
+
+
+      /*
+         Create the composable transistions
+      */
+
+      // Jump: instantaneous change in position
+      function transitionJump(position){
+         camera.setAttribute('position', position);
+      }
+
+      // Fade: useless by itself as a transition, but integral to the fade +
+      // jump transition. It also creates the sphere that goes over the
+      // camera. Accepts a duration, easing function, and allows you to pass
+      // a middle function to act in the middle of the transition.
+      function transitionFade(duration, easing, middleFunction){
+         // Adds a sphere around the camera
+         addEl(camera, {
+            entityType: 'sphere',
+            id: 'fadeSphere',
+            radius: .5,
+            color: '#000',
+            position: '0 0 0',
+            side: 'double',
+            opacity: '0',
+            class: 'remove',
+         });
+
+         // Creates an empty middleFunction if one isn't defined
+         if(middleFunction == undefined){
+            middleFunction = function(){};
+         }
+         // Add the opacity animation to the sphere, making it seem like the
+         // world goes dark and then comes back up.
+         addAnimation(camera.querySelector('#fadeSphere'), {
+            attribute: "opacity",
+            begin: 0,
+            dur: duration,
+            direction: "alternate",
+            easing: "ease-in-out-" + easing,
+            fill: "forwards",
+            from: 0,
+            to: 1,
+            repeat: 1,
+            class: 'remove'
+         }, function(){
+            // And pass the middle function down.
+            middleFunction();
+         });
+      }
+
+      // Fade (fade + jump): fade to black, jump, then unfade.
+      function transitionFadeJump(duration, easing, position){
+         // Use the fade transition, passing variables down, and include the
+         // jump transition as the middle function
+         transitionFade(duration, easing, function(){
+            transitionJump(position);
+         });
+      }
+
+      // Micro-movements: creates a stepped motion between the current
+      // position and the final position.
+      function transitionMicromovements(position, stepCount, duration){
+         // Get the current position and the final position
+         var oldPos = camera.getAttribute('position');
+         var newPos = position;
+
+         // Create a steps object, a linear distance calculation for a single
+         // step for each dimensional component
+         var steps = {
+            x: (newPos.x - oldPos.x) / stepCount,
+            y: (newPos.y - oldPos.y) / stepCount,
+            z: (newPos.z - oldPos.z) / stepCount
+         }
+
+         // Calculate the time to pause on each step
+         var stepDuration = duration / stepCount;
+
+         // I don't really know how callbacks work, but I stumbled long enough
+         // to make this work. This moves the camera one step towards the
+         // final position.
+         function callback(){
+            return function(){
+               oldPos = camera.getAttribute('position');
+               newPosition = {
+                  x: oldPos.x + steps.x,
+                  y: oldPos.y + steps.y,
+                  z: oldPos.z + steps.z
+               };
+               camera.setAttribute('position', newPosition);
+            }
+         }
+
+         // Loops the single step action however many times stepCount dictates
+         for(i = 0; i < stepCount; i++){
+            setTimeout(callback(), stepDuration * (i+1));
+         }
+
+      }
+
+      // Animate: smooth animation between the current position and final
+      // position, derived from a speed variable. Speed is in seconds.
+      function transitionAnimate(position, speed){
+         // Get the current and final positions
+         var oldPos = camera.getAttribute('position');
+         var newPos = position;
+
+         // Calculate linear distance per component and total
+         function calcLinearDistance(objA, objB){
+            var x = objA.x - objB.x;
+            var y = objA.y - objB.y;
+            var z = objA.z - objB.z;
+            var dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+            return {x, y, z, dist};
+         }
+
+         var distance = calcLinearDistance(newPos, oldPos);
+
+         // Physics reminder time!
+         // v = x / t
+         // thus, t = x / v
+         var duration = (distance.dist / speed) * 1000;
+
+         // Add the camera animation
+         addAnimation(camera, {
+            attribute: 'position',
+            dur: duration,
+            easing: 'linear',
+            to: newPos.x + ' ' + newPos.y + ' ' + newPos.z
+         }, true);
+      }
+
+      // Didn't get this far...
+      function transitionRotate(){
+
+      }
+
+      // Adds an animation to an element based on given parameters
+      function addAnimation(insertEl, animationParameters, removeBool, middleFunction){
+         // Model:
+         // var animationParameters = {
+         //    attribute: "opacity",
+         //    begin: 2000,
+         //    dur: 1000,
+         //    direction: "alternate",
+         //    easing: "ease-in-out-sine",
+         //    fill: "forwards",
+         //    from: 0,
+         //    to: 1,
+         //    repeat: 1
+         // }
+
+         // Create a new animation element
+         var newEl = document.createElement('a-animation');
+
+         // Set the attributes of the element if they were passed in the
+         // animationParameters{}
+         if(animationParameters.attribute != undefined)
+            newEl.setAttribute('attribute', animationParameters.attribute);
+
+         if(animationParameters.begin != undefined)
+            newEl.setAttribute('begin', animationParameters.begin);
+
+         if(animationParameters.dur != undefined)
+            newEl.setAttribute('dur', animationParameters.dur);
+
+         if(animationParameters.direction != undefined)
+            newEl.setAttribute('direction', animationParameters.direction);
+
+         if(animationParameters.easing != undefined)
+            newEl.setAttribute('easing', animationParameters.easing);
+
+         if(animationParameters.fill != undefined)
+            newEl.setAttribute('fill', animationParameters.fill);
+
+         if(animationParameters.from != undefined)
+            newEl.setAttribute('from', animationParameters.from);
+
+         if(animationParameters.to != undefined)
+            newEl.setAttribute('to', animationParameters.to);
+
+         if(animationParameters.repeat != undefined)
+            newEl.setAttribute('repeat', animationParameters.repeat);
+
+         if(animationParameters.class != undefined)
+            newEl.setAttribute('class', animationParameters.class);
+
+         if(animationParameters.id != undefined)
+            newEl.setAttribute('id', animationParameters.id);
+
+         // Add the element to the DOM
+         insertEl.appendChild(newEl);
+
+         // If there isn't a removeBool, but there is a middleFunction(), set
+         // the vars as such
+         if(typeof removeBool == 'function'){
+            middleFunction = removeBool;
+            removeBool = undefined;
+         }else if(removeBool == true){
+            var classes = newEl.getAttribute('class');
+            if(classes == null){
+               newEl.setAttribute('class', 'remove');
+            }else{
+               classes += ' remove';
+               newEl.setAttribute('class', classes);
+            }
+         }
+
+         // If the remove boolean is set to true (or default is to remove),
+         // then remove the animation element after the animation runs
+         if(removeBool == undefined || removeBool == true){
+
+            newEl.addEventListener('animationend', function() {
+               var parentNode = this.parentNode;
+               var removeNode = parentNode.querySelector('.remove');
+               parentNode.removeChild(removeNode);
+               console.log('Animation removed with attribute: ' + animationParameters.attribute);
+
+               if(parentNode.getAttribute('class') == 'remove'){
+                  removeNode = parentNode.parentNode.querySelector('.remove');
+                  parentNode.parentNode.removeChild(removeNode);
+               }
+            });
+
+         }
+
+         // If the middleFunction is defined, then start it with the animation
+         // Should probably have a wait timer (TODO)
+         if(middleFunction != undefined){
+
+            // To get rid of running on each repeat
+            middleFunctionRun = false;
+
+            // When the animation starts, wait half of the duration of the
+            // animationParameters.dur to start the middle function.
+            newEl.addEventListener('animationstart', function() {
+               if(middleFunctionRun == false){
+                  setTimeout(function(){
+                     middleFunction();
+                  }, animationParameters.dur / 2);
+                  middleFunctionRun = true;
+               }
+            });
+         }
+      }
+
+      // Create an element inside of a given element based on parameters
+      function addEl(insertEl, elParameters){
+         // Model follows a-entitiy attributes
+
+         // Create a new entity element
+         var newEl = document.createElement('a-' + elParameters.entityType);
+
+         // Set the attributes of the element if they were passed in the
+         // elParameters{}
+         if(elParameters.id != undefined)
+            newEl.setAttribute('id', elParameters.id);
+
+         if(elParameters.class != undefined)
+            newEl.setAttribute('class', elParameters.class);
+
+         if(elParameters.radius != undefined)
+            newEl.setAttribute('radius', elParameters.radius);
+
+         if(elParameters.color != undefined)
+            newEl.setAttribute('color', elParameters.color);
+
+         if(elParameters.position != undefined)
+            newEl.setAttribute('position', elParameters.position);
+
+         if(elParameters.side != undefined)
+            newEl.setAttribute('side', elParameters.side);
+
+         if(elParameters.opacity != undefined)
+            newEl.setAttribute('opacity', elParameters.opacity);
+
+         // Add the element to the DOM
+         insertEl.appendChild(newEl);
+
+      }
+
+      // Places transition orbs around the world based on a given array. Adds
+      // the height of the user by default (pass 'false' to not add height).
+      function placeTransitionOrbs(orbPositions, addHeight, addClass){
+         // Loop through all given orb positions
+         for(i = 0; i < orbPositions.length; i++){
+
+            if(addHeight == true || addHeight == undefined){
+               orbPositions[i].y += settings.height;
+            }
+
+            if(addClass == undefined){
+               addClass = 'target';
+            }
+
+            // Add sphere to world
+            addEl(world, {
+               entityType: 'sphere',
+               radius: .3,
+               color: '#333',
+               opacity: .7,
+               position: orbPositions[i],
+               class: addClass
+            })
+         };
+      }
+
+      // Controller for the active transition
+      function setActiveTransition(el, givenPosition){
+         // If the given position isn't defined, then get the position of the
+         // given element
+         if(givenPosition == undefined)
+            newPos = el.getAttribute('position');
+         else
+            newPos = givenPosition;
+
+         // Set the transition based on the settings object
+         switch(settings.transition){
+            case 'Jump':
+               transitionJump(newPos);
+               break;
+            case 'Fade Jump':
+               transitionFadeJump(400, 'sine', newPos);
+               break;
+            case 'Fade Jump Short':
+               transitionFadeJump(200, 'sine', newPos);
+               break;
+            case 'Fade Jump Long':
+               transitionFadeJump(1000, 'sine', newPos);
+               break;
+            case 'Micro-Movements':
+               transitionMicromovements(newPos, 5, 800);
+               break;
+            case 'Micro-Movements Short':
+               transitionMicromovements(newPos, 10, 800);
+               break;
+            case 'Micro-Movements Long':
+               transitionMicromovements(newPos, 3, 800);
+               break;
+            case 'Animate':
+               transitionAnimate(newPos, 10);
+               break;
+            case 'Animate Short':
+               transitionAnimate(newPos, 100);
+               break;
+            case 'Animate Long':
+               transitionAnimate(newPos, 1);
+               break;
+            default:
+               break;
+         }
+      }
+
+   </script>
+</body>
+</html>

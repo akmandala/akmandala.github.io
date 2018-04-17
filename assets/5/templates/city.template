@@ -1,0 +1,92 @@
+<a-entity id="city">
+   <a-entity id="city-block" position="0 0 0" rotation="0 0 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="135 0 0" rotation="0 90 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="0 0 135" rotation="0 0 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="135 0 135" rotation="0 90 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="-135 0 0" rotation="0 90 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="0 0 -135" rotation="0 180 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="-135 0 -135" rotation="0 0 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="135 0 -135" rotation="0 -60 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+   <a-entity id="city-block" position="-135 0 135" rotation="0 180 0">
+      <a-entity mixin="bldg"           position="45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 0"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="0 10.5 45"></a-entity>
+      <a-entity mixin="bldg bldg-h-sm" position="45 10.5 45"></a-entity>
+      <a-entity mixin="bldg"           position="-45 15 0"></a-entity>
+      <a-entity mixin="bldg bldg-w-lg" position="-22.5 15 -45"></a-entity>
+      <a-entity mixin="bldg"           position="45 15 -45"></a-entity>
+      <a-entity mixin="bldg bldg-h-lg" position="-45 30 45"></a-entity>
+   </a-entity>
+</a-entity>

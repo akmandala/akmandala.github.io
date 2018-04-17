@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <!-- Required meta tags always come first -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <meta http-equiv="x-ua-compatible" content="ie=edge">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+   <script src="bower_components/anchor-js/anchor.min.js"></script>
+   <title>armthethinker WebVR Experiments</title>
+</head>
+<body>
+   <div class="container">
+      <div class="row">
+         <div class="col-md-8 col-md-offset-2 col-xs-12">
+            <%= document %>
+         </div>
+      </div>
+   </div>
+</body>
+<style>
+h1,
+h2,
+h3{
+   margin-top: 80px;
+}
+
+h2{
+   font-style: italic;
+}
+
+h2 + h3{
+   margin-top: 30px;
+}
+
+h3{
+   background-color: aliceblue;
+   padding: 10px;
+   margin-left: -10px;
+   margin-right: -10px;
+   border-radius: 6px 6px 0 0;
+   box-shadow: rgba(0,0,0,0.1) 0px 15px 40px;
+   margin-bottom: 20px;
+   position: relative;
+}
+pre code{
+   padding: .6rem .8rem;
+   font-size: 90%;
+   color: #bd4147;
+   background-color: #f7f7f9;
+   border-radius: .25rem;
+   display: block;
+}
+code{
+   padding: 0.1rem 0.3rem;
+   display: inline-block;
+}
+html{
+   padding-bottom: 100px;
+}
+h3 + p > img,
+h3 + img{
+   width: 100%;
+}
+
+</style>
+<script>
+
+var table = document.querySelectorAll('table');
+for(i = 0; i < table.length; i++)
+   table[i].className = "table";
+
+anchors.options = {
+   visible: 'always',
+   truncate: 4
+}
+anchors.add('h3');
+
+</script>
+</html>

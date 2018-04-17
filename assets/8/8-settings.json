@@ -1,0 +1,23 @@
+{
+
+   "target": "target3",
+
+   "hiddenPosition": {
+   "x": 0,
+   "y": -100,
+   "z": 0
+   },
+
+   "groundPlane": true,
+
+   "videosphere": true,
+
+   "enterVR": true,
+
+   "reload": false,
+
+   "reloadTime": 6,
+
+   "verbose": false
+
+}

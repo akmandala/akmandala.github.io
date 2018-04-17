@@ -1,0 +1,18 @@
+{
+   "fetch": true,
+
+   "transition": "Fade Jump",
+
+   "height": 1.7,
+
+   "cameraPosition": "0 1.7 0",
+
+   "enterVR": true,
+
+   "reload": false,
+
+   "reloadTime": 10,
+
+   "verbose": false
+
+}

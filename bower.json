@@ -1,0 +1,43 @@
+{
+  "name": "webvr-experiments",
+  "description": "A personal sandbox for webVR experiments.",
+  "main": "armthethinker.github.io/webVR-experiments",
+  "authors": [
+    "Andrew R McHugh"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "vr"
+  ],
+  "homepage": "https://github.com/armthethinker/webVR-experiments",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "aframe": "aframevr/aframe",
+    "aframe2": "aframevr/aframe#0.2.0",
+    "aframe-animation-component": "ngokevin/aframe-animation-component",
+    "aframe-editor": "aframevr/aframe-editor",
+    "aframe-event-set-component": "ngokevin/aframe-event-set-component",
+    "aframe-extras": "donmccurdy/aframe-extras#^1.16.2",
+    "aframe-keyboard-controls": "donmccurdy/aframe-keyboard-controls#^1.0.0",
+    "aframe-layout-component": "ngokevin/aframe-layout-component",
+    "aframe-proxy-controls": "donmccurdy/aframe-proxy-controls#^0.6.0",
+    "aframe-template-component": "ngokevin/aframe-template-component",
+    "aframe-text-component": "ngokevin/aframe-text-component",
+    "aframe-video-controls": "oscarmarinmiro/aframe-video-controls#^0.2.1",
+    "Keypress": "^2.1.4",
+    "is_js": "^0.7.6",
+    "bonzo": "ded/bonzo#^2.0.0",
+    "anchor-js": "^3.2.0",
+    "fetch": "github/fetch#^1.0.0",
+    "three-sixty": "ashconnell/three-sixty",
+    "jQuery": "^3.1.1"
+  }
+}

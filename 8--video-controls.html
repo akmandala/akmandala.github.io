@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+<head>
+   <title>8 - Spherical Video Controls</title>
+
+   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,maximum-scale=1">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <script src="bower_components/aframe2/dist/aframe-v0.2.0.min.js"></script>
+   <!-- <script src="bower_components/aframe-layout-component/dist/aframe-layout-component.min.js"></script> -->
+   <script src="bower_components/aframe-text-component/dist/aframe-text-component.min.js"></script>
+   <script src="bower_components/Keypress/keypress.js"></script>
+   <script src="js/global-functions.js"></script>
+
+   <style>
+   *{
+      /*cursor: none;*/
+   }
+   </style>
+
+</head>
+<body>
+
+   <a-scene id="main-scene" fog="type: exponential; color: #d81159; density: .00002">
+
+      <!--
+         Credits
+
+      -->
+      <!--
+         Dark Blue:  006ba6
+         Blue:       0496ff
+         Yellow:     ffbc42
+         Pink:       d81159
+         Plum:       8f2d56
+      -->
+
+      <a-assets>
+
+         <a-mixin id="btn" geometry="primitive: cylinder; height:.05; radius: .18" material="color: black; opacity: .5" rotation="90 0 0"></a-mixin>
+
+
+         <a-mixin id="font" text="size: .074; height: .02" material="color: #ddd"></a-mixin>
+         <a-mixin id="font-sm" text="size: .06; height: .01" material="color:#bbb"></a-mixin>
+         <a-mixin id="font-lg" text="size: .11; height: .03"></a-mixin>
+         <video id="video" autoplay muted loop webkit-playsinline playsinline>
+            <source src="assets/8/city.mp4">
+         </video>
+
+      </a-assets>
+
+      <!-- Global Settings -->
+      <a-sky color="#d81159"></a-sky>
+      <a-circle id="ground" radius="3" material="color: #8f2d56; opacity: .9" rotation="-90 0 0" position="0 0 0"></a-circle>
+
+      <!-- Human Camera -->
+      <a-camera id="human-camera" position="0 1.7 0" active="true" near=".05">
+         <a-entity position="0 0 -.5" geometry="primitive: plane; height: .005; width: .005" material="color: #fff" cursor="fuse: true; maxDistance: 30; timeout: 500">
+           <!--  <a-animation begin="click" easing="ease-in" attribute="scale"
+                        fill="backwards" from="0.1 0.1 0.1" to="1 1 1"></a-animation>
+            <a-animation begin="fusing" easing="ease-in" attribute="scale"
+                        fill="forwards" from="1 1 1" to="0.1 0.1 0.1"></a-animation> -->
+         </a-entity>
+      </a-camera>
+
+
+      <!-- World Elements -->
+      <!-- <a-entity id="world" rotation="30 0 0" position="0 0 -.8"> -->
+      <a-entity id="world">
+
+         <a-entity id="environment" position="0 0 0" rotation="0 0 0">
+            <!-- <a-collada-model src="#model-environment"></a-collada-model> -->
+         </a-entity>
+
+         <!-- Planar -->
+         <a-entity id="target1" class="target" position="0 1.3 -.7" rotation="-30 0 0">
+            <a-image class="js-set" src="assets/8/mediaplayer-transparent.png" height=".5" data-height="777" data-width="2025" rotation="0 0 0"></a-image>
+
+         </a-entity>
+
+         <!-- Curved -->
+         <a-entity   id="target2"
+                     class="target"
+                     position="0 1.7 0"
+                     rotation="-30 0 0"
+                     data-heightorig="777"
+                     data-widthorig="2025"
+                     data-radius=".8"
+                     data-delta="0"
+                     theta-length="80"
+                     data-scale="1"
+                     >
+
+            <a-curvedimage class="js-set" src="assets/8/mediaplayer-transparent.png"></a-curvedimage>
+
+         </a-entity>
+
+         <!-- Volumetric Planar -->
+         <a-entity id="target3" class="target" position="0 1.3 -.85" rotation="-30 0 0" scale=".4 .4 .4">
+
+            <a-entity id="planar-ui-core">
+               <a-plane position="0 0 0" color="black" height="1" width="3.5" opacity=".5"></a-plane>
+               <!-- Position in y is from center, so .5 up - .5*height -->
+               <a-plane position="0 .4 .01" color="grey" height=".2" width="3.5"></a-plane>
+               <a-box position="-.25 .4 .09" color="crimson" height=".2" width="3" depth=".05">
+                  <a-animation   attribute="width"
+                                 dur="8000"
+                                 from="0"
+                                 to="3.5"
+                                 repeat="indefinite"
+                                 easing="linear">
+                  </a-animation>
+                  <a-animation   attribute="position"
+                                 dur="8000"
+                                 from="-1.75 .4 .05"
+                                 to="0 .4 .05"
+                                 repeat="indefinite"
+                                 easing="linear">
+                  </a-animation>
+               </a-box>
+               <a-entity mixin="font font-sm" text="text: 00:08" position="1.45 .2 0"></a-entity>
+               <a-entity mixin="font font-sm" text="text: 00:03" position="-1.7 .2 0"></a-entity>
+               <a-entity mixin="font font-lg" text="text: Through a City" position="-1.65 -.05 0"></a-entity>
+               <a-entity mixin="font" text="text: When the newly elected President reneges on a promise, Frank and" position="-1.65 -.22 0"></a-entity>
+               <a-entity mixin="font" text="text: Claire decide to sever all allegiances and toss the rules out the window." position="-1.65 -.35 0"></a-entity>
+            </a-entity>
+
+            <a-entity id="planar-ui-footer" position="0 -.8 -.025">
+               <a-entity class="btn" position="-.75 0 0">
+                  <a-cylinder mixin="btn" position="0 0 0"></a-cylinder>
+                  <a-image class="js-set" src="assets/8/icons/left-arrow.png" height=".2" data-height="42" data-width="36" position="0 0 .05"></a-image>
+               </a-entity>
+
+               <a-entity class="btn" position="-.25 0 0" >
+                  <a-cylinder mixin="btn" position="0 0 0"></a-cylinder>
+                  <a-image class="js-set" src="assets/8/icons/gear.png" height=".2" data-height="42" data-width="36" position="0 0 .05"></a-image>
+               </a-entity>
+
+               <a-entity class="btn" position=".25 0 0">
+                  <a-cylinder mixin="btn" position="0 0 0"></a-cylinder>
+                  <a-image class="js-set" src="assets/8/icons/bookmark.png" height=".2" data-height="42" data-width="36" position="0 0 .05"></a-image>
+               </a-entity>
+               <a-entity class="btn" position=".75 0 0">
+                  <a-cylinder mixin="btn" position="0 0 0">
+                     <!-- <a-animation   attribute="material.opacity"
+                                    dur="500"
+                                    from=".5"
+                                    to=".8"
+                                    begin="mouseenter"
+                                    easing="linear">
+                     </a-animation>
+                     <a-animation   attribute="material.opacity"
+                                    dur="200"
+                                    from=".8"
+                                    to=".5"
+                                    begin="mouseleave"
+                                    easing="linear">
+                     </a-animation> -->
+                  </a-cylinder>
+                  <a-image class="js-set" src="assets/8/icons/right-arrow.png" height=".2" data-height="42" data-width="36" position="0 0 .05"></a-image>
+               </a-entity>
+
+            </a-entity>
+
+         </a-entity>
+
+         <a-entity>
+            <!-- <a-videosphere src="#video" opacity="1" rotation="0 180 0" webkit-playsinline="true"></a-videosphere> -->
+         </a-entity>
+
+         <!-- Volumetric Curved -->
+         <!-- <a-entity   id="target4"
+                     class="target"
+                     position="0 1.7 0"
+                     rotation="-30 0 0"
+                     data-heightorig="777"
+                     data-widthorig="2025"
+                     data-radius=".8"
+                     data-delta="0"
+                     theta-length="80"
+                     data-scale="1"
+                     >
+
+            <a-entity id="ui-core">
+               <a-cylinder position="0 .17 0" color="yellow" theta-start="200" theta-length="20" radius=".7" height=".05" open-ended="true" side="double"></a-cylinder>
+            </a-entity>
+
+            <a-entity id="ui-footer">
+               <a-curvedimage class="js-set" src="assets/8/icons/bookmark-border.png"></a-curvedimage>
+               <a-image class="js-set" src="assets/8/icons/bookmark.png" height=".03" data-height="42" data-width="36" position="0 0 -.7"></a-image>
+            </a-entity>
+
+         </a-entity> -->
+
+      </a-entity>
+
+   </a-scene>
+
+   <script>
+
+      var settings = null;
+
+      fetchSettings();
+
+      function fetchSettings(){
+         fetch('assets/8/8-settings.json').then(function(response){
+            response.json().then(function(responseData){
+               settings = responseData;
+            });
+         });
+      }
+
+      var intervalID = window.setInterval(checkSettingsCallback, 1500);
+
+
+      /*
+         Setup global variables
+      */
+      var scene = document.querySelector('#main-scene');
+      var world = scene.querySelector('#world');
+
+      var targets = null;
+
+      /*
+         Add event listener to run after scene is loaded
+      */
+      scene.addEventListener('loaded', function(){
+
+         targets = {
+            els: scene.querySelectorAll('.target'),
+            active: settings.target
+            // The rest of the object gets built with buildTargets()
+         }
+
+         buildTargets(targets);
+
+         setImagesStraight();
+         setImagesCurved(targets.target2.el, true);
+
+         setBtnHoverStates();
+         setGroundPlane();
+         setVideosphere();
+
+         toggleTargetTo(settings.target);
+
+         devTools();
+
+      });
+
+      function checkSettingsCallback(){
+
+         fetchSettings();
+
+         toggleTargetTo(settings.target);
+
+      }
+
+      /*
+         Keylistener functions
+      */
+      // Setup
+      var keyListener = new window.keypress.Listener();
+
+      // check targets object
+      keyListener.simple_combo('c', function(){
+         console.log(targets);
+      });
+      keyListener.simple_combo('1', function(){
+         toggleTargetTo('target1');
+      });
+      keyListener.simple_combo('2', function(){
+         toggleTargetTo('target2');
+      });
+      keyListener.simple_combo('3', function(){
+         toggleTargetTo('target3');
+      });
+      keyListener.simple_combo('4', function(){
+         toggleTargetTo('target4');
+      });
+
+      function setBtnHoverStates(){
+         var btns = scene.querySelectorAll('.btn');
+         forEach(btns, function(btn){
+            var pos = btn.querySelector('a-image').getAttribute('position');
+            var delta = .05;
+
+            btn.addEventListener('mouseenter', function () {
+               this.querySelector('a-cylinder').setAttribute('material', 'opacity', '.8');
+               var newPos = {
+                  x: pos.x,
+                  y: pos.y,
+                  z: pos.z + delta,
+               }
+               this.querySelector('a-image').setAttribute('position', newPos);
+            });
+
+            btn.addEventListener('mouseleave', function () {
+               this.querySelector('a-cylinder').setAttribute('material', 'opacity', '.5');
+               this.querySelector('a-image').setAttribute('position', pos)
+            });
+         });
+      }
+
+      function setGroundPlane(){
+
+         var ground = scene.querySelector('#ground');
+
+         if(settings.groundPlane){
+            ground.setAttribute('material', 'opacity', 1);
+         }else{
+            ground.setAttribute('material', 'opacity', 0);
+         }
+
+      }
+
+      function setVideosphere(){
+
+         var videosphere = scene.querySelector('a-videosphere');
+
+         if(settings.videosphere){
+            videosphere.setAttribute('material', 'opacity', 1);
+         }else{
+            videosphere.setAttribute('material', 'opacity', 0);
+         }
+
+      }
+
+   </script>
+   </body>
+</html>

@@ -1,0 +1,35 @@
+<a-entity class="human" position="{{ position }}">
+   <!-- Next button -->
+   <a-box id="btnNext" material="color: #fff" height=".15" width=".3" depth=".03" position=" .9 1.4 0.3" rotation="-1 -40 0">
+      <a-entity mixin="font" material="color: #666" text="text: Next" position="-.12 -.04 .04"></a-entity>
+      <!-- Animation for click -->
+      <a-animation begin="click" easing="ease-in" attribute="scale" fill="forwards" from="1 1 1" to="1.2 1.2 1.2" dur="1000"></a-animation>
+   </a-box>
+
+   <!-- This will fill with text after load from the JS -->
+   <a-entity id="human-text-container" position="0 .5 .2"></a-entity>
+
+   <!-- Model and head cover -->
+   <a-entity position='0 0 -.35'>
+      <a-box height=".4" width=".4" depth=".4" rotation="20 10 0" position=".05 1.65 0" material="color: #333"></a-box>
+      <a-collada-model position="0 0 -.25" rotation="5 0 0" scale="1 1 1" src="#humanModel"></a-collada-model>
+   </a-entity>
+
+   <!-- Models, not implemented -->
+   <!-- <a-entity id="model" position="22 0 0">
+   <a-collada-model position="22 0 0" rotation="5 0 0" scale="1.5 1.5 1.5"
+   src="#humanModel"></a-collada-model>
+   </a-entity> -->
+
+   <!--Another Human Male Casual
+   <a-entity id="model2" position="18 0 0">
+   <a-collada-model position=" 18 0 0" rotation="0 0 0" scale="1.5 1.5 1.5"
+   src="#anotherHumanModel"></a-collada-model>
+   </a-entity> -->
+
+   <!--Human Female Casual
+   <a-entity id="model3" position="16 0 0">
+   <a-collada-model position="16 0 0" rotation="-5 0 0" scale="1.5 1.5 1.5"
+   src="#femaleModel"></a-collada-model>
+   </a-entity> -->
+</a-entity>

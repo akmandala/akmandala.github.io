@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+   <title>12 - MHCI Portugal</title>
+   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,maximum-scale=1">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <script src="bower_components/aframe/dist/aframe-v0.3.0.min.js"></script>
+   <script src="bower_components/Keypress/keypress.js"></script>
+   <!-- <script src="bower_components/fetch/fetch.js"></script> -->
+   <script src="js/global-functions.js"></script>
+   <style>
+   *{
+      /*cursor: none;*/
+   }
+   </style>
+
+</head>
+<body>
+
+   <a-scene>
+
+      <a-assets>
+
+         <img id="home-1" src="assets/12/1-home.jpeg"/>
+         <img id="home-2" src="assets/12/2-home.jpeg">
+         <img id="home-3" src="assets/12/3-home.jpeg">
+
+      </a-assets>
+
+      <!-- Global Settings -->
+      <a-sky color="#64e6ff"></a-sky>
+
+      <!-- World Elements -->
+      <a-entity id="world">
+
+         <!-- <a-plane material="src:url(assets/12/map.jpg)" geometry="primitive:plane" position="0 0 0" rotation="-90 0 0" scale="2200 1218 1"></a-plane> -->
+
+         <a-entity id="place-home">
+            <a-sphere radius="2.1" position="0 1.6 4.4" material="src: #home-1; side: back; opacity: 1" rotation="0 -55.40 0"></a-sphere>
+            <a-sphere radius="2.1" position="0 1.6 0" material="src: #home-2; side: back; opacity: 1" rotation="0 74.94 0"></a-sphere>
+            <a-sphere radius="2.1" position="0 1.6 -4.4" material="src: #home-3; side: back; opacity: 1" rotation="0 -9.22 0"></a-sphere>
+         </a-entity>
+
+      </a-entity>
+
+      <!-- Human Camera, put down here for a reason, but I can't remember why -->
+      <a-entity position="0 0 0">
+         <a-camera domflag id="camera-human" wasd-controls="fly:true" active="true" near=".05">
+            <!-- <a-entity cursor="fuse: true; maxDistance: 50; timeout: 500" position="0 0 -2" geometry="primitive: plane; height: .05; width: .05"  material="color: #fff"></a-entity> -->
+         </a-camera>
+      </a-entity>
+
+      <a-entity position="36.37 300 -37.7">
+         <a-camera domflag id="camera-house" wasd-controls="fly:true" active="false" near=".05">
+            <!-- <a-entity cursor="fuse: true; maxDistance: 50; timeout: 500" position="0 0 -2" geometry="primitive: plane; height: .05; width: .05"  material="color: #fff"></a-entity> -->
+         </a-camera>
+      </a-entity>
+
+      <a-entity position="62.9 300 -219.3">
+         <a-camera domflag id="camera-miti" wasd-controls="fly:true" active="false" near=".05">
+            <!-- <a-entity cursor="fuse: true; maxDistance: 50; timeout: 500" position="0 0 -2" geometry="primitive: plane; height: .05; width: .05"  material="color: #fff"></a-entity> -->
+         </a-camera>
+      </a-entity>
+
+      <a-entity position="0 1000 0">
+         <a-camera domflag id="camera-topo" wasd-controls="fly:true" active="false" near=".05">
+            <!-- <a-entity cursor="fuse: true; maxDistance: 50; timeout: 500" position="0 0 -2" geometry="primitive: plane; height: .05; width: .05"  material="color: #fff"></a-entity> -->
+         </a-camera>
+      </a-entity>
+
+   </a-scene>
+
+
+   <script>
+
+      var settings = {
+         enterVR: false,
+         reload: false
+      }
+
+
+      /*
+         Setup global variables
+      */
+      var scene = document.querySelector('a-scene');
+      var world = document.querySelector('#world');
+      var cameras = {
+         els: document.querySelectorAll('a-camera')
+      };
+      buildCameras(cameras, {
+         strip: true
+      });
+      console.log(cameras);
+
+
+      /*
+         Add event listener to run after scene is loaded
+      */
+      scene.addEventListener('loaded', function(){
+
+         // Pull in the dev tools from global.js
+         devTools();
+
+      });
+
+      /*
+         Keylistener functions
+      */
+      // Create new listener
+      var keyListener = new window.keypress.Listener();
+
+      // And tie them to keys
+      keyListener.simple_combo('1', function(){
+         camerasOff();
+         activeCamera = scene.querySelector(cameras.human.id);
+         activeCamera.setAttribute('active', true);
+         console.log(activeCamera);
+      });
+      keyListener.simple_combo('2', function(){
+         camerasOff();
+         activeCamera = scene.querySelector(cameras.topo.id);
+         activeCamera.setAttribute('active', true);
+         console.log(activeCamera);
+      });
+      keyListener.simple_combo('3', function(){
+         camerasOff();
+         activeCamera = scene.querySelector(cameras.home.id);
+         activeCamera.setAttribute('active', true);
+         console.log(activeCamera);
+      });
+      keyListener.simple_combo('4', function(){
+         camerasOff();
+         activeCamera = scene.querySelector(cameras.miti.id);
+         activeCamera.setAttribute('active', true);
+         console.log(activeCamera);
+      });
+      // Useful for setting up orbs
+      keyListener.simple_combo('c', function(){
+         console.log(camera.getAttribute('position'));
+      });
+
+      function camerasOff(){
+         forEach(cameras.els, function(el){
+            el.setAttribute('active', false);
+         });
+      }
+
+   </script>
+</body>
+</html>
