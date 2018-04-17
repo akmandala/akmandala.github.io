@@ -1,5 +1,0 @@
-<a-entity position="{{ position }}">
-   <a-sphere mixin="soundcube"></a-sphere>
-   <a-sphere radius="5"></a-sphere>
-   <a-light type="point" color="#4CCCE5" decay="1" distance="80" intensity=".6" position="0 1 0"></a-light>
-</a-entity>

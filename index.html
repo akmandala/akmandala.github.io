@@ -1,477 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-   <!-- Required meta tags always come first -->
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <meta http-equiv="x-ua-compatible" content="ie=edge">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-   <script src="bower_components/anchor-js/anchor.min.js"></script>
-   <title>armthethinker WebVR Experiments</title>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>In-System Programmer</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        /* Space out content a bit */
+        body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        }
+        .wide-button {
+            min-width: 80px;
+        }
+        .vbottom {
+            vertical-align: bottom;
+        }
+        .inline-group {
+            /* Add to make a .form-group more like a .btn */
+            display: inline-block;
+            margin-bottom: 0;
+        }
+        .raise-8px {
+            /* Vertically center label relative to button even when vertical-align is bottom. */
+            position: relative;
+            top: -8px;
+        }
+        .jquery-hidden {
+            /* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
+            display: none;
+        }
+    </style>
 </head>
-<body>
-   <div class="container">
-      <div class="row">
-         <div class="col-md-8 col-md-offset-2 col-xs-12">
-            <h1 id="this-is-a-personal-sandbox-for-webvr-experiments">This is a personal sandbox for webVR experiments</h1>
-<p>Everything is built with <a href="https://aframe.io">A-Frame</a>. Order is chronological. Keyboard shortcuts are largely for development or demonstration purposes. To read design documentation and my process for experiments six and later, see my Medium collection <a href="https://medium.com/humane-virtuality">Humane Virtuality</a>.</p>
-<p>Comments, suggestions, and pull requests welcome.</p>
-<p><img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hv-icon.png" alt="Humane Virtuality Logo" title="Humane Virtuality Logo"></p>
-<h2 id="experiments">Experiments</h2>
-<ol>
-<li><a href="#1-hello-world">Hello World</a></li>
-<li><a href="#2-ui-test">UI Test</a></li>
-<li><a href="#3-figures-in-space">Figures in Space</a></li>
-<li><a href="#4-viewpoint">ViewPoint</a></li>
-<li><a href="#5-missed-connections">Terrain (Previously Missed Connections)</a></li>
-<li><a href="#6-head-tracked-transformations">Head Tracked Transformations</a></li>
-<li><a href="#7-product-selection-customization">Product Selection &amp; Customization</a></li>
-<li><a href="#8-video-controls">Video Controls</a></li>
-<li><a href="#9-solar-system">Solar System</a></li>
-<li><a href="#10-spacevr-simulator">SpaceVR Simulator</a></li>
-<li><a href="#11-environment-traversal">Environment Traversal</a></li>
-<li><a href="#12-mhci-portugal">MHCI Portugal</a></li>
-</ol>
-<p><h3 id="1-hello-world">1. <a href="1--helloworld.html">Hello World</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-1.jpg" alt="Image for experiment 1"></p>
-<p>A basic world with random components. Made while learning A-Frame.</p>
-<p><strong>Guiding Question:</strong> How do I use A-Frame?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Movement</td>
-<td style="text-align:center"><code>W A S D</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="2-ui-test">2. <a href="2--ui.html">UI Test</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-2.jpg" alt="Image for experiment 2"></p>
-<p>A basic test with cylinder UI.</p>
-<p><strong>Guiding Question:</strong> How easy is it to create a UI with a single cylinder?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Movement</td>
-<td style="text-align:center"><code>W A S D</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="3-figures-in-space">3. <a href="3--figures-in-space.html">Figures in Space</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-3.jpg" alt="Image for experiment 3"></p>
-<p>Testing a project for IXDS.</p>
-<p><strong>Guiding Question:</strong> Is it realistic to use A-Frame in the short timeframe of a class project?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Movement</td>
-<td style="text-align:center"><code>W A S D</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="4-viewpoint">4. <a href="4--viewpoint.html">ViewPoint</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-4.gif" alt="Image for experiment 4"></p>
-<p>The working model for a class project (IXDS public display).</p>
-<p><a href="http://andrewrmchugh.rocks/projects/viewpoint.php">Case study</a></p>
-<p><strong>Guiding Question:</strong> Can A-Frame be used to present designs for an installation piece in a museum?</p>
-<p>Team Members: Iris Wu, Tiffany Wang, Ryan Huber</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Movement</td>
-<td style="text-align:center"><code>W A S D</code></td>
-</tr>
-<tr>
-<td>God Camera</td>
-<td style="text-align:center"><code>G</code></td>
-</tr>
-<tr>
-<td>Toggle Click Interactions</td>
-<td style="text-align:center"><code>C</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="5-missed-connections">5. <a href="5--missed-connections.html">Terrain (Previously Missed Connections)</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-5.jpg" alt="Image for experiment 5"></p>
-<p>Experience the missed connections section of Craigslist in a surreal city environment. Prototype and final presentation for a class project (Programming Usable Interfaces).</p>
-<p><strong>Guiding Question:</strong> Given (another) short timeframe, can we build more with in A-Frame than with Swift?</p>
-<p>Team Members: Andrew Novotny, Joel Rodrigues, &amp; Rachel Ng</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Selection</td>
-<td style="text-align:center"><code>Gaze</code></td>
-</tr>
-<tr>
-<td>Movement</td>
-<td style="text-align:center"><code>W A S D</code></td>
-</tr>
-<tr>
-<td>Topographic Camera</td>
-<td style="text-align:center"><code>G</code></td>
-</tr>
-<tr>
-<td>Force load text, if it doesn&#39;t load</td>
-<td style="text-align:center"><code>B</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="6-head-tracked-transformations">6. <a href="6--head-tracked-transformations.html">Head Tracked Transformations</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-6.gif" alt="Image for experiment 6"></p>
-<p>For headsets without positional tracking (e.g. Google Cardboard), how can we allow position-esque movement? In this set of experiments, the blocks mutate based on the selected transformation.</p>
-<p><a href="https://medium.com/humane-virtuality/head-tracked-transformations-e7102d3c9789">Case study</a></p>
-<p><strong>Guiding Question:</strong> Can head rotations be tied to an object to allow position-esque movements?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Movement</td>
-<td style="text-align:center"><code>W A S D</code></td>
-</tr>
-<tr>
-<td>Toggle target to be locked to camera or to world</td>
-<td style="text-align:center"><code>T</code></td>
-</tr>
-<tr>
-<td>Toggle building</td>
-<td style="text-align:center"><code>B</code></td>
-</tr>
-<tr>
-<td>Toggle pillars</td>
-<td style="text-align:center"><code>P</code></td>
-</tr>
-<tr>
-<td>Toggle fog</td>
-<td style="text-align:center"><code>F</code></td>
-</tr>
-<tr>
-<td>console.log(Camera Attributes, activeTarget Attributes)</td>
-<td style="text-align:center"><code>C</code></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Transformation</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Rotate target with human camera rotation</td>
-<td style="text-align:center"><code>1</code></td>
-</tr>
-<tr>
-<td>Rotate target with human camera rotation<br><small>Includes reasonable magic numbers: 4x of horizontal rotation, 3x of vertical rotation</small></td>
-<td style="text-align:center"><code>2</code></td>
-</tr>
-<tr>
-<td><small><strong>Default</strong></small><br>Rotate target inversely with human camera rotation<br><small>Includes reasonable magic numbers: -4x of horizontal rotation, -3x of vertical rotation</small></td>
-<td style="text-align:center"><code>3</code></td>
-</tr>
-<tr>
-<td>Move target in x-axis based on z-position of human camera</td>
-<td style="text-align:center"><code>4</code></td>
-</tr>
-<tr>
-<td>Rotate target in x-axis based on z-position of human camera</td>
-<td style="text-align:center"><code>5</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="7-product-selection-customization">7. <a href="7--product-selection-customization.html">Product Selection Customization</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-7.gif" alt="Image for experiment 7"></p>
-<p>Looking at the differences in prototyping with a single planar mockup, a curved mockup, and a three dimensional mockup.</p>
-<p><a href="https://medium.com/humane-virtuality/product-presentation-in-virtual-reality-28f98ca2eb9">Case study</a></p>
-<p><strong>Guiding Question:</strong> What can be learned by taking a design from the web and translating it into VR?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Movement</td>
-<td style="text-align:center"><code>W A S D</code></td>
-</tr>
-<tr>
-<td>console.log(Targets)</td>
-<td style="text-align:center"><code>C</code></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Mockup Selection</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Planar mockup</td>
-<td style="text-align:center"><code>1</code></td>
-</tr>
-<tr>
-<td>Curved mockup</td>
-<td style="text-align:center"><code>2</code></td>
-</tr>
-<tr>
-<td>3D mockups</td>
-<td style="text-align:center"><code>3</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="8-video-controls">8. <a href="8--video-controls.html">Video Controls - Work in Progress</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-8.jpg" alt="Image for experiment 8"></p>
-<p>Well-designed video controls for spherical videos. Inspired by <a href="https://github.com/oscarmarinmiro/aframe-video-controls">@oscarmarinmiro</a>.</p>
-<p><strong>Guiding Question:</strong> How do controls for videos change when the content is all around you?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Selection</td>
-<td style="text-align:center"><code>Gaze</code> or <code>Click</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="9-solar-system">9. <a href="9--solar-system.html">Solar System</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-9.jpg" alt="Image for experiment 9"></p>
-<p>After hearing a podcast on <a href="http://www.spacevr.co/">SpaceVR</a>, I was inspired to create an experience based on their project. However, for this prototype, I decided I was building in the wrong direction. So, I wrapped it up and started work on experiment 10. It now stands as a solar system simulator, with scaled proportions.</p>
-<p><strong>Guiding Question:</strong> What does it feel like to see earth from a satellite point-of-view?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Selection</td>
-<td style="text-align:center"><code>Gaze</code> or <code>Click</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="10-spacevr-simulator">10. <a href="10--spacevr-simulator.html">SpaceVR Simulator</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-10.gif" alt="Image for experiment 10"></p>
-<p>This is my second attempt to build a <a href="http://www.spacevr.co/">SpaceVR</a> simulator. This time, I had a clearer project in-mind: less robust, more to the point. This time it took me less than two hours to throw it all together.</p>
-<p><strong>Guiding Question:</strong> What does it feel like to see earth from a satellite point-of-view?</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Selection</td>
-<td style="text-align:center"><code>Gaze</code> or <code>Click</code></td>
-</tr>
-</tbody>
-</table>
-<p><h3 id="11-environment-traversal">11. <a href="11--environment-traversal.html">Environment Traversal</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-11.gif" alt="Image for experiment 11"></p>
-<p><strong>Guiding Question:</strong> What are the best ways to move in VR without position controls?</p>
-<p><a href="https://medium.com/humane-virtuality/environment-traversal-in-vr-bebc10417761#.687h6a2j1">Case study</a></p>
-<p><em>Devs</em>: Each transition can be selected by passing its name into <code>settings.transition</code>. Short and long alternatives are available for each transition as well with the exception of the individual <code>Jump</code> and <code>Fade</code> transitions.</p>
-<table>
-<thead>
-<tr>
-<th>Transition Name</th>
-<th>Action</th>
-<th>Parameters</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Jump</code></td>
-<td>Instantly move from one position to another.</td>
-<td><code>position</code></td>
-<td style="text-align:center"><code>1</code></td>
-</tr>
-<tr>
-<td><code>Fade</code></td>
-<td>View fades into black, then back up. Useless by itself. Used in <code>Fade Jump</code> and can be used in other custom transitions.</td>
-<td><code>duration, beginTime, easing, middleFunction</code></td>
-<td style="text-align:center">N/A</td>
-</tr>
-<tr>
-<td><code>Fade Jump</code></td>
-<td>View fades into black. Position instantly changes. View fades back up.</td>
-<td><code>duration, beginTime, easing, position</code></td>
-<td style="text-align:center"><code>2</code></td>
-</tr>
-<tr>
-<td><code>Micro-Movements</code></td>
-<td>Many short jumps between the current position and final position.</td>
-<td><code>position, stepCount, duration</code></td>
-<td style="text-align:center"><code>3</code></td>
-</tr>
-<tr>
-<td><code>Animate</code></td>
-<td>Continuous, linear movement from one location to another.</td>
-<td><code>position, speed</code></td>
-<td style="text-align:center"><code>4</code></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th style="text-align:center">Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Selection</td>
-<td style="text-align:center"><code>Gaze</code> or <code>Click</code></td>
-</tr>
-<tr>
-<td>Toggle to short version of transition</td>
-<td style="text-align:center"><code>-</code></td>
-</tr>
-<tr>
-<td>Toggle to long version of transition</td>
-<td style="text-align:center"><code>=</code></td>
-</tr>
-<tr>
-<td>console.log(Camera Position)</td>
-<td style="text-align:center"><code>C</code></td>
-</tr>
-</tbody>
-</table>
-<p>Example:</p>
-<pre><code class="lang-js">// Fade Jump
-settings = {
-   transition: &#39;Fade Jump&#39;
-}
 
-// Fade Jump Long
-settings = {
-   transition: &#39;Fade Jump Long&#39;
-}
-</code></pre>
-<p><h3 id="12-mhci-portugal">12. <a href="12--mhci-portugal.html">MHCI Portugal - Work in Progress</a></h3>
-<img src="https://raw.githubusercontent.com/armthethinker/webVR-experiments/master/assets/img/heroes/hero-12.jpg" alt="Image for experiment 12"></p>
-<p><del><strong>Guiding Question:</strong> What are the best ways to move in VR without position controls?</del></p>
-<h2 id="setup">Setup</h2>
-<pre><code class="lang-bash">$ npm install
-$ bower update
-$ grunt
-</code></pre>
-<p>Grunt uses <a href="https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei">LiveReload</a>.</p>
-<p>To deploy,</p>
-<pre><code class="lang-bash">$ npm run deploy
-</code></pre>
-<p>Personal site: <a href="http://andrewrmchugh.rocks">andrewrmchugh.rocks</a>.</p>
+  <body onload="createTimeline()">
 
-         </div>
+    <div class="container">
+
+        <div class="jumbotron">
+            <h1><nobr>In-System</nobr> Programmer<a href="http://electricimp.com/"><img
+                    src="//electricimp.com/public/img/logosmall.png" alt="[logo]"></a></h1>
+            <p>An Electric Imp based in-system programmer for Atmel AVR MCUs.</p>
+        </div>
+
+        <form id="upload-hex-form" action="https://agent.electricimp.com/P7rpON2z6MeA/programmer/action/uploadHex" method="POST">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sketch</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Program the AVR MCU with a HEX <!-- Intel capitalize HEX like this. --> file.</p>
+                    <input id="hexFile" name="hexFile" type="file">
+                    <p></p>
+                    <a id="upload-hex-submit" href="#" class="btn btn-primary wide-button">Upload</a>
+                    <img id="upload-hex-loading" class="jquery-hidden" src="ajax-loader.gif">
+                    <span id="upload-hex-success" class="jquery-hidden label label-success">Programming succeeded</span>
+
+                    <!--
+                    For a visually more attractive file upload control see:
+                    http://www.abeautifulsite.net/blog/2013/08/whipping-file-inputs-into-shape-with-bootstrap-3/
+                    -->
+                </div>
+            </div>
+        </form>
+
+        <form id="fuses-form" action="https://agent.electricimp.com/P7rpON2z6MeA/programmer/action/setFuses" method="GET">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Fuses</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-danger">
+                        <b>Warning:</b> incorrectly setting the fuses may brick the MCU, making
+                        it unrecoverable with anything other than a high voltage programmer.
+                    </div>
+                    <p>Query or set the the fuses of the AVR MCU.</p>
+                    <div>
+                        <a id="fuses-query" href="#" class="btn btn-primary wide-button vbottom">Query</a>
+
+                        <!-- low, high, extended is the order used by http://www.engbedded.com/fusecalc -->
+                        <div class="form-group vbottom inline-group">
+                        <label class="control-label" for="lfuse">Low</label>
+                        <input id="lfuse" name="lfuse" type="text" class="form-control" size="4" placeholder="0x00">
+                        </div>
+                        <div class="form-group vbottom inline-group">
+                        <label class="control-label" for="hfuse">High</label>
+                        <input id="hfuse" name="hfuse" type="text" class="form-control" size="4" placeholder="0x00">
+                        </div>
+                        <div class="form-group vbottom inline-group">
+                        <label class="control-label" for="efuse">Ext</label>
+                        <input id="efuse" name="efuse" type="text" class="form-control" size="4" placeholder="0x00">
+                        </div>
+
+                        <a id="fuses-set" href="#" class="btn btn-danger wide-button vbottom">Set</a>
+
+                        <div class="checkbox vbottom inline-group raise-8px">
+                        <label>
+                            <input name="unsafe" type="checkbox">Allow unsafe changes
+                        </label>
+                        </div>
+
+                        <img id="fuses-loading" class="jquery-hidden" src="ajax-loader.gif">
+                        <span id="fuses-query-success" class="jquery-hidden label label-success raise-8px">Query succeeded</span>
+                        <span id="fuses-set-success" class="jquery-hidden label label-success raise-8px">Set succeeded</span>
+                    </div>
+
+                    <p></p>
+                </div>
+            </div>
+        </form>
+
+        <form id="lock-bits-form" action="https://agent.electricimp.com/P7rpON2z6MeA/programmer/action/setLockBits" method="GET">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lock Bits</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Query or set the lock bits of the AVR MCU.</p>
+                    <div class="form-inline">
+                        <a id="lock-bits-query" href="#" class="btn btn-primary wide-button">Query</a>
+
+                        <input id="lockBits" name="lockBits" type="text" class="form-control" size="4" placeholder="0x00">
+
+                        <a id="lock-bits-set" href="#" class="btn btn-danger wide-button">Set</a>
+                        <img id="lock-bits-loading" class="jquery-hidden" src="ajax-loader.gif">
+                        <span id="lock-bits-query-success" class="jquery-hidden label label-success">Query succeeded</span>
+                        <span id="lock-bits-set-success" class="jquery-hidden label label-success">Set succeeded</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Debug Terminal</h3>
+            </div>
+            <div class="panel-body">
+                    <textarea id="debugText" scrolling="yes" style="height: 300px; width:100%;"></textarea>
+            </div>
+        </div>
+		
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Analog In</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart1" width="620" height="360"></canvas>
+            </div>
+        </div>
+		
+    </div><!-- /.container -->
+
+    <footer class="bs-docs-footer">
+        <div class="container">
+             Electric Imp and the Electric Imp logo are trademarks of
+                <a href="http://electricimp.com/" target="_blank">Electric Imp, Inc</a>.
+        </div>
+    </footer>
+
+    <div id="error-modal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Error</h4>
+          </div>
+          <div class="modal-body">
+            <span id="error-message"><!-- error message --></span>
+          </div>
+        </div>
       </div>
-   </div>
-</body>
-<style>
-h1,
-h2,
-h3{
-   margin-top: 80px;
-}
+    </div>
 
-h2{
-   font-style: italic;
-}
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-h2 + h3{
-   margin-top: 30px;
-}
+    <!-- https://github.com/bestiejs/json3 - provide JSON or use browser default. -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.3.1/json3.min.js"></script>
 
-h3{
-   background-color: aliceblue;
-   padding: 10px;
-   margin-left: -10px;
-   margin-right: -10px;
-   border-radius: 6px 6px 0 0;
-   box-shadow: rgba(0,0,0,0.1) 0px 15px 40px;
-   margin-bottom: 20px;
-   position: relative;
-}
-pre code{
-   padding: .6rem .8rem;
-   font-size: 90%;
-   color: #bd4147;
-   background-color: #f7f7f9;
-   border-radius: .25rem;
-   display: block;
-}
-code{
-   padding: 0.1rem 0.3rem;
-   display: inline-block;
-}
-html{
-   padding-bottom: 100px;
-}
-h3 + p > img,
-h3 + img{
-   width: 100%;
-}
+    <!-- http://stackoverflow.com/a/4545089/245602 http://stackoverflow.com/a/1960245/245602 -->
+    <script src="//malsup.github.io/jquery.form.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
 
-</style>
-<script>
+    <script src="sprintf.min.js"></script>
 
-var table = document.querySelectorAll('table');
-for(i = 0; i < table.length; i++)
-   table[i].className = "table";
+    <script>
+	var dpAd0 = [];		
+	
+	var dataPos = 0;
+	var lastTs = 0;
+	var ad0 = new TimeSeries();
+		
+	function createTimeline() {
+		var chart1 = new SmoothieChart({maxValue:70000, minValue:0, millisPerPixel:8, timestampFormatter:SmoothieChart.timeFormatter});
+		chart1.addTimeSeries(ad0, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 2});
+		chart1.streamTo(document.getElementById("chart1"), 0);
+	}																																												
+	
+	setInterval(function() {
+		var timeStmp = new Date().getTime();
+		ad0.append(timeStmp, dpAd0[dataPos]);
+	
+		dataPos = dataPos + 1;
+		if (dataPos==20) {
+			dataPos = 0;
+		}
+	}, 100);																																													var intervalRetrieveData = 1000; //sec
 
-anchors.options = {
-   visible: 'always',
-   truncate: 4
-}
-anchors.add('h3');
+	function getSerial() {
 
-</script>
+		var urlData = "https://agent.electricimp.com/P7rpON2z6MeA/programmer/debug/getDebug";
+
+		jQuery.ajax({
+			url : urlData,
+			crossDomain : true
+		}).done(function(data){
+			if (lastTs != data.ts) {
+				lastTs = data.ts;
+				var dataString = data.serial;
+				document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;   
+				if(data.hasOwnProperty('ad0')){
+					for (i=0;i<20;i++) {
+						dpAd0[i] = data.ad0[i];
+					}
+				}
+			}
+		});
+	}
+	
+	setInterval(getSerial, intervalRetrieveData);
+
+	wireUpForm('#upload-hex-submit', '#upload-hex-loading', '#upload-hex-form', '#upload-hex-success');
+
+	wireUpForm('#fuses-set', '#fuses-loading', '#fuses-form', '#fuses-set-success');
+
+	wireUpButton('#fuses-query', '#fuses-loading', '#fuses-query-success', 'https://agent.electricimp.com/P7rpON2z6MeA/programmer/action/getFuses',
+		function (result) {
+			$('#lfuse').val(hex(result.lfuse));
+			$('#hfuse').val(hex(result.hfuse));
+			$('#efuse').val(hex(result.efuse));
+		},
+		function () {
+			clear('#lfuse', '#hfuse', '#efuse');
+		}
+	);
+
+	wireUpForm('#lock-bits-set', '#lock-bits-loading', '#lock-bits-form', '#lock-bits-set-success');
+
+	wireUpButton('#lock-bits-query', '#lock-bits-loading', '#lock-bits-query-success', 'https://agent.electricimp.com/P7rpON2z6MeA/programmer/action/getLockBits',
+		function (result) {
+			$('#lockBits').val(hex(result.lockBits));
+		},
+		function () {
+			clear('#lockBits');
+		}
+	);
+
+	// TODO: validation on the client side might be more user friendly than, as currently, finding problems
+	// at the Imp/Agent level and propagating the resulting failure messages back to the user.
+	// Note: the jQuery form plugin also includes validation related functionality - http://malsup.com/jquery/form/#validation
+
+	// -------------------------------------------------------------
+
+	function hex(i) {
+		return sprintf("0x%02x", i);
+	}
+
+	function clear() {
+		for(var i = 0; i < arguments.length; i++) {
+			$(arguments[i]).val('');
+		}
+	}
+
+	// http://stackoverflow.com/a/894877/245602
+	function defaultFor(arg, val) {
+		return typeof arg !== 'undefined' ? arg : val;
+	}
+
+	function wireUpForm(buttonId, loadingId, formId, successId, _success, error) {
+		// Lack of pre-IE9 support for Function.prototype.bind() forces use of lambda here.
+		wireUp(buttonId, loadingId, successId, _success, error, function (options) {$(formId).ajaxSubmit(options); });
+	}
+
+	function wireUpButton(buttonId, loadingId, successId, _url, _success, error) {
+		wireUp(buttonId, loadingId, successId, _success, error, $.ajax, { url: _url });
+	}
+
+	function wireUp(buttonId, loadingId, successId, _success, _error, ajaxFunction, options) {
+		$(buttonId).click(function (e) {
+			e.preventDefault();
+			$(loadingId).show();
+			ajaxFunction($.extend({
+				dataType: 'json',
+				success: createSuccessHandler(loadingId, successId, _success),
+				error: createErrorHandler(loadingId, _error),
+				timeout: 300000 // 5 minutes.
+			}, options));
+		});
+		// If the timeout property is not set the call waits indefinitely. However the agent server seems to
+		// close unused connections after 8 minutes - which results in an empty response rather than a timeout.
+	}
+	
+
+		
+	function createSuccessHandler(loadingId, successId, success) {
+		return function (result) {
+			$(loadingId).hide();
+			defaultFor(success, $.noop)(result);
+			$(successId).show().delay(4000).fadeOut('slow');
+		};
+	}
+
+	function createErrorHandler(loadingId, error) {
+		return function (xhr) {
+			$(loadingId).hide();
+			defaultFor(error, $.noop)();
+			showHtmlError(getErrorMessage(xhr));
+		};
+	}
+
+	// Create unconnected <div> element for utility use - http://api.jquery.com/jQuery/#creating-new-elements
+	var DIV_ELEM = $('<div/>');
+
+	function htmlEscape(s) {
+		// http://stackoverflow.com/a/374176/245602
+		return DIV_ELEM.text(s).html();
+	}
+
+	function getErrorMessage(xhr) {
+		// A nice JSON bundled error sent by the application or something more fundamental...
+		if (xhr['responseJSON'] && xhr.responseJSON['message']) {
+			return htmlEscape(xhr.responseJSON.message);
+		} else if (xhr.status == 404) {
+			return '404 - agent not found.';
+		} else if (xhr.status == 501) {
+			return '501 - service does not support operation.';
+		} else {
+			return 'The action failed. The Electric Imp IDE log may contain some clues.<br>' + htmlEscape(JSON.stringify(xhr));
+		}
+	}
+
+	function showHtmlError(message) {
+		// If you use .text(...) rather than .html(...) then jQuery will HTML escape the text for you.
+		$('#error-message').html(message);
+		$('#error-modal').modal('show');
+	}
+
+    </script>
+
+  </body>
 </html>
