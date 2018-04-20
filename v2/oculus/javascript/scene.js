@@ -22,6 +22,8 @@
   effect = new THREE.VREffect(renderer, function () {});
 
   effect.setSize(window.innerWidth, window.innerHeight);
+  
+  var manager = new WebVRManager(renderer, effect);
 
   renderer.shadowMapEnabled = true;
 
@@ -98,7 +100,7 @@
     cube.rotation.y += scope.rate * 0.002;
     cube2.rotation.x += scope.rate * 0.004;
     cube2.rotation.y += scope.rate * 0.002;
-    effect.render(scene, camera);
+    manager.render(scene, camera);
     return requestAnimationFrame(render);
   };
 
