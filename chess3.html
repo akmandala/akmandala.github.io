@@ -5,24 +5,17 @@
         <meta name="keywords" content="Chess, Chessboard, Javascript, Play Chess, Javascript Chess, three.js, chessboard.js, chessboard3.js">
         <title>chessboard3.js</title>
 
-        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-
-        <link type="text/css" rel="stylesheet" href="css/site.css">
-        <link type="text/css" rel="stylesheet" href="css/chessboard.css">
-
         <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
-
         <script type="text/javascript" src="js/three.min.js"></script>
         <script type="text/javascript" src="js/OrbitControls.js"></script>
         <script type="text/javascript" src="js/chessboard3.js"></script>
 
         <script type="text/javascript" 
 		var board = new ChessBoard3('board', {
-    draggable: true,
-    dropOffBoard: 'trash',
-    sparePieces: true
-    onChange: function(oldPos, newPos) {
+			draggable: true,
+			dropOffBoard: 'trash',
+			sparePieces: true
+			onChange: function(oldPos, newPos) {
         $("#FEN").text(ChessBoard3.objToFen(newPos));
       }
     });
@@ -35,11 +28,9 @@
         <div class="banner" id="banner">
             <p>Demo - Play using chessboard3.js against several [JavaScript] chess engines (stockfish, lozza, and p4wn). This example uses <a href="https://github.com/jhlywa/chess.js/">chess.js</a> for move validation.</p>
         </div>
-        <article id="container">
-            <div id="board">
-                <h1 class="vertical-align">LOADING...</h1>
-            </div>
-        </article>
+		<div id="board">
+			<h1 class="vertical-align">LOADING...</h1>
+		</div>
         <footer id="footer">
             <p>Copyright 2016 Jason Tiscione; chessboard3.js is released under the MIT license. The repository for this project is on <a href="https://github.com/jtiscione/chessboard3js">GitHub.</a></p>
         </footer>
