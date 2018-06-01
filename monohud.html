@@ -36,7 +36,7 @@
                 text-rendering: optimizelegibility;
             }
             p{font-size: 30px; line-height: 0px; color:yellow;}
-            div.demo{text-align: center; height: 240px; width: 50%; float: left}
+            div.demo{text-align: center; height: 140px; width: 50%; float: left}
             div.demoL{text-align: center; height: 400px; width: 100%; float: left}
             div.demo > p{font-size: 20px; line-height: 8px}
         </style>
@@ -45,20 +45,20 @@
 
         <div class="demo">
             <p>Speed</p>
-            <input class="knob speed" data-width="240" data-max="200" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="65">
+            <input class="knob speed" data-width="140" data-max="200" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="65">
         </div>
         <div class="demo">
             <p>RPM</p>
-            <input class="knob rpm" data-width="240" data-max="8000" data-step="100" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="2500">
+            <input class="knob rpm" data-width="140" data-max="8000" data-step="100" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="2500">
         </div> 
 		<div style="clear:both"></div>
         <div class="demo">
             <p>Fuel Level</p>
-            <input class="knob fuel" data-width="240" data-max="100" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="45">
+            <input class="knob fuel" data-width="140" data-max="100" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="45">
         </div>
         <div class="demo">
-            <p>Engine Temp</p>
-            <input class="knob temp" data-width="240" data-max="200" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="50">
+            <p>Gear</p>
+            <input class="knob gear" data-width="140" data-max="6" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="1">
         </div> 
 
 		<div id=pubnub pub-key=pub-c-29abad12-cf12-4450-a3ff-5221d28940ec sub-key=sub-c-8ee8f0d8-b018-11e5-bb8b-02ee2ddab7fe></div>
@@ -70,7 +70,7 @@
 				var $s = $(".speed"),
 					$r = $(".rpm"),
 					$f = $(".fuel"),
-					$t = $(".temp");
+					$t = $(".gear");
 				
 				if(text.hasOwnProperty('speed')){
 					$s.val(text["speed"]).trigger("change");
@@ -81,8 +81,8 @@
 				if(text.hasOwnProperty('fuel')){
 					$f.val(text["fuel"]).trigger("change");
 				}				
-				if(text.hasOwnProperty('temp')){
-					$t.val(text["temp"]).trigger("change");
+				if(text.hasOwnProperty('gear')){
+					$t.val(text["gear"]).trigger("change");
 				}
 			}
 			// OPEN SOCKET TO RECEIVE TEXT MESSAGE
