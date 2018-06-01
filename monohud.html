@@ -35,13 +35,12 @@
                 background-color: black;
                 text-rendering: optimizelegibility;
             }
-            p{font-size: 30px; line-height: 0px; color:yellow;}
+            p{font-size: 30px; line-height: 30px; color:yellow;}
             div.demo{text-align: center; height: 140px; width: 50%; float: left}
             div.demo > p{font-size: 20px; line-height: 8px}
         </style>
     </head>
     <body>
-
         <div class="demo">
             <p>Speed</p>
             <input class="knob speed" data-width="140" data-max="200" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="65">
@@ -50,7 +49,7 @@
             <p>RPM</p>
             <input class="knob rpm" data-width="140" data-max="8000" data-step="100" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="2500">
         </div> 
-		<p> </p>
+
         <div class="demo">
             <p>Fuel Level</p>
             <input class="knob fuel" data-width="140" data-max="100" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="45">
