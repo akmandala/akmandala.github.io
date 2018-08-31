@@ -31,12 +31,20 @@ function openWSConnection(protocol, hostname, port, endpoint) {
         webSocket.onopen = function(openEvent) {
             console.log("WebSocket OPEN: " + JSON.stringify(openEvent, null, 4));
             document.getElementById("btnSend").disabled       = false;
+            document.getElementById("btnRec").disabled     = false;
+            document.getElementById("btnStart").disabled      = false;
+            document.getElementById("btnStop").disabled       = false;
+            document.getElementById("btnStat").disabled       = false;
             document.getElementById("btnConnect").disabled    = true;
             document.getElementById("btnDisconnect").disabled = false;
         };
         webSocket.onclose = function (closeEvent) {
             console.log("WebSocket CLOSE: " + JSON.stringify(closeEvent, null, 4));
             document.getElementById("btnSend").disabled       = true;
+            document.getElementById("btnRec").disabled     = true;
+            document.getElementById("btnStart").disabled      = true;
+            document.getElementById("btnStop").disabled       = true;
+            document.getElementById("btnStat").disabled       = true;            
             document.getElementById("btnConnect").disabled    = false;
             document.getElementById("btnDisconnect").disabled = true;
         };
