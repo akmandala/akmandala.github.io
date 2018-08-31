@@ -6,12 +6,16 @@
         <script src="wsclient.js"></script>
         <style>
             table    { border: 2px solid black; }
-            input    { width: 300px; }
-            select   { width: 300px; }
-            textarea { width: 513px; border: 2px solid black; }
+            input    { width: 350px; }
+            select   { width: 350px; }
+            textarea { width: 563px; border: 2px solid black; }
             #btnConnect    { width: 100px; }
             #btnDisconnect { width: 100px; }
-            #btnSend       { width: 100px; }
+            #btnSend       { width: 75px; }
+            #btnRec       { width: 60px; }
+            #btnStart       { width: 60px; }
+            #btnStop       { width: 60px; }
+            #btnStat       { width: 60px; }
         </style>
     </head>
     <body>
@@ -56,8 +60,12 @@
             <tr>
                 <td></td>
                 <td>
-                    <input id="btnSend" type="button" value="Send Message" disabled="disabled" onclick="onSendClick()">
-                </td>
+                    <input id="btnSend" type="button" value="Send" disabled="disabled" onclick="onSendClick()">&nbsp;
+                    <input id="btnRec" type="button" value="Record" disabled="disabled" onclick="onRecordClick()">&nbsp;
+                    <input id="btnStart" type="button" value="Start" disabled="disabled" onclick="onStartClick()">&nbsp;
+                    <input id="btnStop" type="button" value="Stop" disabled="disabled" onclick="onStopClick()">&nbsp;
+                    <input id="btnStat" type="button" value="Status" disabled="disabled" onclick="onStatusClick()">&nbsp;
+                </td>                
             </tr>
         </table><br/>
         <textarea id="incomingMsgOutput" rows="10" cols="20" disabled="disabled"></textarea>

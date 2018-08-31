@@ -41,11 +41,11 @@ function openWSConnection(protocol, hostname, port, endpoint) {
             document.getElementById("btnDisconnect").disabled = true;
         };
         webSocket.onerror = function (errorEvent) {
-            console.log("WebSocket ERROR: " + JSON.stringify(errorEvent, null, 4));
+            console.log("err: " + JSON.stringify(errorEvent, null, 4));
         };
         webSocket.onmessage = function (messageEvent) {
             var wsMsg = messageEvent.data;
-            console.log("WebSocket MESSAGE: " + wsMsg);
+            console.log("rcv: " + wsMsg);
             if (wsMsg.indexOf("error") > 0) {
                 document.getElementById("incomingMsgOutput").value += "error: " + wsMsg.error + "\r\n";
             } else {
@@ -66,4 +66,36 @@ function onSendClick() {
     }
     var msg = document.getElementById("message").value;
     webSocket.send(msg);
+}
+
+function onStartClick() {
+    if (webSocket.readyState != WebSocket.OPEN) {
+        console.error("webSocket is not open: " + webSocket.readyState);
+        return;
+    }
+    webSocket.send("R");
+}
+
+function onRecordClick() {
+    if (webSocket.readyState != WebSocket.OPEN) {
+        console.error("webSocket is not open: " + webSocket.readyState);
+        return;
+    }
+    webSocket.send("C");
+}
+
+function onStopClick() {
+    if (webSocket.readyState != WebSocket.OPEN) {
+        console.error("webSocket is not open: " + webSocket.readyState);
+        return;
+    }
+    webSocket.send("A");
+}
+
+function onStatusClick() {
+    if (webSocket.readyState != WebSocket.OPEN) {
+        console.error("webSocket is not open: " + webSocket.readyState);
+        return;
+    }
+    webSocket.send("S");
 }
