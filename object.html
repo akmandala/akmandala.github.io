@@ -5,40 +5,9 @@
     <meta name='robots' content='noindex, nofollow'>
     <meta name='googlebot' content='noindex, nofollow'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js'></script>
     <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
-    <script type='text/javascript' src='//d.plansys.co/object_tracker/js/controls/OrbitControls.js'></script>
-    <style type='text/css'>
-        body {
-            color: #000;
-            font-family: Monospace;
-            font-size: 13px;
-            text-align: center;
-            font-weight: bold;
-            background-color: #fff;
-            margin: 0px;
-            overflow: hidden;
-        }
-
-        .header {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            background: grey;
-            color: white;
-            text-align: center;
-            text-shadow: 1px 1px 10px rgba(150, 150, 150, 1);
-            flex: 0 0 80px;
-            padding-bottom: 10px;
-        }
-
-        .header h1 {
-            margin: 10px 0 5px 0;
-            font-weight: normal;
-        }
-    </style>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/three.js/96/three.min.js'></script>
+    <script type='text/javascript' src='//akmandala.github.io/OrbitControls.js'></script>
 
     <title>Object Tracking</title>
     <script type='text/javascript'>
@@ -55,7 +24,6 @@
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
-        //scene.fog = new THREE.FogExp2(0xcccccc, 0.002);
         var plane = new THREE.GridHelper(50, 10);
         scene.add(plane);
         renderer = new THREE.WebGLRenderer();
@@ -75,58 +43,17 @@
         controls.target = new THREE.Vector3(-20,0,0);
         //controls.autoRotate = true;
         //controls.autoRotateSpeed = 0.1;
+      
+        var webSocket   = null;
 
-        //movements
-        var last_x = 0, last_y = 0, last_z = 0; //make 1st position 0
-        var dpLocx = [];
-        var dpLocy = [];
-        var dpLocz = [];
-        
-        var dataPos = 0;
-        var lastTs = 0;
-        
-        function updateLoc() {
-    		setInterval(function() {
-				pivot.position.x = dpLocx[dataPos];
-				pivot.position.y = dpLocy[dataPos];
-				pivot.position.z = dpLocz[dataPos];
+        webSocket = new WebSocket('ws://192.168.43.100:81');
 
-				pivot.updateMatrix();
-
-				dataPos = dataPos + 1;
-				if (dataPos==10) {
-					dataPos = 0;
-				}
-			}, 100);
-    			
-    		setInterval(function() {
-    			jQuery.ajax({
-                    type:'GET',
-                    url: window.location +'/coordinate'
-    			}).done(function(data){
-    				if (lastTs != data.ts) {
-						for (var j=0;j<10;j++) {
-							if(data.hasOwnProperty('locx')){
-								dpLocx[j] = data.locx[j];
-							} else {
-							    dpLocx[j] = 0;
-							}
-							if(data.hasOwnProperty('locy')){
-								dpLocy[j] = data.locy[j];
-							} else {
-							    dpLocy[j] = 0;
-							}
-							if(data.hasOwnProperty('locz')){
-								dpLocz[j] = data.locz[j];
-							} else {
-							    dpLocz[j] = 0;
-							}
-						}
-						dataPos = 0;
-						lastTs = data.ts;
-					}
-				});
-			}, 1000);
+        webSocket.onmessage = function (messageEvent) {
+            var wsMsg = messageEvent.data;
+            var coordinate = wsMsg.split(',');
+            pivot.position.x = coordinate[0];
+            pivot.position.y = coordinate[1];
+            pivot.position.z = coordinate[2];
         }
 
         addEventListener('keydown', function(e) {
@@ -148,13 +75,10 @@
                 camera.position.set(-60, 60, 0);
             }
         }, false);
-        
+
         //world
-        var texture = new THREE.TextureLoader().load('https://akmandala.github.io/earthmap1k.jpg');
-        var bump = new THREE.TextureLoader().load('https://akmandala.github.io/earthbump1k.jpg');
-        var spec = new THREE.TextureLoader().load('https://akmandala.github.io/earthspec1k.jpg');
         var geometry = new THREE.SphereGeometry(10, 100, 100)
-        var material = new THREE.MeshPhongMaterial( { map: texture, bumpMap: bump, bumpScale: 0.5, specularMap: spec} );
+        var material = new THREE.MeshPhongMaterial();
         var pivot = new THREE.Mesh(geometry, material); //pivot
         
         pivot.position.x = 0;
@@ -221,7 +145,6 @@
         window.addEventListener('resize', onWindowResize, false);
 
         animate();
-        updateLoc();
 
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -239,10 +162,6 @@
 </head>
 
 <body>
-    <div class='header'>
-        <a href='https://developer.electricimp.com/'>
-        <img src='https://akmandala.github.io/electricimp.png' alt='[logo]'></a>
-        <h1>Object Tracking</h1>
     <div id='container'></div>
 </body>
 </html>
