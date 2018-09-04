@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv='content-type' content='text/html; charset=UTF-8'>
+    <meta name='robots' content='noindex, nofollow'>
+    <meta name='googlebot' content='noindex, nofollow'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js'></script>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+    <script type='text/javascript' src='//d.plansys.co/object_tracker/js/controls/OrbitControls.js'></script>
+    <style type='text/css'>
+        body {
+            color: #000;
+            font-family: Monospace;
+            font-size: 13px;
+            text-align: center;
+            font-weight: bold;
+            background-color: #fff;
+            margin: 0px;
+            overflow: hidden;
+        }
+
+        .header {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            background: grey;
+            color: white;
+            text-align: center;
+            text-shadow: 1px 1px 10px rgba(150, 150, 150, 1);
+            flex: 0 0 80px;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 10px 0 5px 0;
+            font-weight: normal;
+        }
+    </style>
+
+    <title>Object Tracking</title>
+    <script type='text/javascript'>
+        window.onload=function(){
+
+        var camera, controls, scene, renderer;
+        var max_x = 40,
+        max_y = 40,
+        max_z = 40,
+        min_x = -40,
+        min_y = -40,
+        min_z = -40;
+        var points = [];
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff);
+        //scene.fog = new THREE.FogExp2(0xcccccc, 0.002);
+        var plane = new THREE.GridHelper(50, 10);
+        scene.add(plane);
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        var container = document.getElementById('container');
+        container.appendChild(renderer.domElement);
+        camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 600);
+        camera.position.set(-60, 60, 0);
+        // controls
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        controls.enablePan = false;
+        controls.minDistance = -40;
+        controls.maxDistance = 80;
+        controls.target = new THREE.Vector3(-20,0,0);
+        //controls.autoRotate = true;
+        //controls.autoRotateSpeed = 0.1;
+
+        //movements
+        var last_x = 0, last_y = 0, last_z = 0; //make 1st position 0
+        var dpLocx = [];
+        var dpLocy = [];
+        var dpLocz = [];
+        
+        var dataPos = 0;
+        var lastTs = 0;
+        
+        function updateLoc() {
+    		setInterval(function() {
+				pivot.position.x = dpLocx[dataPos];
+				pivot.position.y = dpLocy[dataPos];
+				pivot.position.z = dpLocz[dataPos];
+
+				pivot.updateMatrix();
+
+				dataPos = dataPos + 1;
+				if (dataPos==10) {
+					dataPos = 0;
+				}
+			}, 100);
+    			
+    		setInterval(function() {
+    			jQuery.ajax({
+                    type:'GET',
+                    url: window.location +'/coordinate'
+    			}).done(function(data){
+    				if (lastTs != data.ts) {
+						for (var j=0;j<10;j++) {
+							if(data.hasOwnProperty('locx')){
+								dpLocx[j] = data.locx[j];
+							} else {
+							    dpLocx[j] = 0;
+							}
+							if(data.hasOwnProperty('locy')){
+								dpLocy[j] = data.locy[j];
+							} else {
+							    dpLocy[j] = 0;
+							}
+							if(data.hasOwnProperty('locz')){
+								dpLocz[j] = data.locz[j];
+							} else {
+							    dpLocz[j] = 0;
+							}
+						}
+						dataPos = 0;
+						lastTs = data.ts;
+					}
+				});
+			}, 1000);
+        }
+
+        addEventListener('keydown', function(e) {
+            e.preventDefault();
+            if (e.keyCode == 65) {
+                camera.position.set(-60, 60, -20);
+                controls.target = new THREE.Vector3(-40,0,-20);
+            } else if (e.keyCode == 83) {
+            camera.position.set(-60, 60, 20);
+                controls.target = new THREE.Vector3(-40,0,20);
+            } else if (e.keyCode == 68) {
+                camera.position.set(-60, 60, 20);
+                controls.target = new THREE.Vector3(10,0,20);
+            } else if (e.keyCode == 70) {
+                camera.position.set(-60, 60, -20);
+                controls.target = new THREE.Vector3(10,0,-20);
+            } else if (e.keyCode == 79) {
+                controls.target = new THREE.Vector3(-20,0,0);
+                camera.position.set(-60, 60, 0);
+            }
+        }, false);
+        
+        //world
+        var texture = new THREE.TextureLoader().load('https://akmandala.github.io/earthmap1k.jpg');
+        var bump = new THREE.TextureLoader().load('https://akmandala.github.io/earthbump1k.jpg');
+        var spec = new THREE.TextureLoader().load('https://akmandala.github.io/earthspec1k.jpg');
+        var geometry = new THREE.SphereGeometry(10, 100, 100)
+        var material = new THREE.MeshPhongMaterial( { map: texture, bumpMap: bump, bumpScale: 0.5, specularMap: spec} );
+        var pivot = new THREE.Mesh(geometry, material); //pivot
+        
+        pivot.position.x = 0;
+        pivot.position.y = 0;
+        pivot.position.z = 0;
+        pivot.updateMatrix();
+        pivot.matrixAutoUpdate = false;
+        scene.add(pivot);
+        points.push(pivot.position);
+
+        var geometry = new THREE.BoxGeometry(4, 4, 4);
+        
+        var material = new THREE.MeshPhongMaterial({
+            color: 0xff0000,
+            flatShading: true
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = -30;
+        mesh.position.y = 0;
+        mesh.position.z = 30;
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        scene.add(mesh);
+        points.push(mesh.position);
+        points.push(pivot.position);
+
+        var material = new THREE.MeshPhongMaterial({
+            color: 0x00ff00,
+            flatShading: true
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = 30;
+        mesh.position.y = 0;
+        mesh.position.z = 30;
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        scene.add(mesh);
+        points.push(mesh.position);
+        points.push(pivot.position);
+
+        var material = new THREE.MeshPhongMaterial({
+            color: 0x0000ff,
+            flatShading: true
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = 30;
+        mesh.position.y = 0;
+        mesh.position.z = -30;
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        scene.add(mesh);
+        points.push(mesh.position);
+        points.push(pivot.position);
+
+        // lights
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(1, 1, 1);
+        scene.add(light);
+        var light = new THREE.DirectionalLight(0x002288);
+        light.position.set(-1, -1, -1);
+        scene.add(light);
+        var light = new THREE.AmbientLight(0x222222);
+        scene.add(light);
+        window.addEventListener('resize', onWindowResize, false);
+
+        animate();
+        updateLoc();
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        function animate() {
+        	requestAnimationFrame( animate );
+        	controls.update();
+        	renderer.render( scene, camera );
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div class='header'>
+        <a href='https://developer.electricimp.com/'>
+        <img src='https://akmandala.github.io/electricimp.png' alt='[logo]'></a>
+        <h1>Object Tracking</h1>
+    <div id='container'></div>
+</body>
+</html>
