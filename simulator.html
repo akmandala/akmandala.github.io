@@ -64,10 +64,10 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/pubnub/3.7.7/pubnub.min.js"></script>        
 		<script>(function(){
             var channel = 'TestMonoHUD';
-            var speedVal = 0,
-                rpmVal = 0,
-                tempVal = 0,
-                gearVal = 0;
+            var speedVal = 65,
+                rpmVal = 2500,
+                tempVal = 30,
+                gearVal = 1;
             var $s = $(".speed"),
 				$r = $(".rpm"),
 				$f = $(".temp"),
@@ -126,7 +126,7 @@
                     })
                 }
             });
-            $g.knob({
+            $t.knob({
                 'release' : function (v) { 
                     gearVal = v; 
                     var publishConfig = {
