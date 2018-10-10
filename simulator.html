@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MonoHUD Engine Status</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/pubnub/3.7.7/pubnub.min.js"></script>        
+        <script>
+            
+            $(function($) {
+                $(".knob").knob({
+                    change : function (value) {
+                        //console.log("change : " + value);
+                    },
+                    release : function (value) {
+                        // console.log("release : " + value);
+                    },
+                    cancel : function () {
+                        // console.log("cancel : ", this);
+                    },
+                    /*format : function (value) {
+                        return value + '%';
+                    },*/
+                    draw : function () {
+                    }
+                });
+            });
+        </script>
+        <style>
+            body{
+                position: relative;
+                padding: 0;
+                margin: 0px 20px;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-weight: 300;
+                background-color: black;
+                text-rendering: optimizelegibility;
+            }
+            p{font-size: 30px; line-height: 30px; color:yellow;}
+            div.demo{text-align: center; height: 140px; width: 50%; float: left}
+            div.demo > p{font-size: 20px; line-height: 8px}
+        </style>
+    </head>
+    <body>
+        <div id=pubnub pub-key=pub-c-29abad12-cf12-4450-a3ff-5221d28940ec sub-key=sub-c-8ee8f0d8-b018-11e5-bb8b-02ee2ddab7fe></div>        
+        <div class="demo">
+            <p>Speed</p>
+            <input class="knob speed" data-width="140" data-max="200" data-step="1" data-linecap=round data-readOnly=false data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="65">
+        </div>
+        <div class="demo">
+            <p>RPM</p>
+            <input class="knob rpm" data-width="140" data-max="7000" data-step="50" data-linecap=round data-readOnly=false data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="2500">
+        </div> 
+		<div class="demo">
+            <p>Temp</p>
+            <input class="knob temp" data-width="140" data-min="-40" data-max="210" data-step="1" data-linecap=round data-readOnly=false data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="30">
+        </div>
+        <div class="demo">
+            <p>Gear</p>
+            <input class="knob gear" data-width="140" data-max="6" data-step="1" data-linecap=round data-readOnly=false data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="1">
+        </div> 
+		<p> </p>
+
+		<script>(function(){
+            var channel = 'TestMonoHUD';
+            var speedVal = 0,
+                rpmVal = 0,
+                tempVal = 0,
+                gearVal = 0;
+            var $s = $(".speed"),
+				$r = $(".rpm"),
+				$f = $(".temp"),
+				$t = $(".gear");
+            // HANDLE TEXT MESSAGE
+            var new_data = false;
+                      
+            $s.knob({
+                'release' : function (v) { 
+                    speedVal = v; 
+                    var publishConfig = {
+                        channel : channel,
+                        message: { 
+                            speed: speedVal,
+                            rpm: 3500
+                        }
+                    }
+                    pubnub.publish(publishConfig, function(status, response) {
+                        console.log(status, response);
+                    })
+                }
+            });
+
+
+		})();</script>	
+    </body>
+</html>

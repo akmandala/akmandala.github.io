@@ -47,12 +47,11 @@
         </div>
         <div class="demo">
             <p>RPM</p>
-            <input class="knob rpm" data-width="140" data-max="8000" data-step="100" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="2500">
+            <input class="knob rpm" data-width="140" data-max="7000" data-step="50" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="2500">
         </div> 
-		
-        <div class="demo">
-            <p>Fuel Level</p>
-            <input class="knob fuel" data-width="140" data-max="100" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="45">
+		<div class="demo">
+            <p>Temp</p>
+            <input class="knob temp" data-width="140" data-min="-40" data-max="210" data-step="1" data-linecap=round data-readOnly=true data-fgColor="#66CC66" data-angleOffset=-125 data-angleArc=250 value="30">
         </div>
         <div class="demo">
             <p>Gear</p>
@@ -67,7 +66,7 @@
 			function chat_receive(text) {
 				var $s = $(".speed"),
 					$r = $(".rpm"),
-					$f = $(".fuel"),
+					$f = $(".temp"),
 					$t = $(".gear");
 				
 				if(text.hasOwnProperty('speed')){
@@ -76,8 +75,8 @@
 				if(text.hasOwnProperty('rpm')){
 					$r.val(text["rpm"]).trigger("change");
 				}
-				if(text.hasOwnProperty('fuel')){
-					$f.val(text["fuel"]).trigger("change");
+				if(text.hasOwnProperty('temp')){
+					$f.val(text["temp"]).trigger("change");
 				}				
 				if(text.hasOwnProperty('gear')){
 					$t.val(text["gear"]).trigger("change");

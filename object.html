@@ -14,17 +14,10 @@
         window.onload=function(){
 
         var camera, controls, scene, renderer;
-        var max_x = 40,
-        max_y = 40,
-        max_z = 40,
-        min_x = -40,
-        min_y = -40,
-        min_z = -40;
-        var points = [];
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
-        var plane = new THREE.GridHelper(50, 10);
+        var plane = new THREE.GridHelper(80, 10);
         scene.add(plane);
         renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -32,7 +25,7 @@
         var container = document.getElementById('container');
         container.appendChild(renderer.domElement);
         camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 600);
-        camera.position.set(-60, 60, 0);
+        camera.position.set(0, 50, 0);
         // controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
@@ -40,10 +33,9 @@
         controls.enablePan = false;
         controls.minDistance = -40;
         controls.maxDistance = 80;
-        controls.target = new THREE.Vector3(-20,0,0);
-        //controls.autoRotate = true;
-        //controls.autoRotateSpeed = 0.1;
-      
+        controls.enabled = true;
+        controls.target = new THREE.Vector3(0,0,0);
+
         var webSocket   = null;
 
         webSocket = new WebSocket('ws://192.168.43.100:81');
@@ -51,43 +43,58 @@
         webSocket.onmessage = function (messageEvent) {
             var wsMsg = messageEvent.data;
             var coordinate = wsMsg.split(',');
-            pivot.position.x = coordinate[0];
-            pivot.position.y = coordinate[1];
-            pivot.position.z = coordinate[2];
+            //console.log(coordinate[0] + ',' + coordinate[1]);
+            pivot.position.x = 40-(coordinate[0]/40);
+            pivot.position.y = 0;
+            pivot.position.z = (coordinate[1]/40)-40;
+            pivot.rotation.set(0,(coordinate[3]/180)*Math.PI,0);
+            //console.log(pivot.rotation.y);
+            pivot.updateMatrix();
         }
+
+        function printMousePos(event) {
+           console.log(event.clientX + "," + event.clientY);
+        }
+
+        addEventListener("click", printMousePos);
 
         addEventListener('keydown', function(e) {
             e.preventDefault();
             if (e.keyCode == 65) {
                 camera.position.set(-60, 60, -20);
-                controls.target = new THREE.Vector3(-40,0,-20);
             } else if (e.keyCode == 83) {
-            camera.position.set(-60, 60, 20);
-                controls.target = new THREE.Vector3(-40,0,20);
+                camera.position.set(-60, 60, 20);
             } else if (e.keyCode == 68) {
                 camera.position.set(-60, 60, 20);
-                controls.target = new THREE.Vector3(10,0,20);
             } else if (e.keyCode == 70) {
                 camera.position.set(-60, 60, -20);
-                controls.target = new THREE.Vector3(10,0,-20);
             } else if (e.keyCode == 79) {
                 controls.target = new THREE.Vector3(-20,0,0);
-                camera.position.set(-60, 60, 0);
             }
         }, false);
 
         //world
-        var geometry = new THREE.SphereGeometry(10, 100, 100)
-        var material = new THREE.MeshPhongMaterial();
-        var pivot = new THREE.Mesh(geometry, material); //pivot
-        
-        pivot.position.x = 0;
-        pivot.position.y = 0;
-        pivot.position.z = 0;
-        pivot.updateMatrix();
-        pivot.matrixAutoUpdate = false;
-        scene.add(pivot);
-        points.push(pivot.position);
+        // create loading manager to load in all our models
+        var manager = new THREE.LoadingManager();
+        var loader = new THREE.JSONLoader(manager);
+        var pivot;
+
+        loader.load('model.js', function(geometry, materials) {
+            var blackMaterial = new THREE.MeshPhongMaterial({
+                color: 0x00E5EE,
+                reflectivity: 0.2,
+                shininess: 20
+            });
+            pivot = new THREE.Mesh(geometry, blackMaterial);
+            pivot.scale.set(2,2,2);
+            pivot.rotation.set(-Math.PI/2,0,0);
+            pivot.position.x = 0;
+            pivot.position.y = 0;
+            pivot.position.z = 0;
+            pivot.updateMatrix();
+            pivot.matrixAutoUpdate = false;
+            scene.add(pivot);
+        });
 
         var geometry = new THREE.BoxGeometry(4, 4, 4);
         
@@ -96,42 +103,36 @@
             flatShading: true
         });
         var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = -30;
+        mesh.position.x = -40;
         mesh.position.y = 0;
-        mesh.position.z = 30;
+        mesh.position.z = 40;
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         scene.add(mesh);
-        points.push(mesh.position);
-        points.push(pivot.position);
 
         var material = new THREE.MeshPhongMaterial({
             color: 0x00ff00,
             flatShading: true
         });
         var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = 30;
+        mesh.position.x = 40;
         mesh.position.y = 0;
-        mesh.position.z = 30;
+        mesh.position.z = 40;
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         scene.add(mesh);
-        points.push(mesh.position);
-        points.push(pivot.position);
 
         var material = new THREE.MeshPhongMaterial({
             color: 0x0000ff,
             flatShading: true
         });
         var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = 30;
+        mesh.position.x = 40;
         mesh.position.y = 0;
-        mesh.position.z = -30;
+        mesh.position.z = -40;
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         scene.add(mesh);
-        points.push(mesh.position);
-        points.push(pivot.position);
 
         // lights
         var light = new THREE.DirectionalLight(0xffffff);
@@ -154,7 +155,6 @@
         
         function animate() {
         	requestAnimationFrame( animate );
-        	controls.update();
         	renderer.render( scene, camera );
         }
     }

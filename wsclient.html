@@ -11,11 +11,11 @@
             textarea { width: 563px; border: 2px solid black; }
             #btnConnect    { width: 100px; }
             #btnDisconnect { width: 100px; }
-            #btnSend       { width: 75px; }
-            #btnRec       { width: 60px; }
-            #btnStart       { width: 60px; }
-            #btnStop       { width: 60px; }
-            #btnStat       { width: 60px; }
+            #btnSend  { width: 75px; }
+            #btnRec   { width: 60px; }
+            #btnStart { width: 60px; }
+            #btnStop  { width: 60px; }
+            #btnStat  { width: 60px; }
         </style>
     </head>
     <body>
@@ -33,15 +33,11 @@
             </tr>
             <tr>
                 <td>WS Hostname</td>
-                <td><input type="text" id="hostname"/></td>
+                <td><input type="text" id="hostname" value="192.168.43.100"/></td>
             </tr>
             <tr>
                 <td>WS Port</td>
-                <td><input type="text" id="port"/></td>
-            </tr>
-            <tr>
-                <td>WS Endpoint</td>
-                <td><input type="text" id="endpoint"/></td>
+                <td><input type="text" id="port" value="81"/></td>
             </tr>
             <tr>
                 <td></td>
@@ -68,6 +64,13 @@
                 </td>                
             </tr>
         </table><br/>
-        <textarea id="incomingMsgOutput" rows="30" cols="20" disabled="disabled"></textarea>
+        <table>
+            <tr>
+                <textarea id="incomingMsgOutput" rows="20" cols="20" disabled="disabled"></textarea>
+            </tr><br/>
+            <tr>
+                <textarea id="incomingDbgOutput" rows="20" cols="20" disabled="disabled"></textarea>
+            </tr>
+        </table><br/>
     </body>
 </html>

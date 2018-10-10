@@ -2,7 +2,6 @@ var webSocket   = null;
 var ws_protocol = null;
 var ws_hostname = null;
 var ws_port     = null;
-var ws_endpoint = null;
 /**
  * Event handler for clicking on button "Connect"
  */
@@ -10,8 +9,7 @@ function onConnectClick() {
     var ws_protocol = document.getElementById("protocol").value;
     var ws_hostname = document.getElementById("hostname").value;
     var ws_port     = document.getElementById("port").value;
-    var ws_endpoint = document.getElementById("endpoint").value;
-    openWSConnection(ws_protocol, ws_hostname, ws_port, ws_endpoint);
+    openWSConnection(ws_protocol, ws_hostname, ws_port);
 }
 /**
  * Event handler for clicking on button "Disconnect"
@@ -22,9 +20,9 @@ function onDisconnectClick() {
 /**
  * Open a new WebSocket connection using the given parameters
  */
-function openWSConnection(protocol, hostname, port, endpoint) {
+function openWSConnection(protocol, hostname, port) {
     var webSocketURL = null;
-    webSocketURL = protocol + "://" + hostname + ":" + port + endpoint;
+    webSocketURL = protocol + "://" + hostname + ":" + port;
     console.log("openWSConnection::Connecting to: " + webSocketURL);
     try {
         webSocket = new WebSocket(webSocketURL);
@@ -53,7 +51,7 @@ function openWSConnection(protocol, hostname, port, endpoint) {
         };
         webSocket.onmessage = function (messageEvent) {
             var wsMsg = messageEvent.data;
-            console.log("rcv: " + wsMsg);
+            //console.log("rcv: " + wsMsg);
             if (wsMsg.indexOf("error") > 0) {
                 document.getElementById("incomingMsgOutput").value += "error: " + wsMsg.error + "\r\n";
             } else {
