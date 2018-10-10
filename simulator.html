@@ -82,7 +82,9 @@
                         channel : channel,
                         message: { 
                             speed: speedVal,
-                            rpm: 3500
+                            rpm: rpmVal,
+                            temp: tempVal,
+                            gear: gearVal
                         }
                     }
                     PUBNUB.publish(publishConfig, function(status, response) {
@@ -90,8 +92,57 @@
                     })
                 }
             });
-
-
+            $r.knob({
+                'release' : function (v) { 
+                    rpmVal = v; 
+                    var publishConfig = {
+                        channel : channel,
+                        message: { 
+                            speed: speedVal,
+                            rpm: rpmVal,
+                            temp: tempVal,
+                            gear: gearVal
+                        }
+                    }
+                    PUBNUB.publish(publishConfig, function(status, response) {
+                        console.log(status, response);
+                    })
+                }
+            });
+            $f.knob({
+                'release' : function (v) { 
+                    tempVal = v; 
+                    var publishConfig = {
+                        channel : channel,
+                        message: { 
+                            speed: speedVal,
+                            rpm: rpmVal,
+                            temp: tempVal,
+                            gear: gearVal
+                        }
+                    }
+                    PUBNUB.publish(publishConfig, function(status, response) {
+                        console.log(status, response);
+                    })
+                }
+            });
+            $g.knob({
+                'release' : function (v) { 
+                    gearVal = v; 
+                    var publishConfig = {
+                        channel : channel,
+                        message: { 
+                            speed: speedVal,
+                            rpm: rpmVal,
+                            temp: tempVal,
+                            gear: gearVal
+                        }
+                    }
+                    PUBNUB.publish(publishConfig, function(status, response) {
+                        console.log(status, response);
+                    })
+                }
+            });
 		})();</script>	
     </body>
 </html>
