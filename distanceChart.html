@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bluetooth LE Coded PHY RSSI Visualization</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <style>
+        /* Space out content a bit */
+        body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        }
+        .wide-button {
+            min-width: 80px;
+        }
+        .vbottom {
+            vertical-align: bottom;
+        }
+        .inline-group {
+            /* Add to make a .form-group more like a .btn */
+            display: inline-block;
+            margin-bottom: 0;
+        }
+        .raise-8px {
+            /* Vertically center label relative to button even when vertical-align is bottom. */
+            position: relative;
+            top: -8px;
+        }
+        .jquery-hidden {
+            /* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
+            display: none;
+        }
+    </style>
+  </head>
+  <body onload="createTimeline()">
+      <div class="container">
+
+        <div class="jumbotron">
+            <h1><nobr>RSSI Visualization</nobr> <a href="http://www.avolut.co.uk/"><img
+                    src="avltlogo.png" alt="[logo]"></a></h1>
+            <p>Bluetooth LE Coded PHY RSSI Visualization via Websocket Local Network.</p>
+        </div>
+	
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">RSSI Level (-dBm)</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart1" width="1100" height="400"></canvas>
+            </div>
+        </div>	
+		
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Distance Approximation (m)</h3>
+            </div>
+            <div class="panel-body">
+				<canvas id="chart2" width="1100" height="400"></canvas>
+            </div>
+        </div>	
+
+    <footer class="bs-docs-footer">
+        <div class="container">
+             Avolut UK - 2018
+                <a href="http://www.avolut.co.uk/" target="_blank">Avolut UK</a>.
+        </div>
+    </footer>	  
+	
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
+    <script type="text/javascript">	
+		var rssi = new TimeSeries();
+		var dist = new TimeSeries();
+		
+		function createTimeline() {
+			var chart1 = new SmoothieChart({maxValue:110, minValue:10, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart1.addTimeSeries(rssi, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart1.streamTo(document.getElementById("chart1"), 0);
+			
+			var chart2 = new SmoothieChart({maxValue:1000, minValue:0, millisPerPixel:10, timestampFormatter:SmoothieChart.timeFormatter});
+			chart2.addTimeSeries(dist, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0)', lineWidth: 1 });
+			chart2.streamTo(document.getElementById("chart2"), 0);							
+		}
+
+        var webSocket   = null;
+
+        webSocket = new WebSocket('ws://192.168.1.121:81');
+
+        webSocket.onmessage = function (messageEvent) {
+            var wsMsg = messageEvent.data;
+            var timeStmp = new Date().getTime();
+            var coordinate = wsMsg.split(',');
+            rssi.append(timeStmp, coordinate[0]);
+            dist.append(timeStmp, coordinate[3]);
+        }
+		  
+    </script>
+	
+  </body>
+</html>

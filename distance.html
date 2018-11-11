@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv='content-type' content='text/html; charset=UTF-8'>
+    <meta name='robots' content='noindex, nofollow'>
+    <meta name='googlebot' content='noindex, nofollow'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/three.js/96/three.min.js'></script>
+    <script type='text/javascript' src='//akmandala.github.io/OrbitControls.js'></script>
+
+    <title>Object Tracking</title>
+    <script type='text/javascript'>
+        window.onload=function(){
+
+        var camera, controls, scene, renderer;
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff);
+        var plane = new THREE.GridHelper(200, 20);
+        scene.add(plane);
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        var container = document.getElementById('container');
+        container.appendChild(renderer.domElement);
+        camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 600);
+        camera.position.set(0, 50, 0);
+        // controls
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        controls.enablePan = false;
+        controls.minDistance = -40;
+        controls.maxDistance = 80;
+        controls.enabled = true;
+        controls.target = new THREE.Vector3(0,0,0);
+
+        var webSocket   = null;
+
+        webSocket = new WebSocket('ws://192.168.1.121:81');
+
+        webSocket.onmessage = function (messageEvent) {
+            var wsMsg = messageEvent.data;
+            var coordinate = wsMsg.split(',');
+            pivot.position.x = (coordinate[0]*3)-175;
+            pivot.position.y = 0;
+            pivot.position.z = 0;
+            console.log(coordinate[0] + ',' + pivot.position.x);
+            pivot.rotation.set(0,(coordinate[3]/180)*Math.PI,0);
+            pivot.updateMatrix();
+        }
+
+        function printMousePos(event) {
+           console.log(event.clientX + "," + event.clientY);
+        }
+
+        addEventListener("click", printMousePos);
+
+        addEventListener('keydown', function(e) {
+            e.preventDefault();
+            if (e.keyCode == 65) {
+                camera.position.set(0, 50, 0);
+            } else if (e.keyCode == 83) {
+                camera.position.set(-60, 60, 20);
+            } else if (e.keyCode == 68) {
+                camera.position.set(-60, 60, 20);
+            } else if (e.keyCode == 70) {
+                camera.position.set(-60, 60, -20);
+            } else if (e.keyCode == 79) {
+                camera.position.set(0, 50, 0);
+                controls.target = new THREE.Vector3(0,0,0);
+            }
+        }, false);
+
+        //world
+        // create loading manager to load in all our models
+        var manager = new THREE.LoadingManager();
+        var loader = new THREE.JSONLoader(manager);
+        var pivot;
+
+        loader.load('model.js', function(geometry, materials) {
+            var blackMaterial = new THREE.MeshPhongMaterial({
+                color: 0x00E5EE,
+                reflectivity: 0.2,
+                shininess: 20
+            });
+            pivot = new THREE.Mesh(geometry, blackMaterial);
+            pivot.scale.set(2,2,2);
+            pivot.rotation.set(-Math.PI/2,0,0);
+            pivot.position.x = 0;
+            pivot.position.y = 0;
+            pivot.position.z = 0;
+            pivot.updateMatrix();
+            pivot.matrixAutoUpdate = false;
+            scene.add(pivot);
+        });
+
+        var geometry = new THREE.BoxGeometry(4, 4, 4);
+        
+        var material = new THREE.MeshPhongMaterial({
+            color: 0xff0000,
+            flatShading: true
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = -100;
+        mesh.position.y = 0;
+        mesh.position.z = 0;
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        scene.add(mesh);
+
+        var material = new THREE.MeshPhongMaterial({
+            color: 0x0000ff,
+            flatShading: true
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = 100;
+        mesh.position.y = 0;
+        mesh.position.z = 0;
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        scene.add(mesh);
+
+        // lights
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(1, 1, 1);
+        scene.add(light);
+        var light = new THREE.DirectionalLight(0x002288);
+        light.position.set(-1, -1, -1);
+        scene.add(light);
+        var light = new THREE.AmbientLight(0x222222);
+        scene.add(light);
+        window.addEventListener('resize', onWindowResize, false);
+
+        animate();
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        function animate() {
+        	requestAnimationFrame( animate );
+        	renderer.render( scene, camera );
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id='container'></div>
+</body>
+</html>

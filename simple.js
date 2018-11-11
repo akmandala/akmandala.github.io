@@ -11,7 +11,7 @@ function handler (req, res) {
     
     // Managing the root route
     if (path == '/') {
-        index = fs.readFile(__dirname+'/object.html', 
+        index = fs.readFile(__dirname+'/distanceChart.html', 
 		//index = fs.readFile(__dirname+'/three.html', 
             function(error,data) {
                 
@@ -38,6 +38,18 @@ function handler (req, res) {
                 res.end(data);
             });
     } else if( /\.(js)$/.test(path) ) {
+        index = fs.readFile(__dirname+path, 
+            function(error,data) {
+                
+                if (error) {
+                    res.writeHead(500);
+                    return res.end("Error: unable to load " + path);
+                }
+                
+                res.writeHead(200,{'Content-Type': 'text/plain'});
+                res.end(data);
+            });
+    } else if( /\.(png)$/.test(path) ) {
         index = fs.readFile(__dirname+path, 
             function(error,data) {
                 
