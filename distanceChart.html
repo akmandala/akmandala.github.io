@@ -16,34 +16,14 @@
         padding-top: 20px;
         padding-bottom: 20px;
         }
-        .wide-button {
-            min-width: 80px;
-        }
-        .vbottom {
-            vertical-align: bottom;
-        }
-        .inline-group {
-            /* Add to make a .form-group more like a .btn */
-            display: inline-block;
-            margin-bottom: 0;
-        }
-        .raise-8px {
-            /* Vertically center label relative to button even when vertical-align is bottom. */
-            position: relative;
-            top: -8px;
-        }
-        .jquery-hidden {
-            /* Bootstrap defines a .hidden which is different to JQuery's idea of hidden. */
-            display: none;
-        }
     </style>
   </head>
   <body onload="createTimeline()">
       <div class="container">
 
         <div class="jumbotron">
-            <h1><nobr>RSSI Visualization</nobr> <a href="http://www.avolut.co.uk/"><img
-                    src="avltlogo.png" alt="[logo]"></a></h1>
+            <h1><nobr>RSSI Visualization</nobr> <a href="//www.avolut.co.uk/"><img
+                    src="//akmandala.github.io/avltlogo.png" alt="[logo]"></a></h1>
             <p>Bluetooth LE Coded PHY RSSI Visualization via Websocket Local Network.</p>
         </div>
 	
@@ -68,12 +48,13 @@
     <footer class="bs-docs-footer">
         <div class="container">
              Avolut UK - 2018
-                <a href="http://www.avolut.co.uk/" target="_blank">Avolut UK</a>.
+                <a href="//www.avolut.co.uk/" target="_blank">Avolut UK</a>.
         </div>
     </footer>	  
-	
+	<div id=pubnub pub-key=pub-c-29abad12-cf12-4450-a3ff-5221d28940ec sub-key=sub-c-8ee8f0d8-b018-11e5-bb8b-02ee2ddab7fe></div> 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/smoothie/1.29.1/smoothie.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pubnub/3.7.7/pubnub.min.js"></script>  
     <script type="text/javascript">	
 		var rssi = new TimeSeries();
 		var dist = new TimeSeries();
@@ -97,10 +78,19 @@
             var timeStmp = new Date().getTime();
             var coordinate = wsMsg.split(',');
             rssi.append(timeStmp, coordinate[0]);
-            dist.append(timeStmp, coordinate[3]);
+            dist.append(timeStmp, 10*coordinate[0]);
+            if (coordinate[0] <= 48) {
+                var publishConfig = {
+                    channel : 'TestBLE5',
+                    message: { 
+                        rssi: coordinate[0]
+                    }
+                }
+                PUBNUB.publish(publishConfig, function(status, response) {
+                    console.log(status, response);
+                })
+            }
         }
-		  
     </script>
-	
   </body>
 </html>
