@@ -233,7 +233,9 @@
 			if (lastTs != data.ts) {
 				lastTs = data.ts;
 				var dataString = data.serial;
-				document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;   
+				if (dataString != null) {
+					document.getElementById("debugText").innerHTML =  dataString + "\n" + document.getElementById("debugText").innerHTML;   
+				}
 				if(data.hasOwnProperty('ad0')){
 					for (i=0;i<20;i++) {
 						dpAd0[i] = data.ad0[i];
