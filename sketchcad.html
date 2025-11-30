@@ -681,17 +681,14 @@
         <div class="header-title">
           sketchCAD – Sketch → Schematic → PCB → BoM → Enclosure
         </div>
-        <div class="header-subtitle">
-          Static MVP demo. No backend. All updates are scripted for presentation.
-        </div>
       </div>
       <div class="header-right">
         <span class="header-demo-badge">
-          Demo project: Photogrammetry Rig (demo project)
+          Project: CM5 Photogrammetry Rig
         </span>
         <a
           class="btn btn-primary btn-small"
-          href="/downloads/sketchcad_photogrammetry_rig_demo.zip"
+          href="/downloads/sketchcad_photogrammetry.zip"
           download
         >
           <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -713,12 +710,11 @@
       <!-- Static prompt box at top, like ChatGPT input -->
       <section class="prompt-panel">
         <div class="prompt-label">
-          Design Intent (sketchCAD prompt) – update text here for follow-ups and corrections.
+          sketchCAD prompt
         </div>
         <textarea
           id="design-intent-input"
           class="prompt-input"
-          placeholder="Describe your hardware idea in natural language. For example: &quot;A 6-camera photogrammetry rig with CM5 compute module, deepX accelerator, synchronized camera triggers, mmWave gesture sensor on the front, and a compact aluminum extrusion enclosure.&quot;"
         >Current project: Photogrammetry Rig (demo project)
 
 Goals:
@@ -733,20 +729,17 @@ Constraints:
 - Camera connectors on the front, user I/O (Ethernet/SD/power) on the rear.</textarea>
 
         <div class="prompt-actions-row">
-          <div class="prompt-hint">
-            This behaves like a ChatGPT prompt bar, but everything is local and scripted. No real AI calls.
-          </div>
           <div class="prompt-buttons">
             <button id="btn-apply-intent" class="btn btn-primary btn-small">
-              Apply intent
+              Apply
             </button>
             <button id="btn-regenerate" class="btn btn-small">
-              Regenerate (fake)
+              Regenerate
             </button>
           </div>
         </div>
         <div id="status-text" class="status-text">
-          Ready. Loaded Photogrammetry Rig (demo project) example.
+          Ready. Loaded Photogrammetry Rig.
         </div>
       </section>
 
