@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>sketchCAD – Sketch → Schematic → PCB → BoM → Enclosure</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!--
-    sketchCAD – single-file static MVP demo.
+    sketchCAD – static MVP demo
 
-    Where to put files (for GitHub Pages / Netlify):
+    File placement for GitHub Pages / Netlify:
 
-    - KiCad schematic for KiCanvas:
-        /kicad/example.kicad_sch
-    - KiCad PCB for KiCanvas:
-        /kicad/example.kicad_pcb
-    - STEP model for 3D viewer (remote URL):
-        https://mydomain.com/models/example.step
-      (update the iframe src in the Extrusion tab)
-    - Design bundle ZIP:
-        /downloads/sketchcad_photogrammetry_rig_demo.zip
+      - KiCad schematic for KiCanvas:
+          /kicad/example.kicad_sch
+
+      - KiCad PCB for KiCanvas:
+          /kicad/example.kicad_pcb
+
+      - STEP model for 3D viewer (remote URL – edit iframe src below):
+          https://mydomain.com/models/example.step
+
+      - Design bundle ZIP:
+          /downloads/sketchcad_photogrammetry_rig_demo.zip
 
     BoM:
-      - Currently a static HTML table in the BoM tab; edit rows as needed.
+      - Simple HTML table in the BoM tab; edit rows as needed.
   -->
 
   <style>
@@ -32,7 +34,7 @@
       --border-strong: #d1d5db;
       --text-main: #111827;
       --text-muted: #6b7280;
-      --accent: #10a37f; /* chat-y green */
+      --accent: #10a37f;
       --radius-lg: 0.75rem;
       --radius-md: 0.5rem;
     }
@@ -41,7 +43,8 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -60,7 +63,12 @@
       flex-direction: column;
     }
 
-    /* Header */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Header (simple, GPT-ish) */
 
     .app-header {
       position: sticky;
@@ -75,6 +83,12 @@
       border-bottom: 1px solid var(--border-subtle);
     }
 
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
     .header-title {
       font-weight: 600;
       font-size: 0.95rem;
@@ -83,12 +97,6 @@
     .header-subtitle {
       font-size: 0.78rem;
       color: var(--text-muted);
-      margin-top: 0.15rem;
-    }
-
-    .header-left {
-      display: flex;
-      flex-direction: column;
     }
 
     .header-right {
@@ -99,9 +107,9 @@
       justify-content: flex-end;
     }
 
-    .header-demo-badge {
+    .header-project {
       font-size: 0.78rem;
-      padding: 0.15rem 0.55rem;
+      padding: 0.15rem 0.6rem;
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
       background: #f9fafb;
@@ -156,7 +164,7 @@
       height: 14px;
     }
 
-    /* Main layout */
+    /* Main layout ---------------------------------------------- */
 
     .app-main {
       flex: 1;
@@ -166,7 +174,7 @@
       gap: 0.75rem;
     }
 
-    /* Prompt panel – like a static ChatGPT box at the top */
+    /* Static prompt on top (GPT-like) */
 
     .prompt-panel {
       background: var(--bg-surface);
@@ -227,17 +235,17 @@
       color: var(--text-muted);
     }
 
-    /* Bottom layout: workspace + reasoning panel */
+    /* Bottom: big workspace (left) + thinking panel (right) ------ */
 
     .main-layout {
       flex: 1;
-      display: grid;
+      display: grid; /* IMPORTANT: two-column layout */
       grid-template-columns: minmax(0, 3fr) minmax(260px, 1.4fr);
       gap: 0.75rem;
       min-height: 0;
     }
 
-    /* Workspace (tabs + content) */
+    /* Workspace / tabs */
 
     .workspace {
       background: var(--bg-surface);
@@ -378,7 +386,7 @@
       color: var(--text-muted);
     }
 
-    /* Blocks tab: simple cards */
+    /* Blocks tab */
 
     .block-grid {
       display: grid;
@@ -539,7 +547,7 @@
       width: 100%;
     }
 
-    /* Reasoning panel – “thinking” column */
+    /* Reasoning panel (thinking column) */
 
     .reasoning-panel {
       background: var(--bg-surface);
@@ -623,7 +631,7 @@
       flex-wrap: wrap;
     }
 
-    /* Responsive */
+    /* Responsive tweaks */
 
     @media (max-width: 900px) {
       .main-layout {
@@ -649,7 +657,7 @@
       }
 
       .main-layout {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr); /* stack on mobile */
       }
     }
 
@@ -667,28 +675,28 @@
         flex-direction: column-reverse;
         align-items: flex-start;
       }
-
-      .prompt-buttons {
-        width: 100%;
-      }
     }
   </style>
 </head>
 <body>
   <div id="app">
+    <!-- Header -------------------------------------------------------------->
     <header class="app-header">
       <div class="header-left">
         <div class="header-title">
           sketchCAD – Sketch → Schematic → PCB → BoM → Enclosure
         </div>
+        <div class="header-subtitle">
+          Static MVP – sketch-driven CAD+EDA workflow, front-end only (no real AI).
+        </div>
       </div>
       <div class="header-right">
-        <span class="header-demo-badge">
+        <div class="header-project">
           Project: CM5 Photogrammetry Rig
-        </span>
+        </div>
         <a
           class="btn btn-primary btn-small"
-          href="/downloads/sketchcad_photogrammetry.zip"
+          href="/downloads/sketchcad_photogrammetry_rig_demo.zip"
           download
         >
           <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -706,45 +714,51 @@
       </div>
     </header>
 
+    <!-- Main content -------------------------------------------------------->
     <main class="app-main">
-      <!-- Static prompt box at top, like ChatGPT input -->
+      <!-- Prompt panel (static, GPT-style) -->
       <section class="prompt-panel">
         <div class="prompt-label">
-          sketchCAD prompt
+          sketchCAD prompt – describe or correct the Photogrammetry Rig intent here.
         </div>
         <textarea
           id="design-intent-input"
           class="prompt-input"
+          placeholder="Describe your hardware idea in natural language..."
         >Project: Photogrammetry Rig using CM5
+
 Goals:
 - 2× camera connectors.
 - CM5 compute core with deepX accelerator via PCIe.
-- USB-C power 5V/ 3A without PD.
+- USB-C power 5V / 3A (no PD).
 - Ethernet + SD card for data ingest/export.
-- mmWave gesture sensor on the front edge of the enclosure for operator main UI + RGB LED for the feedback.
+- mmWave gesture sensor on the front edge of the enclosure for operator UI + RGB LED feedback.
 
 Constraints:
-- Enclosure to house 160 x 160mm PCB, Extrusion Al.
-- Camera connectors + mmWave sensor + RGB LEDs on the front, user I/O (Ethernet/SD/power) on the rear.</textarea>
+- Enclosure to house ~160×160 mm PCB, aluminum extrusion.
+- Camera connectors + mmWave sensor + RGB LED on the front, user I/O (Ethernet / SD / power) on the rear.</textarea>
 
         <div class="prompt-actions-row">
+          <div class="prompt-hint">
+            This behaves like a ChatGPT prompt bar, but everything is static and local for this MVP.
+          </div>
           <div class="prompt-buttons">
             <button id="btn-apply-intent" class="btn btn-primary btn-small">
-              Apply
+              Apply intent
             </button>
             <button id="btn-regenerate" class="btn btn-small">
-              Regenerate
+              Regenerate (fake)
             </button>
           </div>
         </div>
         <div id="status-text" class="status-text">
-          Ready. Loaded CM5 Photogrammetry Rig.
+          Ready. Loaded CM5 Photogrammetry Rig example.
         </div>
       </section>
 
-      <!-- Bottom: workspace in the middle, thinking panel on the right -->
+      <!-- Bottom: workspace + reasoning panel -->
       <section class="main-layout">
-        <!-- Workspace -->
+        <!-- Workspace (tabs) -->
         <section class="workspace">
           <div class="tabs-header">
             <div class="tabs-list">
@@ -772,7 +786,7 @@ Constraints:
             </div>
             <div class="zoom-control">
               <label for="zoom-range">Zoom</label>
-              <input id="zoom-range" type="range" min="60" max="180" value="100">
+              <input id="zoom-range" type="range" min="60" max="180" value="100" />
               <span id="zoom-value">100%</span>
             </div>
           </div>
@@ -783,25 +797,37 @@ Constraints:
               <div class="tab-panel-inner">
                 <h3 class="panel-title">Sketch</h3>
                 <p class="panel-subtitle">
-                  Input sketch: electronics and enclosure face plates.
+                  Input sketch: electronics and enclosure face plates. sketchCAD pretends to interpret it.
                 </p>
+
                 <div class="sketch-toolbar">
                   <div class="sketch-toolbar-left">
                     <button id="sketch-clear" class="btn btn-small">Clear sketch</button>
                     <button id="sketch-apply" class="btn btn-primary btn-small">
-                      Apply
+                      Apply sketch (fake)
                     </button>
                   </div>
+                  <div class="sketch-note">
+                    Draw very rough blocks for CM5, deepX, camera connectors, power, and the mmWave sensor.
+                  </div>
                 </div>
-                <!-- Simple drawing canvas -->
+
                 <canvas id="sketch-canvas" width="1000" height="500"></canvas>
+
+                <div class="sketch-footer">
+                  Typical demo script: show a messy sketch, apply it, then flip to Blocks / Schematic / PCB to “reveal” the cleaned design.
+                </div>
               </div>
             </div>
 
             <!-- Blocks Tab -->
             <div id="tab-blocks" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">High-level Blocks – CM5 Photogrammetry Rig</h3
+                <h3 class="panel-title">High-level Blocks – CM5 Photogrammetry Rig</h3>
+                <p class="panel-subtitle">
+                  Static but believable block view. A real sketchCAD backend would generate this from the sketch + intent.
+                </p>
+
                 <div class="block-grid">
                   <div class="block-card">
                     <div class="block-card-title">CM5 Compute Module</div>
@@ -812,33 +838,37 @@ Constraints:
                       PCIe → deepX · GigE · SDIO
                     </div>
                   </div>
+
                   <div class="block-card">
                     <div class="block-card-title">deepX AI Module</div>
                     <div class="block-card-sub">
                       Hardware accelerator for real-time feature extraction on captured frames.
                     </div>
                     <div class="block-card-tags">
-                      PCIe x1 · 3V3/5V rails
+                      PCIe x1 · 3V3 / 5V rails
                     </div>
                   </div>
+
                   <div class="block-card">
-                    <div class="block-card-title">Camera connectors</div>
+                    <div class="block-card-title">Camera connectors (2×)</div>
                     <div class="block-card-sub">
-                      Dual camera for stereo photogrammetry.
+                      Dual cameras for stereo photogrammetry.
                     </div>
                     <div class="block-card-tags">
-                      CS0 & CS1 · 2× trigger lines · I²C config
+                      CS0 &amp; CS1 · 2× trigger lines · I²C config
                     </div>
                   </div>
+
                   <div class="block-card">
                     <div class="block-card-title">Power Input + DCDC</div>
                     <div class="block-card-sub">
-                      USB-C (no PD) or PoE input.
+                      USB‑C (5 V / 3 A, no PD) and optional PoE input for field use.
                     </div>
                     <div class="block-card-tags">
-                      PoE 7–36 V in · USB-C 5V/ 3A · mmWave sensor rail
+                      PoE 7–36 V in · USB‑C 5 V / 3 A · mmWave rail
                     </div>
                   </div>
+
                   <div class="block-card">
                     <div class="block-card-title">Ethernet + SD Card</div>
                     <div class="block-card-sub">
@@ -848,13 +878,14 @@ Constraints:
                       RJ45 · microSD socket
                     </div>
                   </div>
+
                   <div class="block-card">
-                    <div class="block-card-title">mmWave Gesture Sensor</div>
+                    <div class="block-card-title">mmWave Gesture Sensor + RGB LED</div>
                     <div class="block-card-sub">
-                      Hands-free gesture trigger on the front of the enclosure.
+                      Hands‑free gesture trigger and visual feedback on the front of the enclosure.
                     </div>
                     <div class="block-card-tags">
-                      I²C/UART · IRQ → CM5
+                      I²C / UART · IRQ → CM5 · RGB LED driver
                     </div>
                   </div>
                 </div>
@@ -865,10 +896,16 @@ Constraints:
             <div id="tab-schematic" class="tab-panel">
               <div class="tab-panel-inner">
                 <h3 class="panel-title">Top-level schematic (KiCanvas)</h3>
+                <p class="panel-subtitle">
+                  Single schematic file with CM5, deepX, camera connectors, power input, Ethernet, SD card and mmWave sensor.
+                </p>
 
                 <div class="embed-note">
+                  KiCanvas will render below once you add the KiCanvas web component loader and place a KiCad schematic at:
                   <code>/kicad/example.kicad_sch</code>.
                 </div>
+
+                <!-- Place your KiCad schematic at /kicad/example.kicad_sch -->
                 <kicanvas-embed src="/kicad/example.kicad_sch"></kicanvas-embed>
               </div>
             </div>
@@ -877,10 +914,16 @@ Constraints:
             <div id="tab-pcb" class="tab-panel">
               <div class="tab-panel-inner">
                 <h3 class="panel-title">PCB placement &amp; outline (KiCanvas)</h3>
+                <p class="panel-subtitle">
+                  Connectors on the front edge, CM5 + deepX near the center, power and rear I/O grouped logically.
+                </p>
 
                 <div class="embed-note">
-                  <code>/kicad/example.kicad_pcb</code>
+                  KiCanvas will render below once you place a KiCad PCB file at:
+                  <code>/kicad/example.kicad_pcb</code>. For this MVP, sketchCAD only pretends to keep the PCB aligned with the sketch.
                 </div>
+
+                <!-- Place your KiCad PCB at /kicad/example.kicad_pcb -->
                 <kicanvas-embed src="/kicad/example.kicad_pcb"></kicanvas-embed>
               </div>
             </div>
@@ -889,6 +932,9 @@ Constraints:
             <div id="tab-bom" class="tab-panel">
               <div class="tab-panel-inner">
                 <h3 class="panel-title">BoM (minimal) – CM5 Photogrammetry Rig</h3>
+                <p class="panel-subtitle">
+                  Minimal BoM: just line, designators and part number. Enough to show that sketchCAD knows what’s on the board.
+                </p>
 
                 <div class="bom-table-wrapper">
                   <table class="bom-table">
@@ -912,31 +958,34 @@ Constraints:
                       </tr>
                       <tr>
                         <td>3</td>
-                        <td>J1–J6</td>
-                        <td>CAM-CONN-PLACEHOLDER – 6× camera connectors</td>
+                        <td>J1–J2</td>
+                        <td>CAM-CONN-PLACEHOLDER – 2× camera connectors</td>
                       </tr>
                       <tr>
                         <td>4</td>
                         <td>PS1</td>
-                        <td>DCDC-12V-PLACEHOLDER – 12–24 V to 5 V/3V3 DCDC module</td>
+                        <td>DCDC-12V-PLACEHOLDER – PoE / USB‑C front-end &amp; DCDC</td>
                       </tr>
                       <tr>
                         <td>5</td>
-                        <td>J7</td>
+                        <td>J3</td>
                         <td>ETH-RJ45-PLACEHOLDER – Ethernet jack with magnetics</td>
                       </tr>
                       <tr>
                         <td>6</td>
-                        <td>J8</td>
+                        <td>J4</td>
                         <td>MICROSD-PLACEHOLDER – microSD card connector</td>
                       </tr>
                       <tr>
                         <td>7</td>
                         <td>U3</td>
-                        <td>MMWAVE-GESTURE-PLACEHOLDER – mmWave gesture sensor module</td>
+                        <td>MMWAVE-GESTURE-PLACEHOLDER – mmWave gesture sensor</td>
                       </tr>
                     </tbody>
                   </table>
+                  <div class="bom-caption">
+                    Edit these rows directly in this file or replace with a generated BoM later.
+                  </div>
                 </div>
               </div>
             </div>
@@ -944,8 +993,16 @@ Constraints:
             <!-- FreeCAD Macro Tab -->
             <div id="tab-freecad" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">FreeCAD enclosure macro</h3>
+                <h3 class="panel-title">FreeCAD enclosure macro (placeholder)</h3>
+                <p class="panel-subtitle">
+                  Placeholder macro region. For the pitch, scroll through and talk about parametric enclosure generation.
+                </p>
+
                 <div class="macro-wrapper">
+                  <div class="macro-header">
+                    <span>FreeCAD macro – not executed in the browser.</span>
+                    <span>Replace with your real macro if you like.</span>
+                  </div>
                   <pre class="macro-placeholder">
 # sketchCAD – photogrammetry rig enclosure macro (placeholder)
 #
@@ -969,7 +1026,7 @@ def ensure_doc():
         App.newDocument(DOC_NAME)
     return App.ActiveDocument
 
-def build_demo_enclosure(board_length=400.0, board_width=180.0, height=70.0):
+def build_demo_enclosure(board_length=160.0, board_width=160.0, height=70.0):
     doc = ensure_doc()
 
     base = Part.makeBox(board_length, board_width, height)
@@ -989,7 +1046,10 @@ if __name__ == "__main__":
             <!-- Extrusion Tab -->
             <div id="tab-extrusion" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">3D enclosure view</h3>
+                <h3 class="panel-title">3D enclosure view (STEP via 3dviewer.net)</h3>
+                <p class="panel-subtitle">
+                  STEP file is hosted externally and embedded via iframe. sketchCAD pretends this comes from the FreeCAD macro.
+                </p>
 
                 <div class="extrusion-wrapper">
                   <div class="extrusion-header">
@@ -998,11 +1058,12 @@ if __name__ == "__main__":
                       https://3dviewer.net/#model=https://mydomain.com/models/example.step
                     </span>
                   </div>
+                  <!-- Replace the model URL with your actual STEP file URL -->
                   <iframe
                     class="extrusion-viewer"
                     src="https://3dviewer.net/#model=https://mydomain.com/models/example.step"
                     loading="lazy"
-                    title="CM5 Photogrammetry Rig"
+                    title="Photogrammetry rig enclosure (demo)"
                     allowfullscreen
                   ></iframe>
                 </div>
@@ -1011,7 +1072,7 @@ if __name__ == "__main__":
           </div>
         </section>
 
-        <!-- Right: thinking panel like ChatGPT's side log -->
+        <!-- Reasoning / thinking panel (right column) -->
         <aside class="reasoning-panel">
           <div>
             <div class="reasoning-header-text">AI Reasoning (sketchCAD)</div>
@@ -1020,16 +1081,22 @@ if __name__ == "__main__":
             </div>
           </div>
           <div id="reasoning-log" class="reasoning-log">
-            <!-- JS will prepend entries here -->
+            <!-- Entries are injected by JS -->
           </div>
           <div class="reasoning-footer-note">
-            Talk through these entries in your pitch as if sketchCAD were actually re-synthesizing the design from sketch + intent.
+            Narrate these steps as if sketchCAD were actually re-synthesizing the design from sketch + intent.
           </div>
         </aside>
       </section>
     </main>
 
     <footer class="app-footer">
+      <span>
+        sketchCAD MVP – static front-end only. Safe for GitHub Pages / Netlify, no backend dependencies.
+      </span>
+      <span>
+        Demo example: CM5 Photogrammetry Rig. Swap in any other design while keeping the same flow.
+      </span>
     </footer>
   </div>
 
@@ -1095,7 +1162,7 @@ if __name__ == "__main__":
         entry.appendChild(meta);
         entry.appendChild(body);
 
-        // Prepend newest at top like a simple log
+        // Prepend newest at top
         reasoningLogEl.prepend(entry);
       }
 
@@ -1108,8 +1175,8 @@ if __name__ == "__main__":
         if (!designIntentInput) return "No Design Intent text.";
         const text = designIntentInput.value.trim();
         if (!text) return "No Design Intent text.";
-        if (text.length <= 180) return text;
-        return text.slice(0, 180) + "…";
+        if (text.length <= 200) return text;
+        return text.slice(0, 200) + "…";
       }
 
       if (btnApplyIntent) {
@@ -1117,11 +1184,11 @@ if __name__ == "__main__":
           const summary = summarizeIntent();
           appendReasoning(
             "Applied Design Intent",
-            "sketchCAD reinterprets the Photogrammetry Rig (demo project) based on the latest Design Intent.\n\n" +
+            "sketchCAD reinterprets the CM5 Photogrammetry Rig based on the latest Design Intent.\n\n" +
               "In the real version this would drive:\n" +
               "- Block diagram structure\n" +
               "- Top-level schematic connectivity\n" +
-              "- PCB outline and connector groupings\n" +
+              "- PCB outline and connector layout\n" +
               "- BoM contents\n" +
               "- Enclosure dimensions and cutouts\n\n" +
               "Current Design Intent (summary):\n" +
@@ -1137,15 +1204,15 @@ if __name__ == "__main__":
         btnRegenerate.addEventListener("click", () => {
           const summary = summarizeIntent();
           appendReasoning(
-            "Regenerated stack",
-            "sketchCAD pretends to regenerate a full stack for the Photogrammetry Rig (demo project):\n" +
+            "Regenerated stack (fake)",
+            "sketchCAD pretends to regenerate a full stack for the CM5 Photogrammetry Rig:\n" +
               "- Updates camera count / layout\n" +
               "- Adjusts CM5 + deepX and power routing in the schematic\n" +
               "- Nudges PCB size and connector edges\n" +
               "- Tweaks BoM rows\n" +
               "- Re-derives enclosure parameters for the STEP model\n\n" +
-              "Implementation note: this demo does everything locally in JavaScript; " +
-              "no server or real AI is called.\n\n" +
+              "Implementation note: this demo is 100% front-end JavaScript; " +
+              "no backend or actual AI service is called.\n\n" +
               "Design Intent snapshot:\n" +
               "“" +
               summary +
@@ -1258,7 +1325,7 @@ if __name__ == "__main__":
             appendReasoning(
               "Cleared sketch",
               "The sketch canvas was cleared. You can draw a new layout for CM5, deepX, " +
-                "camera bar, power input and mmWave sensor. No backend communication occurs."
+                "camera connectors, power input and mmWave sensor. No backend communication occurs."
             );
             setStatus("Sketch cleared. Ready for a new napkin diagram.");
           });
@@ -1267,16 +1334,17 @@ if __name__ == "__main__":
         if (sketchApplyBtn) {
           sketchApplyBtn.addEventListener("click", () => {
             appendReasoning(
-              "Applied sketch",
-              "sketchCAD parsed the current sketch into an updated set of blocks, " +
+              "Applied sketch (fake interpretation)",
+              "sketchCAD pretends to parse the current sketch into an updated set of blocks, " +
                 "a revised top-level schematic and PCB placement, plus a matching BoM and enclosure.\n\n" +
-                "For the MVP, these views remain static, but the narrative is that everything is " +
+                "For this MVP, the views remain static, but the narrative is that everything is " +
                 "derived from your sketch and Design Intent."
             );
             setStatus("Sketch applied. Switch to Blocks / Schematic / PCB to continue the story.");
 
-            // Optional: jump to Blocks tab for the next step in the flow
-            const blocksTabButton = document.querySelector('[data-tab-target="tab-blocks"]');
+            const blocksTabButton = document.querySelector(
+              '[data-tab-target="tab-blocks"]'
+            );
             if (blocksTabButton) blocksTabButton.click();
           });
         }
@@ -1307,8 +1375,8 @@ if __name__ == "__main__":
         "Loaded demo project",
         "sketchCAD started with the CM5 Photogrammetry Rig so you can show an end-to-end " +
           "flow: Sketch → Blocks → Schematic → PCB → BoM → Enclosure.\n\n" +
-          "This page is 100% static front-end. All &ldquo;AI&rdquo; behavior is simulated in JavaScript, " +
-          "which makes it easy to host on GitHub Pages or Netlify without any backend."
+          "This page is 100% static front-end. All “AI” behavior is simulated in JavaScript, " +
+          "which makes it easy to host on GitHub Pages or Netlify."
       );
     })();
   </script>
