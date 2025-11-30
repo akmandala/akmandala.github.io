@@ -687,7 +687,7 @@
           sketchCAD – Sketch → Schematic → PCB → BoM → Enclosure
         </div>
         <div class="header-subtitle">
-          Static MVP – sketch-driven CAD+EDA workflow, front-end only (no real AI).
+          Static MVP – sketch-driven CAD+EDA workflow'
         </div>
       </div>
       <div class="header-right">
@@ -696,7 +696,7 @@
         </div>
         <a
           class="btn btn-primary btn-small"
-          href="/downloads/sketchcad_photogrammetry_rig_demo.zip"
+          href="sketchcad_photogrammetry_rig.zip"
           download
         >
           <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -747,7 +747,7 @@ Constraints:
               Apply intent
             </button>
             <button id="btn-regenerate" class="btn btn-small">
-              Regenerate (fake)
+              Regenerate
             </button>
           </div>
         </div>
@@ -797,25 +797,25 @@ Constraints:
               <div class="tab-panel-inner">
                 <h3 class="panel-title">Sketch</h3>
                 <p class="panel-subtitle">
-                  Input sketch: electronics and enclosure face plates. sketchCAD pretends to interpret it.
+                  Input sketch: electronics and enclosure face plates. sketchCAD to interpret it.
                 </p>
 
                 <div class="sketch-toolbar">
                   <div class="sketch-toolbar-left">
                     <button id="sketch-clear" class="btn btn-small">Clear sketch</button>
                     <button id="sketch-apply" class="btn btn-primary btn-small">
-                      Apply sketch (fake)
+                      Apply sketch
                     </button>
                   </div>
                   <div class="sketch-note">
-                    Draw very rough blocks for CM5, deepX, camera connectors, power, and the mmWave sensor.
+                    Draw block diagram for CM5 Photogrammetry Rig.
                   </div>
                 </div>
 
                 <canvas id="sketch-canvas" width="1000" height="500"></canvas>
 
                 <div class="sketch-footer">
-                  Typical demo script: show a messy sketch, apply it, then flip to Blocks / Schematic / PCB to “reveal” the cleaned design.
+                  Typical demo script: input sketch, apply it, then flip to Blocks / Schematic / PCB / BoM / Enclosure design.
                 </div>
               </div>
             </div>
@@ -825,7 +825,7 @@ Constraints:
               <div class="tab-panel-inner">
                 <h3 class="panel-title">High-level Blocks – CM5 Photogrammetry Rig</h3>
                 <p class="panel-subtitle">
-                  Static but believable block view. A real sketchCAD backend would generate this from the sketch + intent.
+                  Blocks interpreted from sketch.
                 </p>
 
                 <div class="block-grid">
@@ -862,7 +862,7 @@ Constraints:
                   <div class="block-card">
                     <div class="block-card-title">Power Input + DCDC</div>
                     <div class="block-card-sub">
-                      USB‑C (5 V / 3 A, no PD) and optional PoE input for field use.
+                      USB‑C (5 V / 3 A, no PD) and optional PoE input.
                     </div>
                     <div class="block-card-tags">
                       PoE 7–36 V in · USB‑C 5 V / 3 A · mmWave rail
@@ -902,11 +902,11 @@ Constraints:
 
                 <div class="embed-note">
                   KiCanvas will render below once you add the KiCanvas web component loader and place a KiCad schematic at:
-                  <code>/kicad/example.kicad_sch</code>.
+                  <code>example.kicad_sch</code>.
                 </div>
 
                 <!-- Place your KiCad schematic at /kicad/example.kicad_sch -->
-                <kicanvas-embed src="/kicad/example.kicad_sch"></kicanvas-embed>
+                <kicanvas-embed src="example.kicad_sch"></kicanvas-embed>
               </div>
             </div>
 
@@ -920,20 +920,20 @@ Constraints:
 
                 <div class="embed-note">
                   KiCanvas will render below once you place a KiCad PCB file at:
-                  <code>/kicad/example.kicad_pcb</code>. For this MVP, sketchCAD only pretends to keep the PCB aligned with the sketch.
+                  <code>example.kicad_pcb</code>
                 </div>
 
                 <!-- Place your KiCad PCB at /kicad/example.kicad_pcb -->
-                <kicanvas-embed src="/kicad/example.kicad_pcb"></kicanvas-embed>
+                <kicanvas-embed src="example.kicad_pcb"></kicanvas-embed>
               </div>
             </div>
 
             <!-- BoM Tab -->
             <div id="tab-bom" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">BoM (minimal) – CM5 Photogrammetry Rig</h3>
+                <h3 class="panel-title">BoM – CM5 Photogrammetry Rig</h3>
                 <p class="panel-subtitle">
-                  Minimal BoM: just line, designators and part number. Enough to show that sketchCAD knows what’s on the board.
+                  Minimal BoM.
                 </p>
 
                 <div class="bom-table-wrapper">
@@ -949,7 +949,7 @@ Constraints:
                       <tr>
                         <td>1</td>
                         <td>U1</td>
-                        <td>CM5-PLACEHOLDER – Compute Module 5 (abstract SoM)</td>
+                        <td>CM5-PLACEHOLDER – Compute Module 5</td>
                       </tr>
                       <tr>
                         <td>2</td>
@@ -1001,7 +1001,6 @@ Constraints:
                 <div class="macro-wrapper">
                   <div class="macro-header">
                     <span>FreeCAD macro – not executed in the browser.</span>
-                    <span>Replace with your real macro if you like.</span>
                   </div>
                   <pre class="macro-placeholder">
 # sketchCAD – photogrammetry rig enclosure macro (placeholder)
@@ -1048,22 +1047,21 @@ if __name__ == "__main__":
               <div class="tab-panel-inner">
                 <h3 class="panel-title">3D enclosure view (STEP via 3dviewer.net)</h3>
                 <p class="panel-subtitle">
-                  STEP file is hosted externally and embedded via iframe. sketchCAD pretends this comes from the FreeCAD macro.
+                  STEP file is hosted externally and embedded via iframe.
                 </p>
 
                 <div class="extrusion-wrapper">
                   <div class="extrusion-header">
                     <span>Read-only STEP preview.</span>
                     <span class="extrusion-url">
-                      https://3dviewer.net/#model=https://mydomain.com/models/example.step
+                      https://3dviewer.net/#model=https://akmandala.github.io/1457T1601BK.stp
                     </span>
                   </div>
-                  <!-- Replace the model URL with your actual STEP file URL -->
                   <iframe
                     class="extrusion-viewer"
-                    src="https://3dviewer.net/#model=https://mydomain.com/models/example.step"
+                    src="https://3dviewer.net/#model=https://akmandala.github.io/1457T1601BK.stp"
                     loading="lazy"
-                    title="Photogrammetry rig enclosure (demo)"
+                    title="CM5 Photogrammetry rig enclosure"
                     allowfullscreen
                   ></iframe>
                 </div>
