@@ -219,11 +219,6 @@
       margin-top: 0.2rem;
     }
 
-    .prompt-hint {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
     .prompt-buttons {
       display: flex;
       align-items: center;
@@ -719,7 +714,7 @@
       <!-- Prompt panel (static, GPT-style) -->
       <section class="prompt-panel">
         <div class="prompt-label">
-          sketchCAD prompt – describe or correct the Photogrammetry Rig intent here.
+          sketchCAD prompt – describe or correct the intent here.
         </div>
         <textarea
           id="design-intent-input"
@@ -739,9 +734,6 @@ Constraints:
 - Camera connectors + mmWave sensor + RGB LED on the front, user I/O (Ethernet / SD / power) on the rear.</textarea>
 
         <div class="prompt-actions-row">
-          <div class="prompt-hint">
-            This behaves like a ChatGPT prompt bar, but everything is static and local for this MVP.
-          </div>
           <div class="prompt-buttons">
             <button id="btn-apply-intent" class="btn btn-primary btn-small">
               Apply intent
