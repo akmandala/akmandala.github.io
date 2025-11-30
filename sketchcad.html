@@ -715,18 +715,17 @@
         <textarea
           id="design-intent-input"
           class="prompt-input"
-        >Current project: Photogrammetry Rig (demo project)
-
+        >Project: Photogrammetry Rig using CM5
 Goals:
-- 6× camera connectors arranged in an arc, each with power and trigger.
+- 2× camera connectors.
 - CM5 compute core with deepX accelerator via PCIe.
-- Shared 12–24 V input feeding DCDC for logic + camera rails.
+- USB-C power 5V/ 3A without PD.
 - Ethernet + SD card for data ingest/export.
-- mmWave gesture sensor on the front edge of the enclosure to trigger captures.
+- mmWave gesture sensor on the front edge of the enclosure for operator main UI + RGB LED for the feedback.
 
 Constraints:
-- Enclosure ~400 × 180 × 70 mm.
-- Camera connectors on the front, user I/O (Ethernet/SD/power) on the rear.</textarea>
+- Enclosure to house 160 x 160mm PCB, Extrusion Al.
+- Camera connectors + mmWave sensor + RGB LEDs on the front, user I/O (Ethernet/SD/power) on the rear.</textarea>
 
         <div class="prompt-actions-row">
           <div class="prompt-buttons">
@@ -739,7 +738,7 @@ Constraints:
           </div>
         </div>
         <div id="status-text" class="status-text">
-          Ready. Loaded Photogrammetry Rig.
+          Ready. Loaded CM5 Photogrammetry Rig.
         </div>
       </section>
 
@@ -784,38 +783,28 @@ Constraints:
               <div class="tab-panel-inner">
                 <h3 class="panel-title">Sketch</h3>
                 <p class="panel-subtitle">
-                  Draw a very rough block layout for the Photogrammetry Rig (demo project). sketchCAD will pretend to interpret it.
+                  Input sketch: electronics and enclosure face plates.
                 </p>
                 <div class="sketch-toolbar">
                   <div class="sketch-toolbar-left">
                     <button id="sketch-clear" class="btn btn-small">Clear sketch</button>
                     <button id="sketch-apply" class="btn btn-primary btn-small">
-                      Apply sketch (fake)
+                      Apply
                     </button>
-                  </div>
-                  <div class="sketch-note">
-                    Use mouse / touch to draw basic boxes and arrows. No real recognition happens.
                   </div>
                 </div>
                 <!-- Simple drawing canvas -->
                 <canvas id="sketch-canvas" width="1000" height="500"></canvas>
-                <div class="sketch-footer">
-                  Typical demo script: draw one block for CM5 + deepX, one for the camera bar, one for power input, and a small block for the mmWave sensor on the front edge.
-                </div>
               </div>
             </div>
 
             <!-- Blocks Tab -->
             <div id="tab-blocks" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">High-level Blocks – Photogrammetry Rig (demo project)</h3>
-                <p class="panel-subtitle">
-                  Static but believable block view. In a full sketchCAD backend, this would be generated from the sketch + intent.
-                </p>
-
+                <h3 class="panel-title">High-level Blocks – CM5 Photogrammetry Rig</h3
                 <div class="block-grid">
                   <div class="block-card">
-                    <div class="block-card-title">CM5 Compute Core</div>
+                    <div class="block-card-title">CM5 Compute Module</div>
                     <div class="block-card-sub">
                       Central controller for capture orchestration, storage and networking.
                     </div>
@@ -833,21 +822,21 @@ Constraints:
                     </div>
                   </div>
                   <div class="block-card">
-                    <div class="block-card-title">Camera Bar (6×)</div>
+                    <div class="block-card-title">Camera connectors</div>
                     <div class="block-card-sub">
-                      Six synchronized cameras arranged in an arc for photogrammetry.
+                      Dual camera for stereo photogrammetry.
                     </div>
                     <div class="block-card-tags">
-                      6× power rails · 6× trigger lines · I²C config
+                      CS0 & CS1 · 2× trigger lines · I²C config
                     </div>
                   </div>
                   <div class="block-card">
                     <div class="block-card-title">Power Input + DCDC</div>
                     <div class="block-card-sub">
-                      12–24 V input with rails for compute, accelerator and cameras.
+                      USB-C (no PD) or PoE input.
                     </div>
                     <div class="block-card-tags">
-                      12–24 V in · 5 V / 3V3 · camera rail
+                      PoE 7–36 V in · USB-C 5V/ 3A · mmWave sensor rail
                     </div>
                   </div>
                   <div class="block-card">
@@ -876,17 +865,10 @@ Constraints:
             <div id="tab-schematic" class="tab-panel">
               <div class="tab-panel-inner">
                 <h3 class="panel-title">Top-level schematic (KiCanvas)</h3>
-                <p class="panel-subtitle">
-                  One schematic file that includes CM5, deepX module, camera connectors, power, Ethernet, SD card and mmWave sensor.
-                </p>
 
                 <div class="embed-note">
-                  KiCanvas will render below once you add the KiCanvas web component loader and place a KiCad schematic at:
                   <code>/kicad/example.kicad_sch</code>.
                 </div>
-
-                <!-- KiCanvas schematic viewer -->
-                <!-- Place your KiCad schematic at /kicad/example.kicad_sch relative to index.html -->
                 <kicanvas-embed src="/kicad/example.kicad_sch"></kicanvas-embed>
               </div>
             </div>
@@ -895,17 +877,10 @@ Constraints:
             <div id="tab-pcb" class="tab-panel">
               <div class="tab-panel-inner">
                 <h3 class="panel-title">PCB placement &amp; outline (KiCanvas)</h3>
-                <p class="panel-subtitle">
-                  Connectors along the front edge, CM5 + deepX near the center, power and rear I/O grouped logically.
-                </p>
 
                 <div class="embed-note">
-                  KiCanvas will render below once you place a KiCad PCB file at:
-                  <code>/kicad/example.kicad_pcb</code>. For this MVP, sketchCAD only pretends to keep the PCB aligned with the sketch.
+                  <code>/kicad/example.kicad_pcb</code>
                 </div>
-
-                <!-- KiCanvas PCB viewer -->
-                <!-- Place your KiCad PCB at /kicad/example.kicad_pcb -->
                 <kicanvas-embed src="/kicad/example.kicad_pcb"></kicanvas-embed>
               </div>
             </div>
@@ -913,10 +888,7 @@ Constraints:
             <!-- BoM Tab -->
             <div id="tab-bom" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">BoM (minimal) – Photogrammetry Rig (demo project)</h3>
-                <p class="panel-subtitle">
-                  Just line number, designators and part number. Enough for an MVP pitch.
-                </p>
+                <h3 class="panel-title">BoM (minimal) – CM5 Photogrammetry Rig</h3>
 
                 <div class="bom-table-wrapper">
                   <table class="bom-table">
@@ -965,9 +937,6 @@ Constraints:
                       </tr>
                     </tbody>
                   </table>
-                  <div class="bom-caption">
-                    Edit these rows directly in index.html or replace this table with a generated BoM later.
-                  </div>
                 </div>
               </div>
             </div>
@@ -975,17 +944,8 @@ Constraints:
             <!-- FreeCAD Macro Tab -->
             <div id="tab-freecad" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">FreeCAD enclosure macro (placeholder)</h3>
-                <p class="panel-subtitle">
-                  Placeholder macro region. For the pitch, you can scroll and talk through how sketchCAD would parameterize the enclosure.
-                </p>
-
+                <h3 class="panel-title">FreeCAD enclosure macro</h3>
                 <div class="macro-wrapper">
-                  <div class="macro-header">
-                    <span>FreeCAD macro – not executed in the browser.</span>
-                    <span>Replace body with your real macro.</span>
-                  </div>
-                  <!-- Replace this with your actual Python / FreeCAD macro if desired -->
                   <pre class="macro-placeholder">
 # sketchCAD – photogrammetry rig enclosure macro (placeholder)
 #
@@ -1029,10 +989,7 @@ if __name__ == "__main__":
             <!-- Extrusion Tab -->
             <div id="tab-extrusion" class="tab-panel">
               <div class="tab-panel-inner">
-                <h3 class="panel-title">3D enclosure view (STEP via 3dviewer.net)</h3>
-                <p class="panel-subtitle">
-                  The STEP file is hosted externally and embedded via iframe. sketchCAD pretends this is generated from the FreeCAD macro.
-                </p>
+                <h3 class="panel-title">3D enclosure view</h3>
 
                 <div class="extrusion-wrapper">
                   <div class="extrusion-header">
@@ -1041,12 +998,11 @@ if __name__ == "__main__":
                       https://3dviewer.net/#model=https://mydomain.com/models/example.step
                     </span>
                   </div>
-                  <!-- Replace the model URL with your actual STEP file URL -->
                   <iframe
                     class="extrusion-viewer"
                     src="https://3dviewer.net/#model=https://mydomain.com/models/example.step"
                     loading="lazy"
-                    title="Photogrammetry rig enclosure (demo)"
+                    title="CM5 Photogrammetry Rig"
                     allowfullscreen
                   ></iframe>
                 </div>
@@ -1074,12 +1030,6 @@ if __name__ == "__main__":
     </main>
 
     <footer class="app-footer">
-      <span>
-        sketchCAD MVP – static front-end only. Safe for GitHub Pages / Netlify, no backend dependencies.
-      </span>
-      <span>
-        Demo example: Photogrammetry Rig (demo project). Swap it for another concept without changing the flow.
-      </span>
     </footer>
   </div>
 
@@ -1187,7 +1137,7 @@ if __name__ == "__main__":
         btnRegenerate.addEventListener("click", () => {
           const summary = summarizeIntent();
           appendReasoning(
-            "Regenerated stack (fake)",
+            "Regenerated stack",
             "sketchCAD pretends to regenerate a full stack for the Photogrammetry Rig (demo project):\n" +
               "- Updates camera count / layout\n" +
               "- Adjusts CM5 + deepX and power routing in the schematic\n" +
@@ -1317,8 +1267,8 @@ if __name__ == "__main__":
         if (sketchApplyBtn) {
           sketchApplyBtn.addEventListener("click", () => {
             appendReasoning(
-              "Applied sketch (fake interpretation)",
-              "sketchCAD pretends to have parsed the current sketch into an updated set of blocks, " +
+              "Applied sketch",
+              "sketchCAD parsed the current sketch into an updated set of blocks, " +
                 "a revised top-level schematic and PCB placement, plus a matching BoM and enclosure.\n\n" +
                 "For the MVP, these views remain static, but the narrative is that everything is " +
                 "derived from your sketch and Design Intent."
@@ -1355,7 +1305,7 @@ if __name__ == "__main__":
       // --- Initial reasoning entry -----------------------------------------
       appendReasoning(
         "Loaded demo project",
-        "sketchCAD started with the Photogrammetry Rig (demo project) so you can show an end-to-end " +
+        "sketchCAD started with the CM5 Photogrammetry Rig so you can show an end-to-end " +
           "flow: Sketch → Blocks → Schematic → PCB → BoM → Enclosure.\n\n" +
           "This page is 100% static front-end. All &ldquo;AI&rdquo; behavior is simulated in JavaScript, " +
           "which makes it easy to host on GitHub Pages or Netlify without any backend."
